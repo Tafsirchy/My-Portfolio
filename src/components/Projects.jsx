@@ -1,7 +1,183 @@
-import { motion, useInView, AnimatePresence, useScroll, useTransform, useSpring } from 'framer-motion';
+import { motion, useInView, AnimatePresence, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
-import { ExternalLink, Github, X, Info, Rocket, Wrench, ArrowRight } from 'lucide-react';
+import { ExternalLink, Github, X, Info, Rocket, Wrench, ArrowRight, Layers } from 'lucide-react';
 import { TbBolt } from 'react-icons/tb';
+
+const ProjectImage3D = ({ project, scrollYProgress }) => {
+  const cardRef = useRef(null);
+  const x = useMotionValue(0.5);
+  const y = useMotionValue(0.5);
+
+  const rotateX = useSpring(useTransform(y, [0, 1], [10, -10]), { stiffness: 100, damping: 30 });
+  const rotateY = useSpring(useTransform(x, [0, 1], [-10, 10]), { stiffness: 100, damping: 30 });
+  
+  // Parallax layers based on mouse
+  const bgX = useTransform(x, [0, 1], [15, -15]);
+  const bgY = useTransform(y, [0, 1], [15, -15]);
+  const fgX = useTransform(x, [0, 1], [-20, 20]);
+  const fgY = useTransform(y, [0, 1], [-20, 20]);
+  
+  // Fix for Hook violation: Declare these at top level
+  const peekX = useTransform(x, [0, 1], [-30, 30]);
+  const peekY = useTransform(y, [0, 1], [-30, 30]);
+  const holographicX = useTransform(x, [0, 1], ["-100%", "100%"]);
+  const holographicOpacity = useTransform(x, [0, 0.5, 1], [0, 0.3, 0]);
+
+  // Scroll-linked tilt (additive)
+  const scrollRotateX = useTransform(scrollYProgress, [0, 1], [-5, 5]);
+
+  const handleMouseMove = (event) => {
+    const rect = cardRef.current.getBoundingClientRect();
+    x.set((event.clientX - rect.left) / rect.width);
+    y.set((event.clientY - rect.top) / rect.height);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0.5);
+    y.set(0.5);
+  };
+
+  return (
+    <div 
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className="relative w-full h-[300px] md:h-[450px] cursor-pointer group/card preserve-3d"
+    >
+      <motion.div
+        style={{ rotateX, rotateY, rotateZ: scrollRotateX, transformStyle: "preserve-3d" }}
+        className="relative w-full h-full rounded-3xl overflow-hidden border border-white/10 bg-slate-900 shadow-2xl will-change-transform"
+      >
+        {project.codeSnippet ? (
+          /* Layer 1: Code Snippet (integrated into 3D) */
+          <motion.div style={{ x: bgX, y: bgY, scale: 1.05 }} className="absolute inset-0 bg-slate-950 p-6 overflow-hidden">
+             {/* macOS style header */}
+             <div className="flex items-center gap-1.5 mb-4 opacity-50">
+                <div className="w-2 h-2 rounded-full bg-red-500"></div>
+                <div className="w-2 h-2 rounded-full bg-amber-500"></div>
+                <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
+             </div>
+             <pre className="text-[10px] md:text-sm text-cyan-400 font-mono leading-relaxed opacity-80">
+               <code>{project.codeSnippet}</code>
+             </pre>
+             <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent" />
+          </motion.div>
+        ) : (
+          /* Layer 1: Background Image (Parallax) */
+          <motion.div style={{ x: bgX, y: bgY, scale: 1.1 }} className="absolute inset-0">
+            <img
+              src={project.images?.[0] || project.image}
+              alt={project.title}
+              className="w-full h-full object-cover"
+              onError={(e) => { e.target.src = 'https://placehold.co/600x400/0f172a/06b6d4?text=Project'; }}
+            />
+            <div className="absolute inset-0 bg-slate-950/40 group-hover/card:bg-slate-950/20 transition-colors duration-500" />
+          </motion.div>
+        )}
+
+        {/* Layer 2: Floating Tag (Extreme Parallax) */}
+        <motion.div 
+          style={{ x: fgX, y: fgY, translateZ: 50 }} 
+          className="absolute top-8 left-8 z-20 pointer-events-none"
+        >
+          <div className="px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl flex items-center gap-2 shadow-2xl">
+            <Layers className="w-4 h-4 text-cyan-400" />
+            <span className="text-xs font-bold font-display text-white uppercase tracking-widest">
+              {project.codeSnippet ? "Source Build" : "Premium Build"}
+            </span>
+          </div>
+        </motion.div>
+
+        {/* Layer 3: Secondary Image Peek (if exists and no snippet) */}
+        {!project.codeSnippet && project.images?.[1] && (
+          <motion.div
+            style={{ x: peekX, y: peekY, translateZ: 80 }}
+            className="absolute -bottom-10 -right-10 w-1/2 aspect-video rounded-2xl overflow-hidden border-4 border-slate-950 shadow-2xl hidden lg:block"
+          >
+            <img src={project.images[1]} alt="Detail" className="w-full h-full object-cover" />
+          </motion.div>
+        )}
+
+        {/* Holographic Reflection */}
+        <motion.div
+            style={{ 
+              x: holographicX,
+              opacity: holographicOpacity
+            }}
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 pointer-events-none"
+        />
+      </motion.div>
+    </div>
+  );
+};
+
+const ProjectCard = ({ project, index, openModal, scrollYProgress }) => {
+  const cardRef = useRef(null);
+  const isInView = useInView(cardRef, { once: true, margin: "-100px" });
+  const isEven = index % 2 === 0;
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 50, scale: 0.95 },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      scale: 1,
+      transition: { type: "spring", stiffness: 100, damping: 20 }
+    }
+  };
+
+  return (
+    <motion.div
+      ref={cardRef}
+      variants={itemVariants}
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+      className="grid md:grid-cols-2 gap-16 items-center"
+    >
+      {/* Content */}
+      <div className={`order-2 space-y-8 ${isEven ? 'md:order-1' : 'md:order-2'}`}>
+        <div className="space-y-4">
+          <div className="flex items-center gap-4">
+            <span className="text-5xl font-black text-white/5 font-display">0{index + 1}</span>
+            <h3 className="text-4xl font-bold tracking-tight text-white">{project.title}</h3>
+          </div>
+
+          <div className="flex flex-wrap gap-2">
+            {project.technologies.map((tech, i) => (
+              <span key={i} className="px-3 py-1 bg-white/5 border border-white/10 text-cyan-400/80 rounded-lg text-[10px] font-bold uppercase tracking-widest">
+                {tech}
+              </span>
+            ))}
+          </div>
+
+          <p className="text-gray-400 text-lg leading-relaxed font-light line-clamp-3">
+            {project.description}
+          </p>
+        </div>
+
+        <div className="flex flex-wrap gap-4">
+          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" 
+             className="h-12 px-8 rounded-xl bg-gradient-to-r from-cyan-600 to-indigo-600 text-white font-bold text-xs flex items-center gap-2 group/btn transition-all hover:scale-105 shadow-xl shadow-cyan-500/20">
+            <TbBolt className="h-5 w-5 animate-pulse" /> Live Demo
+          </a>
+          <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" 
+             className="h-12 px-8 rounded-xl bg-white/5 border border-white/10 text-white font-bold text-xs flex items-center gap-2 hover:bg-white/10 transition-all">
+            <Github className="h-4 w-4" /> Source
+          </a>
+          <button onClick={() => openModal(project)}
+                  className="h-12 px-8 rounded-xl bg-white/5 border border-white/10 text-white font-bold text-xs flex items-center gap-2 hover:bg-white/10 transition-all">
+            <Info className="h-4 w-4" /> Details
+          </button>
+        </div>
+      </div>
+
+      {/* 3D Image Showcase */}
+      <div className={`order-1 ${isEven ? 'md:order-2' : 'md:order-1'}`}>
+        <ProjectImage3D project={project} scrollYProgress={scrollYProgress} />
+      </div>
+    </motion.div>
+  );
+};
 
 // Swiper removed for a more creative custom layout
 import { projects } from '@/data/portfolio';
@@ -104,151 +280,16 @@ const Projects = () => {
           </div>
 
           {/* Projects List */}
-          <div className="space-y-40">
-            {projects.map((project, index) => {
-              const isEven = index % 2 === 0;
-              
-              // Scroll-based 3D tilt values
-              // eslint-disable-next-line react-hooks/rules-of-hooks
-              const rotateY = useTransform(scrollYProgress, [0, 1], isEven ? [-15, 15] : [15, -15]);
-              // eslint-disable-next-line react-hooks/rules-of-hooks
-              const rotateX = useTransform(scrollYProgress, [0, 1], [-10, 10]);
-              // eslint-disable-next-line react-hooks/rules-of-hooks
-              const springRotateY = useSpring(rotateY, { stiffness: 50, damping: 20 });
-              // eslint-disable-next-line react-hooks/rules-of-hooks
-              const springRotateX = useSpring(rotateX, { stiffness: 50, damping: 20 });
-
-              return (
-                <motion.div
-                  key={project.id}
-                  variants={itemVariants}
-                  className="grid md:grid-cols-2 gap-16 items-center"
-                >
-                  {/* Content (left for even, right for odd) */}
-                  <div className={`order-2 space-y-6 ${!isEven ? 'md:order-2' : 'md:order-1'}`}>
-                    <div className="space-y-4">
-                      <div className="flex items-center gap-3">
-                         <span className="text-4xl font-black text-white/10 font-display">0{index + 1}</span>
-                         <h3 className="text-3xl font-bold tracking-tight">{project.title}</h3>
-                      </div>
-
-                      {/* Technology Badges */}
-                      <div className="flex flex-wrap gap-2">
-                        {project.technologies.map((tech, techIndex) => (
-                          <span
-                            key={techIndex}
-                            className="px-3 py-1 bg-white/5 border border-white/10 text-cyan-400/80 rounded-lg text-xs font-bold tracking-wider"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-
-                      {/* Description */}
-                      <p className="text-gray-400 text-lg leading-relaxed font-light">
-                        {project.description}
-                      </p>
-                    </div>
-
-                    {/* Action Buttons */}
-                    <div className="flex flex-wrap gap-4 pt-4">
-                      <a
-                        href={project.liveUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="h-12 px-8 rounded-xl bg-gradient-to-r from-cyan-600 to-indigo-600 text-white font-bold text-xs flex items-center gap-2 group/btn transition-all duration-300 hover:scale-105 active:scale-95 shadow-xl shadow-cyan-500/20"
-                      >
-                        <TbBolt className="h-5 w-5 animate-pulse" />
-                        Live Demo
-                      </a>
-                      <a
-                        href={project.githubUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="h-12 px-8 rounded-xl bg-white/5 border border-white/10 text-white font-bold text-xs flex items-center gap-2 hover:bg-white/10 transition-all duration-300 active:scale-95"
-                      >
-                        <Github className="h-4 w-4" />
-                        Source
-                      </a>
-                      <button
-                        onClick={() => openModal(project)}
-                        className="h-12 px-8 rounded-xl bg-white/5 border border-white/10 text-white font-bold text-xs flex items-center gap-2 hover:bg-white/10 transition-all duration-300 active:scale-95"
-                      >
-                        <Info className="h-4 w-4" />
-                        Details
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Image/Slider Section */}
-                  <motion.div 
-                    style={{ 
-                      rotateY: springRotateY, 
-                      rotateX: springRotateX,
-                      perspective: 1000 
-                    }}
-                    className={`order-1 ${!isEven ? 'md:order-1' : 'md:order-2'} min-h-[280px] sm:min-h-[320px] md:min-h-0 h-auto mb-3 md:mb-0`}
-                  >
-                    {project.codeSnippet ? (
-                      // Code Snippet with 3D depth
-                      <div className="relative group h-full w-full">
-                        <div className="bg-slate-950 rounded-2xl border border-slate-800 overflow-hidden transform transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/20 h-full">
-                          {/* macOS style header */}
-                          <div className="flex items-center gap-1.5 px-4 py-3 bg-slate-900/50 border-b border-white/5">
-                            <div className="w-2.5 h-2.5 rounded-full bg-red-500/50"></div>
-                            <div className="w-2.5 h-2.5 rounded-full bg-amber-500/50"></div>
-                            <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/50"></div>
-                            <span className="ml-2 text-[10px] text-gray-400 font-mono tracking-wider">bash</span>
-                          </div>
-                          <div className="p-6 overflow-x-auto">
-                            <pre className="text-sm text-gray-300 font-mono leading-relaxed">
-                              <code>{project.codeSnippet}</code>
-                            </pre>
-                          </div>
-                        </div>
-                        {/* 3D depth effect */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-transparent rounded-2xl -z-10 blur-2xl transform translate-y-4 opacity-50 group-hover:opacity-70 transition-opacity"></div>
-                      </div>
-                    ) : (
-                      <div className="relative group h-full w-full">
-                        {/* Desktop Professional 3D Layout */}
-                        <div className="relative h-full w-full preserve-3d">
-                          <div className="relative overflow-hidden rounded-2xl border border-white/10 shadow-2xl h-full transition-transform duration-500 group-hover:scale-[1.02]">
-                            <img
-                              src={project.images?.[0] || project.image}
-                              alt={project.title}
-                              className="w-full h-full object-cover"
-                              onError={(e) => {
-                                e.target.src = 'https://placehold.co/600x400/0f172a/06b6d4?text=Project+Image';
-                              }}
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-60"></div>
-                            
-                            {/* Inner Glow */}
-                            <div className="absolute inset-0 border border-white/10 rounded-2xl pointer-events-none"></div>
-                          </div>
-
-                          {/* Secondary Image Peek */}
-                          {project.images && project.images[1] && (
-                            <motion.div 
-                              initial={{ x: 20, opacity: 0 }}
-                              whileInView={{ x: 0, opacity: 1 }}
-                              className="absolute -bottom-6 -right-6 w-1/2 rounded-xl overflow-hidden border-4 border-slate-900 shadow-2xl hidden md:block"
-                            >
-                              <img src={project.images[1]} alt="Detail" className="w-full h-auto object-cover" />
-                            </motion.div>
-                          )}
-
-                          {/* Decorative Elements */}
-                          <div className="absolute -inset-4 bg-gradient-to-br from-indigo-500/20 to-cyan-500/20 blur-3xl rounded-full -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                        </div>
-                      </div>
-                    )}
-                  </motion.div>
-
-                </motion.div>
-              );
-            })}
+          <div className="space-y-32">
+            {projects.map((project, index) => (
+              <ProjectCard 
+                key={project.id} 
+                project={project} 
+                index={index} 
+                openModal={openModal} 
+                scrollYProgress={scrollYProgress}
+              />
+            ))}
           </div>
         </motion.div>
       </div>

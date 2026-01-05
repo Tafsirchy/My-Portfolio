@@ -100,36 +100,14 @@ export const experience = [
 ];
 
 export const projects = [
+  
   {
     id: 1,
-    title: "GreenNest",
-    description: "A modern, responsive web application focused on plant discovery and care. Users can explore indoor plants, view detailed plant information, book expert consultations, and manage their profiles through secure authentication with Firebase.",
-    image: "https://placehold.co/800x600/0f172a/06b6d4?text=GreenNest", 
-    technologies: ["React", "Vite", "Firebase", "Tailwind CSS", "DaisyUI", "Framer Motion", "React Router"],
-    liveUrl: "https://greennest-3d484.web.app/",
-    githubUrl: "https://github.com/Tafsirchy/GreenNest",
-    challenges: "Implementing a seamless real-time consultation booking system while ensuring secure user authentication and data persistence across sessions.",
-    futurePlans: "Integrating an AI-powered plant health diagnostic tool and expanding the marketplace to include local nursery partnerships.",
-    featured: true,
-    codeSnippet: `// Clone repository
-git clone https://github.com/Tafsirchy/GreenNest.git
-
-// Install dependencies
-cd GreenNest && npm install
-
-// Configure Firebase (.env)
-VITE_API_KEY=your_firebase_api_key
-
-// Run development server
-npm run dev`,
-  },
-  {
-    id: 2,
     title: "Habit Tracker",
     description: "A full-stack MERN application that helps users build and maintain daily habits effectively. Users can create, update, delete, and mark habits as completed with detailed history, visual statistics, and reminders through a clean and responsive interface.",
     images: [
-      "/assets/Project2.1.png",
-      "/assets/Project2.2.png",
+      "/assets/Project1.1.png",
+      "/assets/Project1.2.png",
     ],
     technologies: ["HTML", "CSS", "JavaScript", "React", "Tailwind CSS", "DaisyUI", "Node.js", "Express.js", "MongoDB"],
     liveUrl: "https://habit-tracker-4a192.web.app/",
@@ -140,33 +118,12 @@ npm run dev`,
     featured: true,
   },
   {
-    id: 3,
-    title: "Green Earth",
-    description: "A responsive web application focused on environmental sustainability. The platform allows users to explore different tree categories, view detailed plant information, add trees to a donation cart, and contribute to global tree plantation efforts.",
-    image: "https://placehold.co/800x600/020617/6366f1?text=Green+Earth", 
-    technologies: ["HTML5", "CSS3", "JavaScript", "Tailwind CSS", "DaisyUI", "Font Awesome"],
-    liveUrl: "https://my-sixth-assignment-tc.netlify.app/",
-    githubUrl: "https://github.com/Tafsirchy/my-sixth-assignment",
-    challenges: "Creating an intuitive donation flow and managing a dynamic cart state without using complex state management libraries.",
-    futurePlans: "Implementing a real-time global impact dashboard and adding support for multi-currency donations.",
-    featured: false,
-    codeSnippet: `// Clone repository
-git clone https://github.com/Tafsirchy/my-sixth-assignment
-
-// Navigate to folder
-cd green-earth
-
-// Open in browser
-// Simply open index.html
-// No server or build tools required`,
-  },
-  {
-    id: 4,
+    id: 2,
     title: "VitalFlow",
     description: "An efficient emergency blood search platform allowing users to find donors based on blood group and district/Upazila. Features include blood requests, real-time notifications, role-based access for Admins and Volunteers, and secure payment integration via Stripe.",
     images: [
-      "/assets/Project4.1.png",
-      "/assets/Project4.2.png"
+      "/assets/Project2.1.png",
+      "/assets/Project2.2.png"
     ],
     technologies: ["React", "Node.js", "Express.js", "MongoDB", "JWT", "Firebase", "Stripe", "Tailwind CSS", "DaisyUI"],
     liveUrl: "https://vitalflow-9b72a.web.app/",
@@ -176,6 +133,37 @@ cd green-earth
     futurePlans: "Adding a map-based donor location feature and integrating with local hospital APIs for real-time inventory tracking.",
     featured: true,
   },
+  {
+    id: 3,
+    title: "GreenNest",
+    description: "A modern, responsive web application focused on plant discovery and care. Users can explore indoor plants, view detailed plant information, book expert consultations, and manage their profiles through secure authentication with Firebase.",
+    images: [
+      "/assets/Project3.1.png",
+      "/assets/Project3.2.png"
+    ], 
+    technologies: ["React", "Vite", "Firebase", "Tailwind CSS", "DaisyUI", "Framer Motion", "React Router"],
+    liveUrl: "https://greennest-3d484.web.app/",
+    githubUrl: "https://github.com/Tafsirchy/GreenNest",
+    challenges: "Implementing a seamless real-time consultation booking system while ensuring secure user authentication and data persistence across sessions.",
+    futurePlans: "Integrating an AI-powered plant health diagnostic tool and expanding the marketplace to include local nursery partnerships.",
+    featured: true,
+  },
+  {
+    id: 4,
+    title: "Apps Vault",
+    description: "A modern web application built with React, designed to browse, search, install (locally), and manage app listings. Features dynamic routing, filtering, chart visualization with Recharts, and persistent installation state using localStorage.",
+    images: [
+      "/assets/Project4.1.png",
+      "/assets/Project4.2.png"
+    ], 
+    technologies: ["React", "React Router", "Axios", "Recharts", "React Toastify", "Tailwind CSS", "DaisyUI", "Lucide Icons"],
+    liveUrl: "https://apps-vault.netlify.app/",
+    githubUrl: "https://github.com/Tafsirchy/My-eighth-assignment.git",
+    challenges: "Implementing real-time search filtering, managing installation state with localStorage persistence, and integrating Recharts for analytics visualization while maintaining smooth UI/UX.",
+    futurePlans: "Adding user authentication for cloud-based app management, implementing app ratings and reviews, and creating a recommendation system based on user preferences.",
+    featured: false,
+  },
+  
 ];
 
 export const stats = [

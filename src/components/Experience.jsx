@@ -1,9 +1,12 @@
-import { motion, useInView, useScroll, useTransform } from 'framer-motion';
+import { useInView, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { Briefcase, Calendar, CheckCircle } from 'lucide-react';
 import { experience } from '@/data/portfolio';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+
+// Component defined without motion since it was reported unused by lint (added back if needed)
+import { motion } from 'framer-motion';
 
 const Experience = () => {
   const sectionRef = useRef(null);

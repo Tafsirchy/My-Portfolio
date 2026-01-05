@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { motion, useInView, useScroll, useTransform, useSpring } from 'framer-motion';
 import { useRef } from 'react';
 import { personalInfo } from '@/data/portfolio';
 
@@ -109,7 +109,7 @@ const About = () => {
                   style={{ y: useTransform(smoothProgress, [0, 1], [20, -20]) }}
                   className="absolute -top-6 -right-6 px-6 py-3 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl hidden lg:block"
                 >
-                  <p className="text-xs font-bold text-cyan-400 tracking-widest uppercase">Full Stack</p>
+                  <p className="text-xs font-bold text-cyan-400 tracking-widest uppercase">MERN Stack</p>
                   <p className="text-[10px] text-gray-400">Specialist</p>
                 </motion.div>
               </div>

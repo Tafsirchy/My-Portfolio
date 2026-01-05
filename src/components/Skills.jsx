@@ -68,32 +68,6 @@ const SkillBadge = ({ tech, index, scrollYProgress }) => {
   );
 };
 
-const FloatingParticle = ({ i, smoothProgress }) => {
-  // Pre-calculate random values outside the hook
-  const seed = i * 123.456;
-  const startY = (Math.sin(seed) * 200) - 100;
-  const endY = (Math.cos(seed) * 200) - 100;
-  const left = (Math.abs(Math.sin(seed * 2)) * 100) + "%";
-  const top = (Math.abs(Math.cos(seed * 3)) * 100) + "%";
-  const rotateStart = Math.sin(seed * 4) * 360;
-
-  const y = useTransform(smoothProgress, [0, 1], [startY, endY]);
-
-  return (
-    <motion.div
-      className="absolute text-cyan-500/20 font-mono text-xl select-none"
-      style={{
-        left,
-        top,
-        y,
-        rotate: rotateStart,
-      }}
-    >
-      {['{', '}', '/>', '[]', '&&', '=>', '()'][i % 7]}
-    </motion.div>
-  );
-};
-
 const Skills = () => {
   const sectionRef = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -104,6 +78,18 @@ const Skills = () => {
   const smoothProgress = useSpring(scrollYProgress, { stiffness: 80, damping: 20 });
   const meshOpacity = useTransform(smoothProgress, [0.2, 0.5, 0.8], [0.3, 0.8, 0.3]);
   const bgColor = useTransform(smoothProgress, [0, 1], ["#020617", "#0f172a"]);
+
+  // CSS for performant animations
+  const particleStyles = `
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(10deg); }
+    }
+    .particle-float {
+      animation: float 10s ease-in-out infinite;
+      will-change: transform;
+    }
+  `;
 
   const categories = [
     {
@@ -160,14 +146,13 @@ const Skills = () => {
       className="relative text-white py-24 overflow-hidden"
       style={{ backgroundColor: bgColor }}
     >
+      <style>{particleStyles}</style>
+
       {/* Digital Nebula Background */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {/* Layer 1: Shifting Nebula Gradients */}
         <motion.div 
-          style={{ 
-            opacity: meshOpacity,
-            scale: useTransform(smoothProgress, [0, 1], [1, 1.2]),
-          }}
+          style={{ opacity: meshOpacity }}
           className="absolute inset-0"
         >
           <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-cyan-500/10 blur-[120px] rounded-full animate-pulse" />
@@ -175,21 +160,27 @@ const Skills = () => {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[30%] h-[30%] bg-purple-500/5 blur-[100px] rounded-full" />
         </motion.div>
 
-        {/* Layer 2: Animated SVG Circuits */}
+        {/* Layer 2: Animated SVG Circuits - Optimized pathLength */}
         <svg className="absolute inset-0 w-full h-full opacity-20" viewBox="0 0 1000 1000" preserveAspectRatio="none">
           <motion.path
             d="M0 200h200v200h200v-100h300v300h300"
             stroke="url(#circuit-grad)"
             strokeWidth="1"
             fill="none"
-            style={{ pathLength: useTransform(smoothProgress, [0, 0.5], [0, 1]) }}
+            initial={{ pathLength: 0 }}
+            whileInView={{ pathLength: 1 }}
+            transition={{ duration: 1.5, ease: "easeInOut" }}
+            viewport={{ once: true }}
           />
           <motion.path
             d="M1000 800h-300v-200h-200v100h-300v-300h-200"
             stroke="url(#circuit-grad)"
             strokeWidth="1"
             fill="none"
-            style={{ pathLength: useTransform(smoothProgress, [0.5, 1], [0, 1]) }}
+            initial={{ pathLength: 0 }}
+            whileInView={{ pathLength: 1 }}
+            transition={{ duration: 1.8, ease: "easeInOut", delay: 0.2 }}
+            viewport={{ once: true }}
           />
           <defs>
             <linearGradient id="circuit-grad" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -200,13 +191,20 @@ const Skills = () => {
           </defs>
         </svg>
 
-        {/* Layer 3: Floating Code Particles (Parallax) */}
-        {[...Array(15)].map((_, i) => (
-          <FloatingParticle 
-            key={i} 
-            i={i} 
-            smoothProgress={smoothProgress} 
-          />
+        {/* Layer 3: Floating Code Particles (CSS Animated) */}
+        {[...Array(12)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute text-cyan-500/20 font-mono text-xl select-none particle-float"
+            style={{
+              left: `${(Math.sin(i * 123) * 50) + 50}%`,
+              top: `${(Math.cos(i * 456) * 50) + 50}%`,
+              animationDelay: `${i * 0.8}s`,
+              animationDuration: `${8 + (i % 5)}s`
+            }}
+          >
+            {['{', '}', '/>', '[]', '&&', '=>', '()'][i % 7]}
+          </div>
         ))}
 
         {/* Dynamic Grid Overlay */}
