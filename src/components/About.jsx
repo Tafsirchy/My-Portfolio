@@ -15,7 +15,7 @@ const About = () => {
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
 
   return (
-    <section ref={sectionRef} id="about" className="relative min-h-screen bg-slate-950 text-white py-20">
+    <section ref={sectionRef} id="about" className="relative bg-slate-950 text-white py-20">
       {/* Creative Glassmorphism Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Floating Glassmorphic Orbs */}

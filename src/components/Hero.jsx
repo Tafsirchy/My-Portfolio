@@ -25,7 +25,7 @@ const Hero = () => {
   return (
     <section
       id="home"
-      className="relative flex items-center justify-center bg-slate-950 overflow-hidden min-h-[80vh] md:min-h-[90vh]"
+      className="relative flex items-center justify-center bg-slate-950 overflow-hidden"
     >
       {/* Cyan gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-cyan-900/20 via-transparent to-cyan-900/10 pointer-events-none" />
