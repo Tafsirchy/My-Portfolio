@@ -1,11 +1,12 @@
 // Portfolio Data
 export const personalInfo = {
-  name: "Your Name",
+  name: "Tafsir Chowdhury",
   tagline: "Web Developer",
   headline: "Building amazing web experiences with modern technologies",
-  email: "your.email@example.com",
-  phone: "+1 234 567 8900",
-  location: "Your City, Country",
+  email: "tafsirchy1000@gmail.com",
+  phone: "+880 1633996633",
+  whatsapp: "+880 1633996633", // Added for direct contact
+  location: "Dhaka, Bangladesh",
   bio: "I'm a passionate web developer with expertise in building modern, responsive, and user-friendly web applications. I love working with cutting-edge technologies and creating seamless user experiences.",
   resume: "/path-to-your-resume.pdf",
 };
@@ -103,10 +104,12 @@ export const projects = [
     id: 1,
     title: "GreenNest",
     description: "A modern, responsive web application focused on plant discovery and care. Users can explore indoor plants, view detailed plant information, book expert consultations, and manage their profiles through secure authentication with Firebase.",
-    image: "/assets/Project 1.png",
+    image: "https://placehold.co/800x600/0f172a/06b6d4?text=GreenNest", 
     technologies: ["React", "Vite", "Firebase", "Tailwind CSS", "DaisyUI", "Framer Motion", "React Router"],
     liveUrl: "https://greennest-3d484.web.app/",
     githubUrl: "https://github.com/Tafsirchy/GreenNest",
+    challenges: "Implementing a seamless real-time consultation booking system while ensuring secure user authentication and data persistence across sessions.",
+    futurePlans: "Integrating an AI-powered plant health diagnostic tool and expanding the marketplace to include local nursery partnerships.",
     featured: true,
     codeSnippet: `// Clone repository
 git clone https://github.com/Tafsirchy/GreenNest.git
@@ -132,16 +135,20 @@ npm run dev`,
     liveUrl: "https://habit-tracker-4a192.web.app/",
     githubUrl: "https://github.com/Tafsirchy/Habit-Tracker-ClientSide.git",
     githubServerUrl: "https://github.com/Tafsirchy/Habit-Tracker-ServerSide.git",
+    challenges: "Designing a complex database schema for tracking habit frequency and history while maintaining high performance for real-time statistical updates.",
+    futurePlans: "Adding social features for community habit challenges and developing a mobile application using React Native.",
     featured: true,
   },
   {
     id: 3,
     title: "Green Earth",
     description: "A responsive web application focused on environmental sustainability. The platform allows users to explore different tree categories, view detailed plant information, add trees to a donation cart, and contribute to global tree plantation efforts.",
-    image: "/assets/Project 3.png",
+    image: "https://placehold.co/800x600/020617/6366f1?text=Green+Earth", 
     technologies: ["HTML5", "CSS3", "JavaScript", "Tailwind CSS", "DaisyUI", "Font Awesome"],
     liveUrl: "https://my-sixth-assignment-tc.netlify.app/",
     githubUrl: "https://github.com/Tafsirchy/my-sixth-assignment",
+    challenges: "Creating an intuitive donation flow and managing a dynamic cart state without using complex state management libraries.",
+    futurePlans: "Implementing a real-time global impact dashboard and adding support for multi-currency donations.",
     featured: false,
     codeSnippet: `// Clone repository
 git clone https://github.com/Tafsirchy/my-sixth-assignment
@@ -165,6 +172,8 @@ cd green-earth
     liveUrl: "https://vitalflow-9b72a.web.app/",
     githubUrl: "https://github.com/Tafsirchy/VitalFlow-Frontend.git",
     githubServerUrl: "https://github.com/Tafsirchy/VitalFlow-BackendNew.git",
+    challenges: "Managing complex user roles and implementing a secure, error-tolerant search algorithm for emergency blood matching.",
+    futurePlans: "Adding a map-based donor location feature and integrating with local hospital APIs for real-time inventory tracking.",
     featured: true,
   },
 ];

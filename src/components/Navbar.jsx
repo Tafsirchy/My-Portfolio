@@ -39,11 +39,13 @@ const Navbar = () => {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-white/90 backdrop-blur-md shadow-sm border-b border-gray-200'
-          : 'bg-white/90 backdrop-blur-md border-b border-gray-200'
+          ? 'bg-slate-950/80 backdrop-blur-md shadow-lg border-b border-cyan-500/10'
+          : 'bg-transparent backdrop-blur-sm'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div className="w-11/12 max-w-7xl mx-auto">
+
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <motion.a
@@ -54,7 +56,7 @@ const Navbar = () => {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
-            <span className="text-gray-900">Tafsir</span>
+            <span className="text-white">Tafsir</span>
           </motion.a>
 
           {/* Desktop Navigation */}
@@ -64,20 +66,20 @@ const Navbar = () => {
                 key={item.label}
                 href={item.href}
                 onClick={(e) => scrollToSection(e, item.href)}
-                className="font-display text-sm tracking-wide text-gray-700 hover:text-primary-600 transition-colors relative group"
+                className="font-display text-sm tracking-wide text-gray-300 hover:text-cyan-400 transition-colors relative group"
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
                 {item.label}
-                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary-600 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-cyan-500 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
               </motion.a>
             ))}
           </div>
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2 text-gray-700 hover:text-primary-600"
+            className="md:hidden p-2 text-gray-300 hover:text-cyan-400 focus:outline-none"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -91,7 +93,7 @@ const Navbar = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden pb-4"
+            className="md:hidden pb-4 bg-slate-900/90 backdrop-blur-md px-4 border-b border-white/5"
           >
             <div className="flex flex-col space-y-3">
               {navItems.map((item) => (
@@ -99,7 +101,7 @@ const Navbar = () => {
                   key={item.label}
                   href={item.href}
                   onClick={(e) => scrollToSection(e, item.href)}
-                  className="font-display text-sm tracking-wide text-gray-700 hover:text-primary-600 transition-colors py-2"
+                  className="font-display text-sm tracking-wide text-gray-300 hover:text-cyan-400 transition-colors py-2 block"
                 >
                   {item.label}
                 </a>

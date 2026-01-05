@@ -1,12 +1,30 @@
-import { motion } from 'framer-motion';
-import { useInView } from 'framer-motion';
-import { useRef } from 'react';
-import { ExternalLink, Github } from 'lucide-react';
+import { motion, useInView, AnimatePresence } from 'framer-motion';
+import { useRef, useState, useEffect } from 'react';
+import { ExternalLink, Github, X, Info, Rocket, Wrench, ArrowRight } from 'lucide-react';
+import { TbBolt } from 'react-icons/tb';
 import { projects } from '@/data/portfolio';
 
 const Projects = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [selectedProject, setSelectedProject] = useState(null);
+
+  useEffect(() => {
+    if (selectedProject) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    return () => { document.body.style.overflow = 'auto'; };
+  }, [selectedProject]);
+
+  const openModal = (project) => {
+    setSelectedProject(project);
+  };
+
+  const closeModal = () => {
+    setSelectedProject(null);
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -28,27 +46,50 @@ const Projects = () => {
   };
 
   return (
-    <section id="projects" className="relative min-h-screen bg-slate-900 text-white py-20">
-      <div className="max-w-4xl mx-auto px-6">
+    <section id="projects" className="relative bg-[#020617] text-white py-20 overflow-hidden">
+      {/* Premium Charcoal Textures */}
+      <div className="absolute inset-0 opacity-[0.05] pointer-events-none"
+        style={{
+          backgroundImage: `repeating-linear-gradient(45deg, #06b6d4 0, #06b6d4 1px, transparent 0, transparent 50%)`,
+          backgroundSize: '10px 10px'
+        }}
+      ></div>
+
+      {/* Light Leaks / Glows */}
+      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-500/10 blur-[120px] rounded-full pointer-events-none animate-pulse"></div>
+      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-cyan-500/10 blur-[120px] rounded-full pointer-events-none animate-pulse" style={{ animationDelay: '2s' }}></div>
+      {/* Top Wave (Receiving from Experience) */}
+      <div className="absolute top-0 inset-x-0 h-32 pointer-events-none z-10 transform rotate-180 opacity-50">
+        <svg className="absolute top-0 w-full h-full" preserveAspectRatio="none" viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0,64L48,80C96,96,192,128,288,128C384,128,480,96,576,85.3C672,75,768,85,864,96C960,107,1056,117,1152,112L1200,106.7V120H1152C1056,120,960,120,864,120C768,120,672,120,576,120C480,120,384,120,288,120C192,120,96,120,48,120H0Z" fill="#0f172a"></path>
+        </svg>
+      </div>
+
+      <div className="relative z-30 w-11/12 max-w-7xl mx-auto pb-32">
         <motion.div
           ref={ref}
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
         >
-          {/* Section Title */}
-          <motion.div variants={itemVariants} className="text-center mb-16">
-            <div className="inline-block mb-4">
-              <div className="px-6 py-2 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 rounded-full border border-indigo-500/30 backdrop-blur-sm">
-                <p className="text-indigo-400 text-sm font-display tracking-[0.3em] uppercase">
-                  FEATURED WORKS
-                </p>
+          {/* Section Headline - Global System */}
+          <div className="mb-16 relative">
+            <motion.div
+              variants={itemVariants}
+              className="flex flex-col items-center text-center gap-4"
+            >
+              <div className="px-4 py-1 bg-white/5 border border-white/10 rounded-full backdrop-blur-sm">
+                <span className="text-[10px] font-bold tracking-[0.4em] text-cyan-400 uppercase">SHOWCASE</span>
               </div>
-            </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold font-display mb-4 bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">
-              Projects
-            </h2>
-          </motion.div>
+              <h2 className="text-4xl md:text-6xl font-display font-black tracking-tight text-white">
+                Featured <span className="text-gradient">Projects</span>
+              </h2>
+              <div className="h-1 w-24 bg-gradient-to-r from-cyan-500 to-indigo-500 rounded-full"></div>
+              <p className="mt-4 text-gray-400 max-w-2xl mx-auto text-sm font-light leading-relaxed">
+                Exploring the intersection of design and functionality through modular full-stack applications.
+              </p>
+            </motion.div>
+          </div>
 
           {/* Projects List */}
           <div className="space-y-24">
@@ -84,25 +125,36 @@ const Projects = () => {
                       </p>
                     </div>
 
-                    {/* Action Buttons */}
-                    <div className="flex gap-4 pt-4">
+                    {/* Action Buttons - Premium Style */}
+                    <div className="grid grid-cols-3 gap-3 pt-4">
                       <a
                         href={project.liveUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-5 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded text-sm font-medium transition-colors duration-200"
+                        className="h-11 rounded-xl bg-white text-slate-900 font-bold text-[10px] flex items-center justify-center gap-2 group/btn relative overflow-hidden transition-all duration-300 hover:text-white active:scale-95 shadow-lg"
                       >
-                        View project
+                        <div className="absolute inset-0 bg-gradient-to-r from-cyan-600 to-indigo-600 transform translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300"></div>
+                        <span className="relative z-10 flex items-center gap-1.5">
+                          <TbBolt className="h-4 w-4" />
+                          Live
+                        </span>
                       </a>
                       <a
                         href={project.githubUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-5 py-2 border border-gray-600 hover:border-gray-500 text-gray-300 rounded text-sm font-medium transition-colors duration-200 flex items-center gap-2"
+                        className="h-11 rounded-xl bg-white/5 border border-white/10 text-white font-bold text-[10px] flex items-center justify-center gap-2 hover:bg-white/10 transition-all duration-300 group/git active:scale-95"
                       >
-                        <Github className="w-4 h-4" />
-                        GitHub
+                        <Github className="h-3.5 w-3.5 group-hover/git:scale-110 transition-transform text-slate-400 group-hover/git:text-white" />
+                        Code
                       </a>
+                      <button
+                        onClick={() => openModal(project)}
+                        className="h-11 rounded-xl bg-white/5 border border-white/10 text-white font-bold text-[10px] flex items-center justify-center gap-2 hover:bg-white/10 transition-all duration-300 group/details active:scale-95"
+                      >
+                        <Info className="h-3.5 w-3.5 group-hover/details:rotate-12 transition-transform text-slate-400 group-hover/details:text-white" />
+                        Details
+                      </button>
                     </div>
                   </div>
 
@@ -134,7 +186,7 @@ const Projects = () => {
                               alt={`${project.title} main`}
                               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                               onError={(e) => {
-                                e.target.src = 'https://via.placeholder.com/400x300/1e293b/64748b?text=Project+Image';
+                                e.target.src = 'https://placehold.co/400x300/0f172a/06b6d4?text=Project+Image';
                               }}
                             />
                             {/* Gradient Overlay with lighting effect */}
@@ -165,7 +217,7 @@ const Projects = () => {
                                 alt={`${project.title} detail`}
                                 className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
                                 onError={(e) => {
-                                  e.target.src = 'https://via.placeholder.com/200x150/1e293b/64748b?text=Detail';
+                                  e.target.src = 'https://placehold.co/200x150/0f172a/06b6d4?text=Detail';
                                 }}
                               />
                               {/* Glowing ring effect */}
@@ -192,7 +244,7 @@ const Projects = () => {
                             alt={project.title}
                             className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
                             onError={(e) => {
-                              e.target.src = 'https://via.placeholder.com/400x300/1e293b/64748b?text=Project+Image';
+                              e.target.src = 'https://placehold.co/400x300/0f172a/06b6d4?text=Project+Image';
                             }}
                           />
                           {/* Lighting and gradient overlays */}
@@ -210,57 +262,140 @@ const Projects = () => {
               );
             })}
           </div>
-
-          {/* Contact Section */}
-          <motion.div 
-            variants={itemVariants}
-            className="mt-32 grid md:grid-cols-2 gap-12 items-start border-t border-slate-800 pt-20"
-          >
-            {/* Left: Call to Action */}
-            <div className="space-y-6">
-              <div>
-                <p className="text-sm text-gray-400 mb-2">Contact</p>
-                <h2 className="text-3xl md:text-4xl font-bold leading-tight">
-                  Have a project?
-                  <br />
-                  Let's talk!
-                </h2>
-              </div>
-              <button className="px-6 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded text-sm font-medium transition-colors duration-200">
-                Contact
-              </button>
-            </div>
-
-            {/* Right: Contact Form */}
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm text-gray-400 mb-2">Name</label>
-                <input
-                  type="text"
-                  className="w-full bg-transparent border-b border-slate-700 focus:border-slate-500 outline-none py-2 text-white transition-colors"
-                  placeholder=""
-                />
-              </div>
-              <div>
-                <label className="block text-sm text-gray-400 mb-2">Email</label>
-                <input
-                  type="email"
-                  className="w-full bg-transparent border-b border-slate-700 focus:border-slate-500 outline-none py-2 text-white transition-colors"
-                  placeholder=""
-                />
-              </div>
-              <div>
-                <label className="block text-sm text-gray-400 mb-2">Message</label>
-                <textarea
-                  rows="3"
-                  className="w-full bg-transparent border-b border-slate-700 focus:border-slate-500 outline-none py-2 text-white resize-none transition-colors"
-                  placeholder=""
-                ></textarea>
-              </div>
-            </div>
-          </motion.div>
         </motion.div>
       </div>
+
+    {/* Project Detail Modal */}
+      <AnimatePresence>
+        {selectedProject && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={closeModal}
+              className="absolute inset-0 bg-slate-950/80 backdrop-blur-md"
+            />
+            
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="relative w-full max-w-4xl max-h-[90vh] bg-slate-900 border border-white/10 rounded-3xl overflow-hidden shadow-2xl flex flex-col"
+            >
+              {/* Modal Header/Image */}
+              <div className="relative h-64 md:h-80 w-full overflow-hidden flex-shrink-0">
+                <img 
+                  src={(selectedProject.images && selectedProject.images[0]) || selectedProject.image} 
+                  alt={selectedProject.title}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent"></div>
+                
+                <button 
+                  onClick={closeModal}
+                  className="absolute top-6 right-6 w-10 h-10 bg-black/50 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white hover:text-black transition-all duration-300 z-50"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+
+                <div className="absolute bottom-6 left-8 right-8">
+                   <h2 className="text-3xl md:text-4xl font-black font-display text-white mb-2">{selectedProject.title}</h2>
+                   <div className="flex flex-wrap gap-2 text-gradient">
+                     {selectedProject.technologies.slice(0, 4).map((tech, i) => (
+                       <span key={i} className="text-[10px] font-bold uppercase tracking-widest">{tech}</span>
+                     ))}
+                   </div>
+                </div>
+              </div>
+
+              {/* Modal Content - Scrollable */}
+              <div className="p-8 md:p-10 overflow-y-auto space-y-10 custom-scrollbar">
+                
+                {/* Description */}
+                <section className="space-y-4">
+                  <div className="flex items-center gap-3 text-cyan-400">
+                    <Info className="h-5 w-5" />
+                    <h3 className="text-sm font-bold uppercase tracking-[0.2em]">Project Overview</h3>
+                  </div>
+                  <p className="text-gray-400 leading-relaxed text-sm md:text-base font-light">
+                    {selectedProject.description}
+                  </p>
+                </section>
+
+                {/* Tech Stack */}
+                <section className="space-y-4">
+                  <div className="flex items-center gap-3 text-indigo-400">
+                    <Wrench className="h-5 w-5" />
+                    <h3 className="text-sm font-bold uppercase tracking-[0.2em]">Full Tech Stack</h3>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedProject.technologies.map((tech, i) => (
+                      <span key={i} className="px-4 py-1.5 bg-white/5 border border-white/10 rounded-full text-xs text-slate-300 font-medium whitespace-nowrap">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </section>
+
+                <div className="grid md:grid-cols-2 gap-8">
+                  {/* Challenges */}
+                  <section className="space-y-4 p-6 bg-white/[0.02] border border-white/5 rounded-2xl">
+                    <div className="flex items-center gap-3 text-red-400">
+                      <div className="w-8 h-8 rounded-lg bg-red-400/10 flex items-center justify-center group-hover:rotate-12 transition-transform">
+                        <ArrowRight className="h-4 w-4" />
+                      </div>
+                      <h3 className="text-sm font-bold uppercase tracking-[0.2em]">Challenges</h3>
+                    </div>
+                    <p className="text-gray-400 text-sm leading-relaxed italic">
+                      "{selectedProject.challenges}"
+                    </p>
+                  </section>
+
+                  {/* Future Plans */}
+                  <section className="space-y-4 p-6 bg-white/[0.02] border border-white/5 rounded-2xl">
+                    <div className="flex items-center gap-3 text-emerald-400">
+                      <div className="w-8 h-8 rounded-lg bg-emerald-400/10 flex items-center justify-center transition-transform">
+                        <Rocket className="h-4 w-4" />
+                      </div>
+                      <h3 className="text-sm font-bold uppercase tracking-[0.2em]">Future Plans</h3>
+                    </div>
+                    <p className="text-gray-400 text-sm leading-relaxed">
+                      {selectedProject.futurePlans}
+                    </p>
+                  </section>
+                </div>
+
+                {/* Direct Links */}
+                <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                  <a 
+                    href={selectedProject.liveUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex-1 h-14 bg-gradient-to-r from-cyan-600 to-indigo-600 rounded-2xl flex items-center justify-center gap-3 text-white font-bold hover:shadow-lg hover:shadow-cyan-500/20 transition-all active:scale-95"
+                  >
+                    <TbBolt className="h-6 w-6" />
+                    Visit Live Site
+                  </a>
+                  <a 
+                    href={selectedProject.githubUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex-1 h-14 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center gap-3 text-white font-bold hover:bg-white/10 transition-all active:scale-95"
+                  >
+                    <Github className="h-6 w-6" />
+                    Client Repository
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Rounded Portal Mask (Projects -> Contact) */}
+      <div className="absolute bottom-0 inset-x-0 h-40 bg-gradient-to-t from-slate-950 to-transparent z-20 pointer-events-none"></div>
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[150%] h-[200px] bg-slate-950 rounded-[100%] z-10"></div>
     </section>
   );
 };
