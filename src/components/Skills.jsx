@@ -213,7 +213,7 @@ const Skills = () => {
         ></div>
       </div>
 
-      <div className="relative z-20 w-11/12 max-w-7xl mx-auto pb-20">
+      <div className="relative z-20 w-11/12 max-w-7xl mx-auto pb-16">
 
         {/* Section Headline - Global System */}
         <div className="mb-20 relative">

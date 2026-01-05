@@ -41,7 +41,7 @@ const Experience = () => {
       {/* Top Depth Parallax Glow */}
       <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-[#020617] to-transparent z-10 opacity-60"></div>
 
-      <div className="relative z-20 w-11/12 max-w-7xl mx-auto pb-10">
+      <div className="relative z-20 w-11/12 max-w-7xl mx-auto pb-8">
 
         <motion.div
           ref={ref}

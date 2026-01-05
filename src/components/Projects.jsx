@@ -3,13 +3,7 @@ import { useRef, useState, useEffect } from 'react';
 import { ExternalLink, Github, X, Info, Rocket, Wrench, ArrowRight } from 'lucide-react';
 import { TbBolt } from 'react-icons/tb';
 
-// Swiper imports
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination, Autoplay, Navigation } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
-
+// Swiper removed for a more creative custom layout
 import { projects } from '@/data/portfolio';
 
 const Projects = () => {
@@ -73,7 +67,7 @@ const Projects = () => {
         </svg>
       </div>
 
-      <div className="relative z-30 w-11/12 max-w-7xl mx-auto pb-32">
+      <div className="relative z-30 w-11/12 max-w-7xl mx-auto pb-16">
         <motion.div
           ref={ref}
           variants={containerVariants}
@@ -111,7 +105,7 @@ const Projects = () => {
                   className="grid md:grid-cols-2 gap-12 items-stretch"
                 >
                   {/* Content (left for even, right for odd) */}
-                  <div className={`order-2 space-y-4 ${!isEven ? 'md:order-2' : 'md:order-1'} flex flex-col justify-between`}>
+                  <div className={`order-2 space-y-4 ${!isEven ? 'md:order-2' : 'md:order-1'} flex flex-col justify-between w-full`}>
                     <div className="flex-1">
                       <h3 className="text-2xl font-bold">{project.title}</h3>
 
@@ -167,42 +161,62 @@ const Projects = () => {
                   </div>
 
                   {/* Image/Slider Section */}
-                  <div className={`order-1 ${!isEven ? 'md:order-1' : 'md:order-2'} h-[200px] sm:h-[250px] md:h-auto`}>
+                  <div className={`order-1 ${!isEven ? 'md:order-1' : 'md:order-2'} min-h-[280px] sm:min-h-[320px] md:min-h-0 h-auto mb-3 md:mb-0`}>
                     {project.codeSnippet ? (
                       // Code Snippet with 3D depth
-                      <div className="relative group h-full">
-                        <div className="bg-slate-950 rounded-2xl p-4 border border-slate-800 overflow-x-auto transform transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/20 md:hover:-translate-y-1 h-full">
-                          <pre className="text-xs text-gray-300 font-mono leading-relaxed">
-                            <code>{project.codeSnippet}</code>
-                          </pre>
+                      <div className="relative group h-full w-full">
+                        <div className="bg-slate-950 rounded-2xl border border-slate-800 overflow-hidden transform transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/20 md:hover:-translate-y-1 h-full">
+                          {/* macOS style header */}
+                          <div className="flex items-center gap-1.5 px-4 py-3 bg-slate-900/50 border-b border-white/5">
+                            <div className="w-2.5 h-2.5 rounded-full bg-red-500/50"></div>
+                            <div className="w-2.5 h-2.5 rounded-full bg-amber-500/50"></div>
+                            <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/50"></div>
+                            <span className="ml-2 text-[10px] text-gray-500 font-mono tracking-wider">bash</span>
+                          </div>
+                          <div className="p-4 overflow-x-auto">
+                            <pre className="text-xs text-gray-300 font-mono leading-relaxed">
+                              <code>{project.codeSnippet}</code>
+                            </pre>
+                          </div>
                         </div>
                         {/* 3D depth effect - Hidden on small devices for cleaner look */}
                         <div className="absolute inset-0 bg-gradient-to-br from-slate-800/50 to-transparent rounded-lg -z-10 blur-xl transform translate-y-4 opacity-50 group-hover:opacity-70 transition-opacity hidden md:block"></div>
                       </div>
                     ) : (
                       <>
-                        {/* Mobile/Small Device Slider with reduced width */}
-                        <div className="block md:hidden h-full max-w-sm mx-auto">
-                          <Swiper
-                            modules={[Pagination, Autoplay, Navigation]}
-                            pagination={{ clickable: true }}
-                            autoplay={{ delay: 3000, disableOnInteraction: false }}
-                            className="h-full rounded-2xl overflow-hidden border border-white/10"
-                          >
-                            {(project.images || [project.image]).map((img, i) => (
-                              <SwiperSlide key={i}>
-                                <img
-                                  src={img}
-                                  alt={`${project.title} slide ${i}`}
-                                  className="w-full h-full object-cover"
-                                  onError={(e) => {
-                                    e.target.src = 'https://placehold.co/400x300/0f172a/06b6d4?text=Project+Image';
-                                  }}
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent"></div>
-                              </SwiperSlide>
-                            ))}
-                          </Swiper>
+                        {/* Creative Mobile Image Layout: The Depth Stack */}
+                        <div className="block md:hidden relative group w-full pt-4 pb-8">
+                          <div className="relative h-[250px] w-full preserve-3d">
+                            {/* Ambient Glow Background */}
+                            <div className="absolute -inset-4 bg-gradient-to-tr from-cyan-500/10 to-indigo-500/10 blur-2xl rounded-full opacity-40 group-hover:opacity-70 transition-opacity"></div>
+                            
+                            {/* Main Showcase Image */}
+                            <motion.div 
+                              className="relative z-20 h-full w-full rounded-2xl overflow-hidden border border-white/10 shadow-2xl"
+                              whileHover={{ scale: 1.02 }}
+                              transition={{ type: "spring", stiffness: 300 }}
+                            >
+                              <img
+                                src={project.images?.[0] || project.image}
+                                alt={project.title}
+                                className="w-full h-full object-cover"
+                                onError={(e) => {
+                                  e.target.src = 'https://placehold.co/400x300/0f172a/06b6d4?text=Project+Image';
+                                }}
+                              />
+                              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent"></div>
+                            </motion.div>
+
+                            {/* Decorative Layered Peeks (if multiple images) */}
+                            {project.images && project.images.length > 1 && (
+                              <>
+                                <div className="absolute top-4 -right-2 w-full h-full rounded-2xl overflow-hidden border border-white/10 shadow-xl -z-10 translate-x-4 -rotate-3 blur-[1px] opacity-40">
+                                  <img src={project.images[1]} alt="peek 1" className="w-full h-full object-cover" />
+                                </div>
+                                <div className="absolute top-2 -right-4 w-full h-full rounded-2xl overflow-hidden border border-white/10 shadow-lg -z-20 translate-x-8 -rotate-6 blur-[2px] opacity-20 text-indigo-400"></div>
+                              </>
+                            )}
+                          </div>
                         </div>
 
                         {/* Desktop Professional 3D Layout */}
