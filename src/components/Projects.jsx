@@ -2,6 +2,14 @@ import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
 import { ExternalLink, Github, X, Info, Rocket, Wrench, ArrowRight } from 'lucide-react';
 import { TbBolt } from 'react-icons/tb';
+
+// Swiper imports
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination, Autoplay, Navigation } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+
 import { projects } from '@/data/portfolio';
 
 const Projects = () => {
@@ -46,7 +54,7 @@ const Projects = () => {
   };
 
   return (
-    <section id="projects" className="relative bg-[#020617] text-white py-20 overflow-hidden">
+    <section id="projects" className="relative bg-[#020617] text-white py-14 overflow-hidden">
       {/* Premium Charcoal Textures */}
       <div className="absolute inset-0 opacity-[0.05] pointer-events-none"
         style={{
@@ -103,7 +111,7 @@ const Projects = () => {
                   className="grid md:grid-cols-2 gap-12 items-stretch"
                 >
                   {/* Content (left for even, right for odd) */}
-                  <div className={`space-y-4 ${!isEven ? 'md:order-2' : ''} flex flex-col justify-between`}>
+                  <div className={`order-2 space-y-4 ${!isEven ? 'md:order-2' : 'md:order-1'} flex flex-col justify-between`}>
                     <div className="flex-1">
                       <h3 className="text-2xl font-bold">{project.title}</h3>
 
@@ -158,106 +166,123 @@ const Projects = () => {
                     </div>
                   </div>
 
-                  {/* Image/Code (right for even, left for odd) */}
-                  <div className={`${!isEven ? 'md:order-1' : ''} h-full`}>
+                  {/* Image/Slider Section */}
+                  <div className={`order-1 ${!isEven ? 'md:order-1' : 'md:order-2'} h-[200px] sm:h-[250px] md:h-auto`}>
                     {project.codeSnippet ? (
                       // Code Snippet with 3D depth
                       <div className="relative group h-full">
-                        <div className="bg-slate-950 rounded-lg p-4 border border-slate-800 overflow-x-auto transform transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/20 hover:-translate-y-1 h-full">
+                        <div className="bg-slate-950 rounded-2xl p-4 border border-slate-800 overflow-x-auto transform transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/20 md:hover:-translate-y-1 h-full">
                           <pre className="text-xs text-gray-300 font-mono leading-relaxed">
                             <code>{project.codeSnippet}</code>
                           </pre>
                         </div>
-                        {/* 3D depth effect */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-slate-800/50 to-transparent rounded-lg -z-10 blur-xl transform translate-y-4 opacity-50 group-hover:opacity-70 transition-opacity"></div>
-                      </div>
-                    ) : project.images && project.images.length > 0 ? (
-                      // Multiple Images - Professional 3D Layout
-                      <div className="relative perspective-1000 h-full">
-                        {/* Main Image with 3D Transform */}
-                        <div className="relative group h-full">
-                          <div className="relative overflow-hidden rounded-2xl transform transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 hover:rotate-y-2 h-full"
-                               style={{
-                                 boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 25px rgba(59, 130, 246, 0.1)',
-                                 transform: 'perspective(1000px) rotateY(-2deg) rotateX(2deg)'
-                               }}>
-                            <img
-                              src={project.images[0]}
-                              alt={`${project.title} main`}
-                              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                              onError={(e) => {
-                                e.target.src = 'https://placehold.co/400x300/0f172a/06b6d4?text=Project+Image';
-                              }}
-                            />
-                            {/* Gradient Overlay with lighting effect */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-transparent to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                            
-                            {/* Animated Border Glow */}
-                            <div className="absolute inset-0 border-2 border-transparent group-hover:border-blue-500/50 rounded-2xl transition-all duration-500"></div>
-                            
-                            {/* Light reflection effect */}
-                            <div className="absolute top-0 left-0 w-full h-1/3 bg-gradient-to-b from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                          </div>
-                          
-                          {/* 3D Shadow layers */}
-                          <div className="absolute inset-0 bg-gradient-to-br from-slate-700/30 to-slate-900/30 rounded-2xl -z-10 blur-2xl transform translate-y-6 translate-x-2 opacity-60 group-hover:translate-y-8 group-hover:opacity-80 transition-all duration-500"></div>
-                        </div>
-                        
-                        {/* Secondary Image - Floating Card Style */}
-                        {project.images[1] && (
-                          <div className="absolute -bottom-8 -right-8 w-2/5 group transform transition-all duration-500 hover:scale-105 hover:-translate-y-2"
-                               style={{
-                                 boxShadow: '0 20px 40px -10px rgba(0, 0, 0, 0.7), 0 0 20px rgba(251, 146, 60, 0.15)',
-                                 transform: 'perspective(800px) rotateY(5deg) rotateX(-3deg)'
-                               }}>
-                            <div className="relative overflow-hidden rounded-xl border-4 border-slate-800">
-                              <img
-                                src={project.images[1]}
-                                alt={`${project.title} detail`}
-                                className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
-                                onError={(e) => {
-                                  e.target.src = 'https://placehold.co/200x150/0f172a/06b6d4?text=Detail';
-                                }}
-                              />
-                              {/* Glowing ring effect */}
-                              <div className="absolute inset-0 ring-2 ring-orange-500/40 rounded-lg group-hover:ring-orange-500/60 transition-all duration-300"></div>
-                              {/* Inner glow */}
-                              <div className="absolute inset-0 bg-gradient-to-tr from-orange-500/20 via-transparent to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                            </div>
-                            
-                            {/* Depth shadow for secondary image */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 to-slate-900/40 rounded-xl -z-10 blur-xl transform translate-y-4 translate-x-2 opacity-70"></div>
-                          </div>
-                        )}
+                        {/* 3D depth effect - Hidden on small devices for cleaner look */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-slate-800/50 to-transparent rounded-lg -z-10 blur-xl transform translate-y-4 opacity-50 group-hover:opacity-70 transition-opacity hidden md:block"></div>
                       </div>
                     ) : (
-                      // Single Image with 3D Effect
-                      <div className="relative group">
-                        <div className="relative overflow-hidden rounded-2xl transform transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2"
-                             style={{
-                               boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 25px rgba(59, 130, 246, 0.1)',
-                               transform: 'perspective(1000px) rotateY(-2deg) rotateX(2deg)'
-                             }}>
-                          <img
-                            src={project.image}
-                            alt={project.title}
-                            className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
-                            onError={(e) => {
-                              e.target.src = 'https://placehold.co/400x300/0f172a/06b6d4?text=Project+Image';
-                            }}
-                          />
-                          {/* Lighting and gradient overlays */}
-                          <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-transparent to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                          <div className="absolute inset-0 border-2 border-transparent group-hover:border-blue-500/50 rounded-2xl transition-all duration-500"></div>
-                          <div className="absolute top-0 left-0 w-full h-1/3 bg-gradient-to-b from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                      <>
+                        {/* Mobile/Small Device Slider with reduced width */}
+                        <div className="block md:hidden h-full max-w-sm mx-auto">
+                          <Swiper
+                            modules={[Pagination, Autoplay, Navigation]}
+                            pagination={{ clickable: true }}
+                            autoplay={{ delay: 3000, disableOnInteraction: false }}
+                            className="h-full rounded-2xl overflow-hidden border border-white/10"
+                          >
+                            {(project.images || [project.image]).map((img, i) => (
+                              <SwiperSlide key={i}>
+                                <img
+                                  src={img}
+                                  alt={`${project.title} slide ${i}`}
+                                  className="w-full h-full object-cover"
+                                  onError={(e) => {
+                                    e.target.src = 'https://placehold.co/400x300/0f172a/06b6d4?text=Project+Image';
+                                  }}
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent"></div>
+                              </SwiperSlide>
+                            ))}
+                          </Swiper>
                         </div>
-                        {/* 3D depth shadow */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-slate-700/30 to-slate-900/30 rounded-2xl -z-10 blur-2xl transform translate-y-6 translate-x-2 opacity-60 group-hover:translate-y-8 group-hover:opacity-80 transition-all duration-500"></div>
-                      </div>
+
+                        {/* Desktop Professional 3D Layout */}
+                        <div className="hidden md:block h-full">
+                          {project.images && project.images.length > 0 ? (
+                            <div className="relative perspective-1000 h-full">
+                              {/* Main Image with 3D Transform */}
+                              <div className="relative group h-full">
+                                <div className="relative overflow-hidden rounded-2xl transform transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 hover:rotate-y-2 h-full"
+                                     style={{
+                                       boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 25px rgba(59, 130, 246, 0.1)',
+                                       transform: 'perspective(1000px) rotateY(-2deg) rotateX(2deg)'
+                                     }}>
+                                  <img
+                                    src={project.images[0]}
+                                    alt={`${project.title} main`}
+                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                    onError={(e) => {
+                                      e.target.src = 'https://placehold.co/400x300/0f172a/06b6d4?text=Project+Image';
+                                    }}
+                                  />
+                                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-transparent to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                  <div className="absolute inset-0 border-2 border-transparent group-hover:border-blue-500/50 rounded-2xl transition-all duration-500"></div>
+                                  <div className="absolute top-0 left-0 w-full h-1/3 bg-gradient-to-b from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                </div>
+                                <div className="absolute inset-0 bg-gradient-to-br from-slate-700/30 to-slate-900/30 rounded-2xl -z-10 blur-2xl transform translate-y-6 translate-x-2 opacity-60 group-hover:translate-y-8 group-hover:opacity-80 transition-all duration-500"></div>
+                              </div>
+                              
+                              {/* Secondary Image - Floating Card Style */}
+                              {project.images[1] && (
+                                <div className="absolute -bottom-8 -right-8 w-2/5 group transform transition-all duration-500 hover:scale-105 hover:-translate-y-2"
+                                     style={{
+                                       boxShadow: '0 20px 40px -10px rgba(0, 0, 0, 0.7), 0 0 20px rgba(251, 146, 60, 0.15)',
+                                       transform: 'perspective(800px) rotateY(5deg) rotateX(-3deg)'
+                                     }}>
+                                  <div className="relative overflow-hidden rounded-xl border-4 border-slate-800">
+                                    <img
+                                      src={project.images[1]}
+                                      alt={`${project.title} detail`}
+                                      className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
+                                      onError={(e) => {
+                                        e.target.src = 'https://placehold.co/200x150/0f172a/06b6d4?text=Detail';
+                                      }}
+                                    />
+                                    <div className="absolute inset-0 ring-2 ring-orange-500/40 rounded-lg group-hover:ring-orange-500/60 transition-all duration-300"></div>
+                                    <div className="absolute inset-0 bg-gradient-to-tr from-orange-500/20 via-transparent to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                  </div>
+                                  <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 to-slate-900/40 rounded-xl -z-10 blur-xl transform translate-y-4 translate-x-2 opacity-70"></div>
+                                </div>
+                              )}
+                            </div>
+                          ) : (
+                            <div className="relative group h-full">
+                              <div className="relative overflow-hidden rounded-2xl transform transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 h-full"
+                                   style={{
+                                     boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 25px rgba(59, 130, 246, 0.1)',
+                                     transform: 'perspective(1000px) rotateY(-2deg) rotateX(2deg)'
+                                   }}>
+                                <img
+                                  src={project.image}
+                                  alt={project.title}
+                                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                  onError={(e) => {
+                                    e.target.src = 'https://placehold.co/400x300/0f172a/06b6d4?text=Project+Image';
+                                  }}
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-transparent to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                <div className="absolute inset-0 border-2 border-transparent group-hover:border-blue-500/50 rounded-2xl transition-all duration-500"></div>
+                                <div className="absolute top-0 left-0 w-full h-1/3 bg-gradient-to-b from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                              </div>
+                              <div className="absolute inset-0 bg-gradient-to-br from-slate-700/30 to-slate-900/30 rounded-2xl -z-10 blur-2xl transform translate-y-6 translate-x-2 opacity-60 group-hover:translate-y-8 group-hover:opacity-80 transition-all duration-500"></div>
+                            </div>
+                          )}
+                        </div>
+                      </>
                     )}
                   </div>
+
                 </motion.div>
               );
             })}

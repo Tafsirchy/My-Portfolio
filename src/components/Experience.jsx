@@ -37,7 +37,7 @@ const Experience = () => {
   };
 
   return (
-    <section id="experience" className="relative py-24 bg-slate-900 text-white overflow-hidden -mt-10 pt-32">
+    <section id="experience" className="relative py-20 bg-slate-900 text-white overflow-hidden -mt-10 pt-20">
       {/* Top Depth Parallax Glow */}
       <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-[#020617] to-transparent z-10 opacity-60"></div>
 

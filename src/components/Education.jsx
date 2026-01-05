@@ -32,7 +32,7 @@ const Education = () => {
   };
 
   return (
-    <section id="education" className="relative py-20 bg-[#0A0F1E] text-white overflow-hidden">
+    <section id="education" className="relative py-10 bg-[#0A0F1E] text-white overflow-hidden">
       {/* Blueprint Dot Matrix Pattern */}
       <div className="absolute inset-0 opacity-[0.15] pointer-events-none"
         style={{

@@ -67,7 +67,7 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="relative py-24 bg-slate-950 text-white overflow-hidden">
+    <section id="contact" className="relative py-20 bg-slate-950 text-white overflow-hidden">
       {/* Dynamic Background Textures */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {/* Connection Line Pattern */}
@@ -249,7 +249,7 @@ const Contact = () => {
 
             {/* Contact Form */}
             <motion.div variants={itemVariants}>
-              <Card className="bg-white/5 backdrop-blur-xl border-white/10 text-white p-8 shadow-2xl relative overflow-hidden group">
+              <Card className="bg-white/5 backdrop-blur-xl border-white/10 text-white px-8 py-7 shadow-2xl relative overflow-hidden group">
                 {/* Subtle Background Glow */}
                 <div className="absolute -top-24 -right-24 w-48 h-48 bg-cyan-500/10 blur-[80px] rounded-full pointer-events-none group-hover:bg-cyan-500/20 transition-all duration-700"></div>
                 <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-indigo-500/10 blur-[80px] rounded-full pointer-events-none group-hover:bg-indigo-500/20 transition-all duration-700"></div>

@@ -170,7 +170,7 @@ const Skills = () => {
     <section 
       ref={sectionRef}
       id="skills" 
-      className="relative bg-slate-950 text-white py-20 overflow-hidden"
+      className="relative bg-slate-950 text-white pt-10 overflow-hidden"
     >
       {/* Creative Section Separator - Mesh Gradient Transition */}
       <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-transparent via-cyan-500/5 to-transparent pointer-events-none z-0"></div>
@@ -237,25 +237,37 @@ const Skills = () => {
           </motion.div>
         </div>
 
-        {/* Categorized Skills Pods */}
-        <div className="grid md:grid-cols-2 gap-10 max-w-6xl mx-auto">
-          {categories.map((cat, catIdx) => (
-            <motion.div
-              key={catIdx}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: catIdx * 0.1 }}
-              viewport={{ once: true }}
-              className="group relative"
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-indigo-500/5 rounded-3xl blur-xl group-hover:opacity-100 transition-opacity opacity-50"></div>
-              <div className="relative bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-8 hover:border-cyan-500/30 transition-all duration-500">
-                <h3 className="text-xl font-display font-bold text-white mb-8 flex items-center gap-3">
-                  <span className="w-8 h-px bg-cyan-500"></span>
-                  {cat.title}
-                </h3>
-                <div className="flex flex-wrap gap-6 justify-center">
-                  {cat.skills.map((tech, skillIdx) => (
+        {/* Professional Modern Layout - Vertical Stacked Cards */}
+        <div className="space-y-6 max-w-6xl mx-auto">
+          
+          {/* MERN Stack - Featured Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="group relative"
+          >
+            <div className="relative bg-gradient-to-br from-slate-900/90 to-slate-950/90 backdrop-blur-3xl border border-white/5 rounded-2xl overflow-hidden">
+              <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-cyan-500/40 to-transparent"></div>
+              
+              <div className="p-10">
+                <div className="flex items-start justify-between mb-10">
+                  <div>
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center">
+                        <TbBolt className="w-4 h-4 text-white" />
+                      </div>
+                      <h3 className="text-2xl font-display font-bold text-white">
+                        {categories[0].title}
+                      </h3>
+                    </div>
+                    <p className="text-sm text-gray-500 ml-11">Full-stack development foundation</p>
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-8">
+                  {categories[0].skills.map((tech, skillIdx) => (
                     <SkillBadge 
                       key={skillIdx} 
                       tech={tech} 
@@ -265,8 +277,113 @@ const Skills = () => {
                   ))}
                 </div>
               </div>
+            </div>
+          </motion.div>
+
+          {/* Frontend & Backend - Side by Side */}
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* Frontend */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              viewport={{ once: true }}
+              className="group relative"
+            >
+              <div className="relative bg-gradient-to-br from-slate-900/80 to-slate-950/80 backdrop-blur-3xl border border-white/5 rounded-2xl overflow-hidden h-full">
+                <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-blue-500/40 to-transparent"></div>
+                
+                <div className="p-8">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
+                    <h3 className="text-xl font-display font-bold text-white">
+                      {categories[1].title}
+                    </h3>
+                  </div>
+                  <p className="text-sm text-gray-500 mb-8">User interface technologies</p>
+                  
+                  <div className="grid grid-cols-3 gap-6">
+                    {categories[1].skills.map((tech, skillIdx) => (
+                      <SkillBadge 
+                        key={skillIdx} 
+                        tech={tech} 
+                        index={skillIdx} 
+                        scrollYProgress={scrollYProgress} 
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
             </motion.div>
-          ))}
+
+            {/* Backend & DB */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="group relative"
+            >
+              <div className="relative bg-gradient-to-br from-slate-900/80 to-slate-950/80 backdrop-blur-3xl border border-white/5 rounded-2xl overflow-hidden h-full">
+                <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-purple-500/40 to-transparent"></div>
+                
+                <div className="p-8">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-1.5 h-1.5 rounded-full bg-purple-500"></div>
+                    <h3 className="text-xl font-display font-bold text-white">
+                      {categories[2].title}
+                    </h3>
+                  </div>
+                  <p className="text-sm text-gray-500 mb-8">Server & database stack</p>
+                  
+                  <div className="grid grid-cols-2 gap-6">
+                    {categories[2].skills.map((tech, skillIdx) => (
+                      <SkillBadge 
+                        key={skillIdx} 
+                        tech={tech} 
+                        index={skillIdx} 
+                        scrollYProgress={scrollYProgress} 
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Development Tools - Full Width */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            viewport={{ once: true }}
+            className="group relative"
+          >
+            <div className="relative bg-gradient-to-br from-slate-900/80 to-slate-950/80 backdrop-blur-3xl border border-white/5 rounded-2xl overflow-hidden">
+              <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-indigo-500/40 to-transparent"></div>
+              
+              <div className="p-8">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-indigo-500"></div>
+                  <h3 className="text-xl font-display font-bold text-white">
+                    {categories[3].title}
+                  </h3>
+                </div>
+                <p className="text-sm text-gray-500 mb-8">Essential development toolkit</p>
+                
+                <div className="grid grid-cols-3 sm:grid-cols-5 gap-6">
+                  {categories[3].skills.map((tech, skillIdx) => (
+                    <SkillBadge 
+                      key={skillIdx} 
+                      tech={tech} 
+                      index={skillIdx} 
+                      scrollYProgress={scrollYProgress} 
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </div>
 
