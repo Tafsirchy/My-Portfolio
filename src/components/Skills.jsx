@@ -78,6 +78,10 @@ const Skills = () => {
   const smoothProgress = useSpring(scrollYProgress, { stiffness: 80, damping: 20 });
   const meshOpacity = useTransform(smoothProgress, [0.2, 0.5, 0.8], [0.3, 0.8, 0.3]);
   const bgColor = useTransform(smoothProgress, [0, 1], ["#020617", "#0f172a"]);
+  
+  // Mobile: Simple slide-up animations (faster timing)
+  const mobileY = useTransform(smoothProgress, [0.15, 0.35], [50, 0]);
+  const mobileOpacity = useTransform(smoothProgress, [0.15, 0.3], [0, 1]);
 
   // CSS for performant animations
   const particleStyles = `
@@ -216,7 +220,7 @@ const Skills = () => {
         />
       </div>
 
-      <div className="relative z-20 w-11/12 max-w-7xl mx-auto pb-16">
+      <div className="relative z-20 w-11/12 max-w-7xl mx-auto pb-10">
         {/* Section Headline */}
         <div className="mb-20 relative text-center">
           <motion.div
@@ -233,8 +237,42 @@ const Skills = () => {
           </motion.div>
         </div>
 
-        {/* Skill Categories Grid */}
-        <div className="grid md:grid-cols-2 gap-8">
+        {/* Skill Categories Grid - Mobile: Simple slide-up, Desktop: 3D transforms */}
+        {/* Mobile Version */}
+        <div className="grid md:grid-cols-2 gap-8 md:hidden">
+          {categories.map((category, index) => (
+            <motion.div
+              key={index}
+              style={{ y: mobileY, opacity: mobileOpacity }}
+              className="group relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 hover:bg-white/10 transition-all duration-500"
+            >
+              {/* Accent Corner Glow */}
+              <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              
+              <div className="mb-8">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className={`w-2 h-8 rounded-full bg-${category.color}-500 shadow-lg shadow-${category.color}-500/50`}></div>
+                  <h3 className="text-2xl font-bold tracking-tight">{category.title}</h3>
+                </div>
+                <p className="text-xs text-gray-500 uppercase tracking-widest pl-5">{category.subtitle}</p>
+              </div>
+
+              <div className="flex flex-wrap gap-8 justify-center sm:justify-start">
+                {category.skills.map((tech, skillIdx) => (
+                  <SkillBadge 
+                    key={skillIdx} 
+                    tech={tech} 
+                    index={skillIdx} 
+                    scrollYProgress={scrollYProgress} 
+                  />
+                ))}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+        
+        {/* Desktop Version */}
+        <div className="hidden md:grid md:grid-cols-2 gap-8">
           {categories.map((category, index) => {
             // eslint-disable-next-line react-hooks/rules-of-hooks
             const cardY = useTransform(smoothProgress, [0.1 + index * 0.1, 0.5 + index * 0.1], [50, 0]);

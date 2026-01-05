@@ -23,6 +23,10 @@ const About = () => {
   const orbY1 = useTransform(smoothProgress, [0, 1], [-100, 100]);
   const orbY2 = useTransform(smoothProgress, [0, 1], [150, -150]);
   const orbY3 = useTransform(smoothProgress, [0, 1], [-50, 50]);
+  
+  // Mobile: Simple slide-up animations
+  const mobileY = useTransform(smoothProgress, [0.2, 0.5], [60, 0]);
+  const mobileOpacity = useTransform(smoothProgress, [0.2, 0.4], [0, 1]);
 
   return (
     <section ref={sectionRef} id="about" className="relative bg-slate-950 text-white py-20 overflow-hidden perspective-1000">
@@ -74,13 +78,52 @@ const About = () => {
           </div>
 
           <div className="grid md:grid-cols-2 gap-16 items-center">
-            {/* Left side - Portrait Image with scroll-reactive tilt */}
+            {/* Left side - Portrait Image - Mobile: Simple slide-up, Desktop: 3D tilt */}
+            {/* Mobile Version */}
+            <motion.div
+              style={{ y: mobileY, opacity: mobileOpacity }}
+              className="relative order-2 md:order-1 md:hidden"
+            >
+              <div className="relative w-full max-w-lg mx-auto group">
+                {/* 3D Depth Shadow */}
+                <div className="absolute -inset-4 bg-indigo-500/20 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                
+                {/* Portrait with dramatic positioning */}
+                <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/10">
+                  <img
+                    src="/assets/About.png"
+                    alt="Profile"
+                    className="w-full h-auto object-cover scale-105 group-hover:scale-110 transition-transform duration-1000"
+                    style={{
+                      filter: 'contrast(1.05) brightness(0.95)',
+                    }}
+                    onError={(e) => {
+                      e.target.src = 'https://placehold.co/600x800/0f172a/06b6d4?text=Profile+Image';
+                    }}
+                  />
+                  {/* Subtle overlays */}
+                  <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/20 via-transparent to-cyan-500/20 mix-blend-overlay"></div>
+                  <div className="absolute bottom-0 inset-x-0 h-1/2 bg-gradient-to-t from-slate-950/80 to-transparent"></div>
+                </div>
+
+                {/* Floating Tech Badges - Experience Indicators */}
+                <motion.div 
+                  style={{ y: useTransform(smoothProgress, [0, 1], [20, -20]) }}
+                  className="absolute -top-6 -right-6 px-6 py-3 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl hidden lg:block"
+                >
+                  <p className="text-xs font-bold text-cyan-400 tracking-widest uppercase">MERN Stack</p>
+                  <p className="text-[10px] text-gray-400">Specialist</p>
+                </motion.div>
+              </div>
+            </motion.div>
+            
+            {/* Desktop Version */}
             <motion.div
               style={{ 
                 y: useTransform(smoothProgress, [0, 1], [50, -50]),
                 rotateY: useTransform(smoothProgress, [0.2, 0.8], [-10, 10])
               }}
-              className="relative order-2 md:order-1"
+              className="relative order-2 md:order-1 hidden md:block"
             >
               <div className="relative w-full max-w-lg mx-auto group">
                 {/* 3D Depth Shadow */}
@@ -115,12 +158,71 @@ const About = () => {
               </div>
             </motion.div>
 
-            {/* Right side - Content with staggered character reveal concept */}
+            {/* Right side - Content - Mobile: Simple slide-up, Desktop: Parallax */}
+            {/* Mobile Version */}
+            <motion.div
+              style={{ y: mobileY, opacity: mobileOpacity }}
+              className="space-y-8 order-1 md:order-2 md:hidden"
+            >
+              <div className="space-y-4">
+                <h1 className="font-display font-black text-4xl md:text-5xl lg:text-7xl leading-none tracking-tight bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">
+                  {personalInfo.name.toUpperCase()}
+                </h1>
+                <div className="flex items-center gap-4">
+                  <div className="h-px flex-1 bg-gradient-to-r from-cyan-500/50 to-transparent"></div>
+                  <span className="text-[10px] font-bold tracking-[0.3em] text-cyan-500 uppercase">INNOVATOR</span>
+                </div>
+              </div>
+
+              <div className="space-y-6">
+                <p className="text-gray-200 text-lg leading-relaxed font-medium">
+                  {personalInfo.headline}
+                </p>
+
+                <div className="text-base text-gray-400 font-light leading-relaxed space-y-4">
+                  <p>
+                    I specialize in building <span className="text-white font-medium border-b border-cyan-500/30">highly performant</span> and <span className="text-white font-medium border-b border-indigo-500/30">scalable</span> web applications.
+                  </p>
+                  <p className="text-sm">
+                    {personalInfo.bio}
+                  </p>
+                  <p className="border-l-2 border-indigo-500/50 pl-6 py-2 italic text-gray-300 relative bg-white/5 rounded-r-xl">
+                    <span className="absolute -left-1 top-0 bottom-0 w-2 bg-gradient-to-b from-cyan-500/50 to-indigo-500/50"></span>
+                    "Every line of code I write is an opportunity to solve a problem and create something beautiful."
+                  </p>
+                </div>
+              </div>
+
+              {/* Signature & Location - Creative Minimal */}
+              <div className="pt-8 flex flex-wrap items-center gap-10">
+                <div className="relative group">
+                  <span className="font-signature text-6xl text-white group-hover:text-cyan-400 transition-colors duration-700 transform -rotate-3 cursor-default block">
+                    {personalInfo.name.split(' ')[0]}
+                  </span>
+                  <motion.div 
+                    style={{ scaleX: useTransform(smoothProgress, [0.3, 0.6], [0, 1]) }}
+                    className="h-0.5 w-full bg-gradient-to-r from-cyan-500 to-transparent mt-1 origin-left"
+                  ></motion.div>
+                </div>
+                
+                <div className="h-14 w-px bg-white/10 hidden sm:block"></div>
+                
+                <div className="flex flex-col">
+                  <span className="text-[10px] font-bold tracking-[0.4em] text-slate-500 uppercase mb-2">Operation Base</span>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-cyan-500 animate-pulse"></div>
+                    <span className="text-sm text-white font-medium tracking-widest uppercase">{personalInfo.location}</span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+            
+            {/* Desktop Version */}
             <motion.div
               style={{ 
                 y: useTransform(smoothProgress, [0, 1], [-30, 30])
               }}
-              className="space-y-8 order-1 md:order-2"
+              className="space-y-8 order-1 md:order-2 hidden md:block"
             >
               <div className="space-y-4">
                 <h1 className="font-display font-black text-4xl md:text-5xl lg:text-7xl leading-none tracking-tight bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">
