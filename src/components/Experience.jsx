@@ -1,4 +1,4 @@
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { Briefcase, Calendar, CheckCircle } from 'lucide-react';
 import { experience } from '@/data/portfolio';
@@ -6,10 +6,19 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Badge } from '@/components/ui/badge';
 
 const Experience = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
 
-  // Return null if no experience data
+  // Scroll-linked timeline progress
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"]
+  });
+
+  const pathLength = useTransform(scrollYProgress, [0.1, 0.8], [0, 1]);
+  const opacity = useTransform(scrollYProgress, [0.1, 0.2, 0.8, 0.9], [0, 1, 1, 0]);
+
+  // Return null if no experience data (Hooks must be called before this)
   if (!experience || experience.length === 0) {
     return null;
   }
@@ -27,28 +36,35 @@ const Experience = () => {
   const itemVariants = {
     hidden: (index) => ({
       opacity: 0,
-      x: index % 2 === 0 ? -50 : 50,
+      y: 60,
+      scale: 0.95,
+      rotateY: index % 2 === 0 ? 15 : -15,
     }),
     visible: {
       opacity: 1,
-      x: 0,
-      transition: { duration: 0.6 },
+      y: 0,
+      scale: 1,
+      rotateY: 0,
+      transition: { 
+        type: "spring",
+        stiffness: 90,
+        damping: 15,
+        duration: 0.8 
+      },
     },
   };
 
   return (
-    <section id="experience" className="relative py-20 bg-slate-900 text-white overflow-hidden -mt-10 pt-20">
+    <section id="experience" ref={sectionRef} className="relative py-20 bg-slate-900 text-white overflow-hidden -mt-10 pt-20">
       {/* Top Depth Parallax Glow */}
       <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-[#020617] to-transparent z-10 opacity-60"></div>
 
       <div className="relative z-20 w-11/12 max-w-7xl mx-auto pb-8">
-
         <motion.div
-          ref={ref}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
         >
-          {/* Section Headline - Global System */}
+          {/* Section Headline */}
           <div className="mb-16 relative">
             <motion.div
               variants={containerVariants}
@@ -61,95 +77,101 @@ const Experience = () => {
                 Work <span className="text-gradient">Experience</span>
               </h2>
               <div className="h-1 w-24 bg-gradient-to-r from-cyan-500 to-indigo-500 rounded-full"></div>
-              <p className="mt-4 text-gray-400 max-w-2xl mx-auto text-sm font-light leading-relaxed">
-                Professional milestones and contributions in various development environments.
-              </p>
             </motion.div>
           </div>
 
           {/* Timeline */}
           <div className="relative">
-            {/* Vertical Line */}
-            <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-cyan-500 to-indigo-500 rounded-full"></div>
+            {/* Animated Vertical Line */}
+            <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 h-full w-[2px] bg-white/5 rounded-full overflow-hidden">
+               <motion.div 
+                 style={{ scaleY: pathLength, opacity: opacity }}
+                 className="w-full h-full bg-gradient-to-b from-indigo-500 via-cyan-500 to-teal-500 origin-top"
+               />
+            </div>
 
             {/* Timeline Items */}
-            <motion.div variants={containerVariants} className="space-y-12">
-              {experience.map((item, index) => (
-                <motion.div
-                  key={item.id}
-                  custom={index}
-                  variants={itemVariants}
-                  className={`flex flex-col md:flex-row items-center gap-8 ${
-                    index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
-                  }`}
-                >
-                  {/* Content Card */}
-                  <div className="w-full md:w-[calc(50%-2rem)]">
-                    <Card className="group bg-white/5 backdrop-blur-md border-white/10 text-white hover:border-indigo-500/50 transition-all duration-500 transform hover:-translate-y-2 relative overflow-hidden">
-                      {/* Hover Gradient Glow */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/0 via-transparent to-cyan-500/0 group-hover:from-indigo-500/5 group-hover:to-cyan-500/5 transition-all duration-500"></div>
-                      
-                      <CardHeader className="relative z-10">
-                        <div className="flex items-start justify-between mb-2">
-                          <div className="p-2 bg-indigo-500/10 rounded-lg group-hover:bg-indigo-500/20 transition-colors">
-                            <Briefcase className="h-6 w-6 text-indigo-400" />
-                          </div>
-                          <Badge variant="outline" className="flex items-center gap-1 border-white/10 text-slate-400">
-                            <Calendar className="h-3 w-3" />
-                            {item.duration}
-                          </Badge>
-                        </div>
-                        <CardTitle className="text-xl font-display group-hover:text-indigo-300 transition-colors">{item.position}</CardTitle>
-                        <CardDescription className="text-indigo-400/80 font-medium">
-                          {item.company}
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent className="relative z-10">
-                        <p className="text-slate-400 text-sm leading-relaxed mb-4 group-hover:text-slate-300 transition-colors">{item.description}</p>
-                        {item.achievements && item.achievements.length > 0 && (
-                          <div className="space-y-3">
-                            <p className="font-semibold text-xs text-slate-500 uppercase tracking-wider">Key Contributions</p>
-                            <ul className="space-y-2">
-                              {item.achievements.map((achievement, idx) => (
-                                 <li key={idx} className="flex items-start gap-2 text-sm text-slate-400 group-hover:text-slate-300 transition-colors">
-                                  <CheckCircle className="h-4 w-4 text-emerald-500 mt-0.5 flex-shrink-0" />
-                                  <span>{achievement}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
-                      </CardContent>
-                    </Card>
-                  </div>
+            <motion.div variants={containerVariants} className="space-y-24 md:space-y-12">
+              {experience.map((item, index) => {
+                // eslint-disable-next-line react-hooks/rules-of-hooks
+                const yDrift = useTransform(scrollYProgress, [0, 1], [0, (index + 1) * -50]);
 
-                  {/* Timeline Dot */}
-                  <div className="hidden md:block relative z-10">
-                    <div className="w-6 h-6 bg-gradient-to-br from-indigo-500 to-cyan-500 rounded-full ring-4 ring-slate-950 shadow-[0_0_20px_rgba(99,102,241,0.5)] flex items-center justify-center">
-                      <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                return (
+                  <motion.div
+                    key={item.id}
+                    custom={index}
+                    variants={itemVariants}
+                    style={{ y: yDrift }}
+                    className={`flex flex-col md:flex-row items-center gap-8 ${
+                      index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
+                    }`}
+                  >
+                    {/* Content Card */}
+                    <div className="w-full md:w-[calc(50%-2rem)] perspective-1000">
+                      <Card className="group bg-white/5 backdrop-blur-md border-white/10 text-white hover:border-indigo-500/50 transition-all duration-500 transform hover:scale-[1.02] relative overflow-hidden">
+                        <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/0 via-transparent to-cyan-500/0 group-hover:from-indigo-500/10 group-hover:to-cyan-500/10 transition-all duration-500"></div>
+                        
+                        <CardHeader className="relative z-10">
+                          <div className="flex items-start justify-between mb-2">
+                            <div className="p-2 bg-indigo-500/20 rounded-lg group-hover:bg-indigo-500/30 transition-colors shadow-lg shadow-indigo-500/20">
+                              <Briefcase className="h-6 w-6 text-indigo-400" />
+                            </div>
+                            <Badge variant="outline" className="flex items-center gap-1 border-white/10 text-slate-400 backdrop-blur-sm bg-white/5">
+                              <Calendar className="h-3 w-3" />
+                              {item.duration}
+                            </Badge>
+                          </div>
+                          <CardTitle className="text-xl font-display group-hover:text-indigo-300 transition-colors tracking-tight">{item.position}</CardTitle>
+                          <CardDescription className="text-indigo-400 font-medium">
+                            {item.company}
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent className="relative z-10">
+                          <p className="text-slate-400 text-sm leading-relaxed mb-4 group-hover:text-slate-200 transition-colors">{item.description}</p>
+                          {item.achievements && item.achievements.length > 0 && (
+                            <div className="space-y-3">
+                              <p className="font-bold text-[10px] text-slate-500 uppercase tracking-[0.2em]">Key Contributions</p>
+                              <ul className="space-y-2">
+                                {item.achievements.map((achievement, idx) => (
+                                   <li key={idx} className="flex items-start gap-2 text-sm text-slate-400 group-hover:text-slate-200 transition-colors">
+                                    <CheckCircle className="h-4 w-4 text-cyan-500 mt-0.5 flex-shrink-0" />
+                                    <span>{achievement}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                        </CardContent>
+                      </Card>
                     </div>
-                  </div>
 
-                  {/* Spacer for alternating layout */}
-                  <div className="hidden md:block w-[calc(50%-2rem)]"></div>
-                </motion.div>
-              ))}
+                    {/* Timeline Dot */}
+                    <div className="hidden md:block relative z-10">
+                      <motion.div 
+                        initial={{ scale: 0 }}
+                        whileInView={{ scale: 1 }}
+                        transition={{ delay: 0.2 + (index * 0.1), type: "spring" }}
+                        className="w-6 h-6 bg-gradient-to-br from-indigo-500 to-cyan-500 rounded-full ring-4 ring-slate-950 shadow-[0_0_20px_rgba(99,102,241,0.5)] flex items-center justify-center relative"
+                      >
+                         <div className="absolute inset-[-4px] bg-indigo-500/20 rounded-full animate-ping"></div>
+                         <div className="w-2.5 h-2.5 bg-white rounded-full"></div>
+                      </motion.div>
+                    </div>
+
+                    {/* Spacer for alternating layout */}
+                    <div className="hidden md:block w-[calc(50%-2rem)]"></div>
+                  </motion.div>
+                );
+              })}
             </motion.div>
           </div>
         </motion.div>
       </div>
 
-      {/* Digital Wave Separator (Experience -> Projects) */}
-      <div className="absolute bottom-0 inset-x-0 h-32 pointer-events-none z-20">
+      {/* Digital Wave Separator */}
+      <div className="absolute bottom-0 inset-x-0 h-32 pointer-events-none z-20 opacity-50">
         <svg className="absolute bottom-0 w-full h-full" preserveAspectRatio="none" viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg">
           <path d="M0,64L48,80C96,96,192,128,288,128C384,128,480,96,576,85.3C672,75,768,85,864,96C960,107,1056,117,1152,112L1200,106.7V120H1152C1056,120,960,120,864,120C768,120,672,120,576,120C480,120,384,120,288,120C192,120,96,120,48,120H0Z" fill="#0f172a"></path>
-          <path d="M0,64L48,80C96,96,192,128,288,128C384,128,480,96,576,85.3C672,75,768,85,864,96C960,107,1056,117,1152,112L1200,106.7" fill="none" stroke="url(#wave-grad)" strokeWidth="1" strokeDasharray="5 5" opacity="0.3"></path>
-          <defs>
-            <linearGradient id="wave-grad" x1="0" y1="0" x2="1200" y2="0">
-              <stop stopColor="#06b6d4" />
-              <stop offset="1" stopColor="#6366f1" />
-            </linearGradient>
-          </defs>
         </svg>
       </div>
     </section>
