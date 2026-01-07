@@ -2,6 +2,7 @@ import { motion, useInView, AnimatePresence, useScroll, useTransform, useSpring,
 import { useRef, useState, useEffect } from 'react';
 import { ExternalLink, Github, X, Info, Rocket, Wrench, ArrowRight, Layers } from 'lucide-react';
 import { TbBolt } from 'react-icons/tb';
+import ImageWithLoader from '@/components/ui/ImageWithLoader';
 
 const ProjectImage3D = ({ project, scrollYProgress }) => {
   const cardRef = useRef(null);
@@ -65,7 +66,7 @@ const ProjectImage3D = ({ project, scrollYProgress }) => {
         ) : (
           /* Layer 1: Background Image (Parallax) */
           <motion.div style={{ x: bgX, y: bgY, scale: 1.1 }} className="absolute inset-0">
-            <img
+            <ImageWithLoader
               src={project.images?.[0] || project.image}
               alt={project.title}
               className="w-full h-full object-cover"
@@ -94,7 +95,7 @@ const ProjectImage3D = ({ project, scrollYProgress }) => {
             style={{ x: peekX, y: peekY, translateZ: 80 }}
             className="absolute -bottom-10 -right-10 w-1/2 aspect-video rounded-2xl overflow-hidden border-4 border-slate-950 shadow-2xl hidden lg:block"
           >
-            <img src={project.images[1]} alt="Detail" className="w-full h-full object-cover" />
+            <ImageWithLoader src={project.images[1]} alt="Detail" className="w-full h-full object-cover" />
           </motion.div>
         )}
 
@@ -314,7 +315,7 @@ const Projects = () => {
             >
               {/* Modal Header/Image */}
               <div className="relative h-64 md:h-80 w-full overflow-hidden flex-shrink-0">
-                <img 
+                <ImageWithLoader 
                   src={(selectedProject.images && selectedProject.images[0]) || selectedProject.image} 
                   alt={selectedProject.title}
                   className="w-full h-full object-cover"

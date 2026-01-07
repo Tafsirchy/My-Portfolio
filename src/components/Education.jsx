@@ -23,7 +23,8 @@ const Education = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.3,
+        staggerChildren: 0.2,
+        delayChildren: 0.1,
       },
     },
   };
@@ -31,20 +32,25 @@ const Education = () => {
   const itemVariants = {
     hidden: (index) => ({
       opacity: 0,
-      y: 50,
-      scale: 0.9,
-      rotateX: index % 2 === 0 ? -10 : 10,
+      y: 80,
+      x: index % 2 === 0 ? -40 : 40,
+      scale: 0.85,
+      rotateX: index % 2 === 0 ? -15 : 15,
+      filter: "blur(4px)",
     }),
     visible: {
       opacity: 1,
       y: 0,
+      x: 0,
       scale: 1,
       rotateX: 0,
+      filter: "blur(0px)",
       transition: { 
         type: "spring",
-        stiffness: 100,
-        damping: 20,
-        duration: 0.8 
+        stiffness: 80,
+        damping: 18,
+        mass: 0.8,
+        duration: 1
       },
     },
   };
@@ -117,32 +123,54 @@ const Education = () => {
                   >
                     {/* Content Card */}
                     <div className="w-full md:w-[calc(50%-2rem)] perspective-1000">
-                      <Card className="group bg-white/5 backdrop-blur-md border-white/10 text-white hover:border-cyan-500/50 transition-all duration-500 transform hover:scale-[1.02] relative overflow-hidden">
-                        <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/0 via-transparent to-indigo-500/0 group-hover:from-cyan-500/10 group-hover:to-indigo-500/10 transition-all duration-500"></div>
+                      <Card className="group relative bg-slate-900/50 backdrop-blur-xl border-0 text-white transition-all duration-700 transform hover:scale-[1.03] hover:-translate-y-2 overflow-hidden shadow-2xl hover:shadow-cyan-500/20">
+                        {/* Animated Gradient Border */}
+                        <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-cyan-500 via-indigo-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-sm"></div>
+                        <div className="absolute inset-[1px] rounded-lg bg-slate-900/90 backdrop-blur-xl z-10"></div>
                         
-                        <CardHeader className="relative z-10">
-                          <div className="flex items-start justify-between mb-2">
-                             <div className="p-2 bg-cyan-500/20 rounded-lg group-hover:bg-cyan-500/30 transition-colors shadow-lg shadow-cyan-500/20">
-                               <GraduationCap className="h-6 w-6 text-cyan-400" />
-                             </div>
-                            <Badge variant="outline" className="flex items-center gap-1 border-white/10 text-slate-400 backdrop-blur-sm bg-white/5">
-                              <Calendar className="h-3 w-3" />
-                              {item.duration}
+                        {/* Dynamic Background Glow */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/0 via-transparent to-indigo-500/0 group-hover:from-cyan-500/20 group-hover:to-indigo-500/20 transition-all duration-700 z-0"></div>
+                        
+                        {/* Shine Effect on Hover */}
+                        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 overflow-hidden z-20">
+                          <div className="absolute -inset-full top-0 block h-full w-1/2 transform -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent group-hover:animate-[shimmer_2s_ease-in-out] pointer-events-none"></div>
+                        </div>
+                        
+                        <CardHeader className="relative z-30">
+                          <div className="flex items-start justify-between mb-4">
+                             {/* Enhanced Icon Container */}
+                             <motion.div 
+                               whileHover={{ scale: 1.1, rotate: 5 }}
+                               transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                               className="p-3 bg-gradient-to-br from-cyan-500/30 to-indigo-500/30 rounded-2xl group-hover:from-cyan-500/50 group-hover:to-indigo-500/50 transition-all duration-500 shadow-lg shadow-cyan-500/30 ring-1 ring-cyan-400/20"
+                             >
+                               <GraduationCap className="h-7 w-7 text-cyan-300 group-hover:text-cyan-200 transition-colors" />
+                             </motion.div>
+                            <Badge variant="outline" className="flex items-center gap-1.5 border-cyan-400/30 text-cyan-300 backdrop-blur-sm bg-cyan-500/10 px-3 py-1.5 group-hover:border-cyan-400/50 group-hover:bg-cyan-500/20 transition-all">
+                              <Calendar className="h-3.5 w-3.5" />
+                              <span className="font-semibold">{item.duration}</span>
                             </Badge>
                           </div>
-                          <CardTitle className="text-xl font-display group-hover:text-cyan-300 transition-colors tracking-tight">{item.degree}</CardTitle>
-                          <CardDescription className="text-cyan-400 font-medium">
+                          <CardTitle className="text-2xl font-display font-bold group-hover:text-cyan-200 transition-colors tracking-tight mb-2">{item.degree}</CardTitle>
+                          <CardDescription className="text-cyan-400 font-semibold text-base">
                             {item.institution}
                           </CardDescription>
                         </CardHeader>
-                        <CardContent className="relative z-10">
-                          <p className="text-slate-400 text-sm leading-relaxed mb-4 group-hover:text-slate-200 transition-colors">{item.description}</p>
+                        <CardContent className="relative z-30">
+                          <p className="text-slate-300 text-sm leading-relaxed mb-5 group-hover:text-slate-100 transition-colors">{item.description}</p>
                           {item.gpa && (
-                            <div className="mt-4">
-                              <Badge className="bg-cyan-500/20 text-cyan-400 border-cyan-500/30 font-bold px-3 py-1 scale-110">
-                                GPA: {item.gpa}
+                            <motion.div 
+                              className="mt-4"
+                              whileHover={{ scale: 1.05 }}
+                              transition={{ type: "spring", stiffness: 400 }}
+                            >
+                              <Badge className="bg-gradient-to-r from-cyan-500/30 to-indigo-500/30 text-cyan-200 border-cyan-400/40 font-bold px-4 py-2 text-sm shadow-lg shadow-cyan-500/20 group-hover:from-cyan-500/40 group-hover:to-indigo-500/40 transition-all">
+                                <span className="flex items-center gap-2">
+                                  <span className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></span>
+                                  GPA: {item.gpa}
+                                </span>
                               </Badge>
-                            </div>
+                            </motion.div>
                           )}
                         </CardContent>
                       </Card>

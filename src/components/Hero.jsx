@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { ArrowDown, Github, Linkedin, Twitter, Facebook, Download } from 'lucide-react';
 import { personalInfo } from '@/data/portfolio';
+import ImageWithLoader from '@/components/ui/ImageWithLoader';
 
 const Hero = () => {
   const scrollToSection = (href) => {
@@ -215,7 +216,7 @@ const Hero = () => {
                   WebkitMaskComposite: 'source-in',
                 }}
               >
-                <img
+                <ImageWithLoader
                   src="/assets/Profile.png"
                   alt="Profile"
                   className="w-full h-auto object-cover relative z-10"

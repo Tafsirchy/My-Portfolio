@@ -1,6 +1,7 @@
 import { motion, useInView, useScroll, useTransform, useSpring } from 'framer-motion';
 import { useRef } from 'react';
 import { personalInfo } from '@/data/portfolio';
+import ImageWithLoader from '@/components/ui/ImageWithLoader';
 
 const About = () => {
   const sectionRef = useRef(null);
@@ -90,7 +91,7 @@ const About = () => {
                 
                 {/* Portrait with dramatic positioning */}
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/10">
-                  <img
+                  <ImageWithLoader
                     src="/assets/About.png"
                     alt="Profile"
                     className="w-full h-auto object-cover scale-105 group-hover:scale-110 transition-transform duration-1000"
@@ -131,7 +132,7 @@ const About = () => {
                 
                 {/* Portrait with dramatic positioning */}
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/10">
-                  <img
+                  <ImageWithLoader
                     src="/assets/About.png"
                     alt="Profile"
                     className="w-full h-auto object-cover scale-105 group-hover:scale-110 transition-transform duration-1000"
