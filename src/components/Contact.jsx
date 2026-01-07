@@ -1,11 +1,12 @@
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { useRef, useState } from 'react';
-import { Mail, Phone, MapPin, Github, Linkedin, Twitter, Send, MessageSquare, ArrowUpRight } from 'lucide-react';
+import { Mail, Phone, MapPin, Github, Linkedin, Twitter, Send, MessageSquare, ArrowUpRight, CheckCircle2, AlertCircle } from 'lucide-react';
 import { personalInfo, socialLinks } from '@/data/portfolio';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
+import emailjs from '@emailjs/browser';
 
 const Contact = () => {
   const sectionRef = useRef(null);
@@ -50,12 +51,38 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
+    setSubmitStatus(null);
+
+    try {
+      // Send email using EmailJS
+      const result = await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+          to_name: 'Tafsir', // Your name
+        },
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      );
+
+      console.log('Email sent successfully:', result.text);
       setSubmitStatus('success');
       setFormData({ name: '', email: '', subject: '', message: '' });
-      setTimeout(() => setSubmitStatus(null), 3000);
-    }, 1500);
+      
+      // Clear success message after 5 seconds
+      setTimeout(() => setSubmitStatus(null), 5000);
+    } catch (error) {
+      console.error('Email send failed:', error);
+      setSubmitStatus('error');
+      
+      // Clear error message after 5 seconds
+      setTimeout(() => setSubmitStatus(null), 5000);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const iconMap = { Github, Linkedin, Twitter };
@@ -347,7 +374,19 @@ const Contact = () => {
                       animate={{ opacity: 1, y: 0 }}
                       className="p-4 bg-cyan-500/10 border border-cyan-500/30 rounded-xl flex items-center justify-center gap-3 text-cyan-400 font-bold text-xs uppercase tracking-widest"
                     >
-                      ✓ Transmission Verified
+                      <CheckCircle2 className="h-5 w-5" />
+                      Message Sent Successfully!
+                    </motion.div>
+                  )}
+
+                  {submitStatus === 'error' && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="p-4 bg-red-500/10 border border-red-500/30 rounded-xl flex items-center justify-center gap-3 text-red-400 font-bold text-xs uppercase tracking-widest"
+                    >
+                      <AlertCircle className="h-5 w-5" />
+                      Failed to send. Please try again.
                     </motion.div>
                   )}
                 </form>
@@ -438,7 +477,19 @@ const Contact = () => {
                       animate={{ opacity: 1, y: 0 }}
                       className="p-4 bg-cyan-500/10 border border-cyan-500/30 rounded-xl flex items-center justify-center gap-3 text-cyan-400 font-bold text-xs uppercase tracking-widest"
                     >
-                      ✓ Transmission Verified
+                      <CheckCircle2 className="h-5 w-5" />
+                      Message Sent Successfully!
+                    </motion.div>
+                  )}
+
+                  {submitStatus === 'error' && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="p-4 bg-red-500/10 border border-red-500/30 rounded-xl flex items-center justify-center gap-3 text-red-400 font-bold text-xs uppercase tracking-widest"
+                    >
+                      <AlertCircle className="h-5 w-5" />
+                      Failed to send. Please try again.
                     </motion.div>
                   )}
                 </form>

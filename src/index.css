@@ -10,6 +10,9 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* Account for sticky navigation */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
@@ -98,4 +101,35 @@ body {
 /* Signature font for Hero */
 .font-signature {
   font-family: 'Brush Script MT', 'Segoe Script', cursive;
+}
+
+/* Scroll Performance Optimizations */
+section {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Smooth fade for loading images */
+img {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+/* Hardware acceleration for animations */
+.animate-on-scroll {
+  transform: translateZ(0);
+  will-change: transform, opacity;
 }
