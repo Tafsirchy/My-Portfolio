@@ -161,25 +161,40 @@ const Contact = () => {
 
                   {/* WhatsApp/Phone Pod */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <Card className="group bg-white/5 backdrop-blur-xl border-white/10 text-white hover:border-indigo-500/50 transition-all duration-500 overflow-hidden">
-                      <CardContent className="p-6">
-                        <div className="w-12 h-12 bg-indigo-500/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-indigo-500/20 transition-all">
-                          <Phone className="h-5 w-5 text-indigo-400" />
-                        </div>
-                        <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-1">Voice</p>
-                        <p className="text-sm font-semibold">{personalInfo.phone}</p>
-                      </CardContent>
-                    </Card>
+                    <a 
+                      href={`tel:${personalInfo.phone}`}
+                      className="block"
+                    >
+                      <Card className="group bg-white/5 backdrop-blur-xl border-white/10 text-white hover:border-indigo-500/50 transition-all duration-500 overflow-hidden cursor-pointer">
+                        <CardContent className="p-6 relative">
+                          <div className="w-12 h-12 bg-indigo-500/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-indigo-500/20 transition-all">
+                            <Phone className="h-5 w-5 text-indigo-400" />
+                          </div>
+                          <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-1">Voice</p>
+                          <p className="text-sm font-semibold">{personalInfo.phone}</p>
+                          <ArrowUpRight className="h-4 w-4 text-indigo-500 opacity-0 group-hover:opacity-100 transition-all absolute top-4 right-4" />
+                        </CardContent>
+                      </Card>
+                    </a>
 
-                    <Card className="group bg-white/5 backdrop-blur-xl border-white/10 text-white hover:border-emerald-500/50 transition-all duration-500 overflow-hidden">
-                      <CardContent className="p-6">
-                        <div className="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-emerald-500/20 transition-all">
-                          <MessageSquare className="h-5 w-5 text-emerald-400" />
-                        </div>
-                        <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-1">WhatsApp</p>
-                        <p className="text-sm font-semibold">Live Consultant</p>
-                      </CardContent>
-                    </Card>
+
+                    <a 
+                      href={`https://wa.me/${personalInfo.whatsapp.replace(/[^0-9]/g, '')}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block"
+                    >
+                      <Card className="group bg-white/5 backdrop-blur-xl border-white/10 text-white hover:border-emerald-500/50 transition-all duration-500 overflow-hidden cursor-pointer">
+                        <CardContent className="p-6 relative">
+                          <div className="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-emerald-500/20 transition-all">
+                            <MessageSquare className="h-5 w-5 text-emerald-400" />
+                          </div>
+                          <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-1">WhatsApp</p>
+                          <p className="text-sm font-semibold">Live Consultant</p>
+                          <ArrowUpRight className="h-4 w-4 text-emerald-500 opacity-0 group-hover:opacity-100 transition-all absolute top-4 right-4" />
+                        </CardContent>
+                      </Card>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -239,25 +254,40 @@ const Contact = () => {
 
                   {/* WhatsApp/Phone Pod */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <Card className="group bg-white/5 backdrop-blur-xl border-white/10 text-white hover:border-indigo-500/50 transition-all duration-500 overflow-hidden">
-                      <CardContent className="p-6">
-                        <div className="w-12 h-12 bg-indigo-500/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-indigo-500/20 transition-all">
-                          <Phone className="h-5 w-5 text-indigo-400" />
-                        </div>
-                        <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-1">Voice</p>
-                        <p className="text-sm font-semibold">{personalInfo.phone}</p>
-                      </CardContent>
-                    </Card>
+                    <a 
+                      href={`tel:${personalInfo.phone}`}
+                      className="block"
+                    >
+                      <Card className="group bg-white/5 backdrop-blur-xl border-white/10 text-white hover:border-indigo-500/50 transition-all duration-500 overflow-hidden cursor-pointer">
+                        <CardContent className="p-6 relative">
+                          <div className="w-12 h-12 bg-indigo-500/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-indigo-500/20 transition-all">
+                            <Phone className="h-5 w-5 text-indigo-400" />
+                          </div>
+                          <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-1">Voice</p>
+                          <p className="text-sm font-semibold">{personalInfo.phone}</p>
+                          <ArrowUpRight className="h-4 w-4 text-indigo-500 opacity-0 group-hover:opacity-100 transition-all absolute top-4 right-4" />
+                        </CardContent>
+                      </Card>
+                    </a>
 
-                    <Card className="group bg-white/5 backdrop-blur-xl border-white/10 text-white hover:border-emerald-500/50 transition-all duration-500 overflow-hidden">
-                      <CardContent className="p-6">
-                        <div className="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-emerald-500/20 transition-all">
-                          <MessageSquare className="h-5 w-5 text-emerald-400" />
-                        </div>
-                        <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-1">WhatsApp</p>
-                        <p className="text-sm font-semibold">Live Consultant</p>
-                      </CardContent>
-                    </Card>
+
+                    <a 
+                      href={`https://wa.me/${personalInfo.whatsapp.replace(/[^0-9]/g, '')}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block"
+                    >
+                      <Card className="group bg-white/5 backdrop-blur-xl border-white/10 text-white hover:border-emerald-500/50 transition-all duration-500 overflow-hidden cursor-pointer">
+                        <CardContent className="p-6 relative">
+                          <div className="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-emerald-500/20 transition-all">
+                            <MessageSquare className="h-5 w-5 text-emerald-400" />
+                          </div>
+                          <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-1">WhatsApp</p>
+                          <p className="text-sm font-semibold">Live Consultant</p>
+                          <ArrowUpRight className="h-4 w-4 text-emerald-500 opacity-0 group-hover:opacity-100 transition-all absolute top-4 right-4" />
+                        </CardContent>
+                      </Card>
+                    </a>
                   </div>
                 </div>
               </div>

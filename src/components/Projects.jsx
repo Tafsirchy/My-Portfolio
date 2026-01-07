@@ -157,17 +157,64 @@ const ProjectCard = ({ project, index, openModal, scrollYProgress }) => {
         </div>
 
         <div className="flex flex-wrap gap-4">
-          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" 
-             className="h-12 px-8 rounded-xl bg-gradient-to-r from-cyan-600 to-indigo-600 text-white font-bold text-xs flex items-center gap-2 group/btn transition-all hover:scale-105 shadow-xl shadow-cyan-500/20">
-            <TbBolt className="h-5 w-5 animate-pulse" /> Live Demo
+          <a 
+            href={project.liveUrl} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="group relative h-12 px-8 rounded-xl bg-white/5 border border-cyan-500/30 text-white font-bold text-xs flex items-center gap-2 overflow-hidden transition-all duration-500 hover:scale-110 hover:border-cyan-500 hover:shadow-2xl hover:shadow-cyan-500/50 hover:-translate-y-1"
+          >
+            {/* Slide-up gradient background with zoom */}
+            <div className="absolute inset-0 bg-gradient-to-r from-cyan-600 to-indigo-600 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
+            
+            {/* Content */}
+            <span className="relative z-10 flex items-center gap-2">
+              <TbBolt className="h-5 w-5 group-hover:rotate-12 group-hover:scale-125 transition-transform duration-300" />
+              <span>Live Demo</span>
+              <motion.span 
+                className="opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                animate={{ x: [0, 5, 0] }}
+                transition={{ repeat: Infinity, duration: 1.5 }}
+              >
+                →
+              </motion.span>
+            </span>
           </a>
-          <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" 
-             className="h-12 px-8 rounded-xl bg-white/5 border border-white/10 text-white font-bold text-xs flex items-center gap-2 hover:bg-white/10 transition-all">
-            <Github className="h-4 w-4" /> Source
+          <a 
+            href={project.githubUrl} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="group relative h-12 px-8 rounded-xl bg-white/5 border border-white/10 text-white font-bold text-xs flex items-center gap-2 overflow-hidden transition-all duration-500 hover:bg-gradient-to-r hover:from-purple-600/20 hover:to-pink-600/20 hover:border-purple-500 hover:shadow-lg hover:shadow-purple-500/30"
+          >
+            {/* Diagonal shine effect */}
+            <div className="absolute inset-0 -translate-x-full -translate-y-full group-hover:translate-x-full group-hover:translate-y-full transition-transform duration-700 bg-gradient-to-br from-transparent via-white/20 to-transparent"></div>
+            
+            {/* Pulsing glow */}
+            <div className="absolute -inset-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl blur opacity-0 group-hover:opacity-50 transition-opacity duration-500"></div>
+            
+            {/* Content */}
+            <span className="relative z-10 flex items-center gap-2">
+              <Github className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+              <span>Source</span>
+            </span>
           </a>
-          <button onClick={() => openModal(project)}
-                  className="h-12 px-8 rounded-xl bg-white/5 border border-white/10 text-white font-bold text-xs flex items-center gap-2 hover:bg-white/10 transition-all">
-            <Info className="h-4 w-4" /> Details
+          <button 
+            onClick={() => openModal(project)}
+            className="group relative h-12 px-8 rounded-xl bg-white/5 border border-white/10 text-white font-bold text-xs flex items-center gap-2 overflow-hidden transition-all duration-500 hover:bg-gradient-to-r hover:from-indigo-600/20 hover:to-cyan-600/20 hover:border-indigo-400 hover:shadow-lg hover:shadow-indigo-500/30"
+          >
+            {/* Magnetic pull effect - expanding circle */}
+            <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-indigo-500 to-cyan-500 scale-0 group-hover:scale-150 opacity-0 group-hover:opacity-20 transition-all duration-700"></div>
+            
+            {/* Shimmer lines */}
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+              <div className="absolute top-1/4 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent animate-pulse"></div>
+              <div className="absolute top-3/4 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent animate-pulse" style={{animationDelay: '0.3s'}}></div>
+            </div>
+            
+            {/* Content */}
+            <span className="relative z-10 flex items-center gap-2">
+              <Info className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+              <span>Details</span>
+            </span>
           </button>
         </div>
       </div>
