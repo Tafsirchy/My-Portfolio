@@ -1,5 +1,7 @@
 import { motion, useInView, AnimatePresence, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
+import { useLenis } from 'lenis/react';
 import { ExternalLink, Github, X, Info, Rocket, Wrench, ArrowRight, Layers } from 'lucide-react';
 import { TbBolt } from 'react-icons/tb';
 import ImageWithLoader from '@/components/ui/ImageWithLoader';
@@ -240,14 +242,24 @@ const Projects = () => {
     offset: ["start end", "end start"]
   });
 
+  const lenis = useLenis();
+
   useEffect(() => {
     if (selectedProject) {
+      lenis?.stop();
       document.body.style.overflow = 'hidden';
+      document.body.classList.add('modal-open');
     } else {
+      lenis?.start();
       document.body.style.overflow = 'auto';
+      document.body.classList.remove('modal-open');
     }
-    return () => { document.body.style.overflow = 'auto'; };
-  }, [selectedProject]);
+    return () => { 
+      lenis?.start();
+      document.body.style.overflow = 'auto'; 
+      document.body.classList.remove('modal-open');
+    };
+  }, [selectedProject, lenis]);
 
   const openModal = (project) => {
     setSelectedProject(project);
@@ -255,16 +267,6 @@ const Projects = () => {
 
   const closeModal = () => {
     setSelectedProject(null);
-  };
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.3,
-      },
-    },
   };
 
   const itemVariants = {
@@ -342,133 +344,145 @@ const Projects = () => {
         </motion.div>
       </div>
 
-    {/* Project Detail Modal */}
-      <AnimatePresence>
-        {selectedProject && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={closeModal}
-              className="absolute inset-0 bg-slate-950/80 backdrop-blur-md"
-            />
-            
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="relative w-full max-w-4xl max-h-[90vh] bg-slate-900 border border-white/10 rounded-3xl overflow-hidden shadow-2xl flex flex-col"
-            >
-              {/* Modal Header/Image */}
-              <div className="relative h-64 md:h-80 w-full overflow-hidden flex-shrink-0">
-                <ImageWithLoader 
-                  src={(selectedProject.images && selectedProject.images[0]) || selectedProject.image} 
-                  alt={selectedProject.title}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent"></div>
-                
-                <button 
-                  onClick={closeModal}
-                  className="absolute top-6 right-6 w-10 h-10 bg-black/50 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white hover:text-black transition-all duration-300 z-50"
-                >
-                  <X className="h-5 w-5" />
-                </button>
-
-                <div className="absolute bottom-6 left-8 right-8">
-                   <h2 className="text-3xl md:text-4xl font-black font-display text-white mb-2">{selectedProject.title}</h2>
-                   <div className="flex flex-wrap gap-2 text-gradient">
-                     {selectedProject.technologies.slice(0, 4).map((tech, i) => (
-                       <span key={i} className="text-[10px] font-bold uppercase tracking-widest">{tech}</span>
-                     ))}
-                   </div>
+      {/* Project Detail Modal Portal */}
+      {typeof window !== 'undefined' && createPortal(
+        <AnimatePresence>
+          {selectedProject && (
+            <div className="fixed inset-0 z-[100000] flex items-center justify-center p-4">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={closeModal}
+                className="fixed inset-0 bg-slate-950/95 backdrop-blur-2xl z-0"
+              />
+              
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9, y: 30 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: 30 }}
+                transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                data-lenis-prevent
+                className="relative w-full max-w-3xl max-h-[85vh] bg-[#0f172a] border border-white/20 rounded-[2rem] overflow-hidden shadow-[0_0_80px_rgba(0,0,0,0.8)] flex flex-col z-10"
+              >
+                {/* Modal Header/Image */}
+                <div className="relative h-48 md:h-64 w-full overflow-hidden flex-shrink-0">
+                  <ImageWithLoader 
+                    src={(selectedProject.images && selectedProject.images[0]) || selectedProject.image} 
+                    alt={selectedProject.title}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a] via-[#0f172a]/20 to-transparent"></div>
+                  
+                  <button 
+                    onClick={closeModal}
+                    className="absolute top-4 right-4 w-10 h-10 bg-white/10 backdrop-blur-md border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-white hover:text-black transition-all duration-300 z-50 shadow-xl"
+                  >
+                    <X className="h-5 w-5" />
+                  </button>
+  
+                  <div className="absolute bottom-6 left-6 right-6">
+                     <motion.h2 
+                       initial={{ opacity: 0, x: -15 }}
+                       animate={{ opacity: 1, x: 0 }}
+                       className="text-2xl md:text-3xl font-black font-display text-white mb-2 drop-shadow-lg"
+                     >
+                       {selectedProject.title}
+                     </motion.h2>
+                     <div className="flex flex-wrap gap-2 text-gradient">
+                       {selectedProject.technologies.slice(0, 4).map((tech, i) => (
+                         <span key={i} className="text-[9px] font-bold uppercase tracking-widest">{tech}</span>
+                       ))}
+                     </div>
+                  </div>
                 </div>
-              </div>
-
-              {/* Modal Content - Scrollable */}
-              <div className="p-8 md:p-10 overflow-y-auto space-y-10 custom-scrollbar">
-                
-                {/* Description */}
-                <section className="space-y-4">
-                  <div className="flex items-center gap-3 text-cyan-400">
-                    <Info className="h-5 w-5" />
-                    <h3 className="text-sm font-bold uppercase tracking-[0.2em]">Project Overview</h3>
-                  </div>
-                  <p className="text-gray-400 leading-relaxed text-sm md:text-base font-light">
-                    {selectedProject.description}
-                  </p>
-                </section>
-
-                {/* Tech Stack */}
-                <section className="space-y-4">
-                  <div className="flex items-center gap-3 text-indigo-400">
-                    <Wrench className="h-5 w-5" />
-                    <h3 className="text-sm font-bold uppercase tracking-[0.2em]">Full Tech Stack</h3>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {selectedProject.technologies.map((tech, i) => (
-                      <span key={i} className="px-4 py-1.5 bg-white/5 border border-white/10 rounded-full text-xs text-slate-300 font-medium whitespace-nowrap">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </section>
-
-                <div className="grid md:grid-cols-2 gap-8">
-                  {/* Challenges */}
-                  <section className="space-y-4 p-6 bg-white/[0.02] border border-white/5 rounded-2xl">
-                    <div className="flex items-center gap-3 text-red-400">
-                      <div className="w-8 h-8 rounded-lg bg-red-400/10 flex items-center justify-center group-hover:rotate-12 transition-transform">
+  
+                {/* Modal Content - Scrollable */}
+                <div className="p-6 md:p-8 overflow-y-auto space-y-8 custom-scrollbar bg-[#0f172a]/50">
+                  
+                  {/* Description */}
+                  <section className="space-y-3">
+                    <div className="flex items-center gap-2 text-cyan-400">
+                      <Info className="h-4 w-4" />
+                      <h3 className="text-xs font-bold uppercase tracking-[0.2em] font-display">Overview</h3>
+                    </div>
+                    <p className="text-gray-300 leading-relaxed text-sm md:text-base font-light">
+                      {selectedProject.description}
+                    </p>
+                  </section>
+  
+                  {/* Tech Stack */}
+                  <section className="space-y-4">
+                    <div className="flex items-center gap-2 text-indigo-400">
+                      <Wrench className="h-4 w-4" />
+                      <h3 className="text-xs font-bold uppercase tracking-[0.2em] font-display">Tech Stack</h3>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedProject.technologies.map((tech, i) => (
+                        <span key={i} className="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs text-slate-300 font-medium whitespace-nowrap">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </section>
+  
+                  <div className="grid md:grid-cols-2 gap-6">
+                    {/* Challenges */}
+                    <section className="space-y-3 p-5 bg-white/[0.02] border border-white/5 rounded-2xl">
+                      <div className="flex items-center gap-2 text-red-400">
                         <ArrowRight className="h-4 w-4" />
+                        <h3 className="text-xs font-bold uppercase tracking-[0.2em] font-display">Challenge</h3>
                       </div>
-                      <h3 className="text-sm font-bold uppercase tracking-[0.2em]">Challenges</h3>
-                    </div>
-                    <p className="text-gray-400 text-sm leading-relaxed italic">
-                      "{selectedProject.challenges}"
-                    </p>
-                  </section>
-
-                  {/* Future Plans */}
-                  <section className="space-y-4 p-6 bg-white/[0.02] border border-white/5 rounded-2xl">
-                    <div className="flex items-center gap-3 text-emerald-400">
-                      <div className="w-8 h-8 rounded-lg bg-emerald-400/10 flex items-center justify-center transition-transform">
+                      <p className="text-gray-400 text-sm leading-relaxed italic">
+                        "{selectedProject.challenges}"
+                      </p>
+                    </section>
+  
+                    {/* Future Plans */}
+                    <section className="space-y-3 p-5 bg-white/[0.02] border border-white/5 rounded-2xl">
+                      <div className="flex items-center gap-2 text-emerald-400">
                         <Rocket className="h-4 w-4" />
+                        <h3 className="text-xs font-bold uppercase tracking-[0.2em] font-display">Evolution</h3>
                       </div>
-                      <h3 className="text-sm font-bold uppercase tracking-[0.2em]">Future Plans</h3>
-                    </div>
-                    <p className="text-gray-400 text-sm leading-relaxed">
-                      {selectedProject.futurePlans}
-                    </p>
-                  </section>
+                      <p className="text-gray-400 text-sm leading-relaxed">
+                        {selectedProject.futurePlans}
+                      </p>
+                    </section>
+                  </div>
+  
+                  {/* Direct Links */}
+                  <div className="flex flex-col sm:flex-row gap-6 pt-4 px-4 sm:px-0 sm:gap-4">
+                    <a 
+                      href={selectedProject.liveUrl} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="group relative flex items-center justify-center gap-2 py-2 text-white font-bold text-sm transition-all sm:flex-1 sm:h-14 sm:px-6 sm:bg-gradient-to-r sm:from-cyan-600 sm:to-indigo-600 sm:rounded-xl sm:hover:shadow-lg sm:hover:shadow-cyan-500/30 sm:active:scale-95"
+                    >
+                      <TbBolt className="h-5 w-5 text-cyan-400 sm:text-white group-hover:rotate-12 transition-transform" />
+                      <span>Live Site</span>
+                      {/* Underline for mobile */}
+                      <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-cyan-500 to-indigo-500 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left sm:hidden"></span>
+                    </a>
+                    <a 
+                      href={selectedProject.githubUrl} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="group relative flex items-center justify-center gap-2 py-2 text-white font-bold text-sm transition-all sm:flex-1 sm:h-14 sm:px-6 sm:bg-white/5 sm:border sm:border-white/10 sm:rounded-xl sm:hover:bg-white/10 sm:active:scale-95"
+                    >
+                      <Github className="h-5 w-5 text-gray-400 sm:text-white" />
+                      <span>Repository</span>
+                      {/* Underline for mobile */}
+                      <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-white/20 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left sm:hidden"></span>
+                    </a>
+                  </div>
                 </div>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
 
-                {/* Direct Links */}
-                <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                  <a 
-                    href={selectedProject.liveUrl} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="flex-1 h-14 bg-gradient-to-r from-cyan-600 to-indigo-600 rounded-2xl flex items-center justify-center gap-3 text-white font-bold hover:shadow-lg hover:shadow-cyan-500/20 transition-all active:scale-95"
-                  >
-                    <TbBolt className="h-6 w-6" />
-                    Visit Live Site
-                  </a>
-                  <a 
-                    href={selectedProject.githubUrl} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="flex-1 h-14 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center gap-3 text-white font-bold hover:bg-white/10 transition-all active:scale-95"
-                  >
-                    <Github className="h-6 w-6" />
-                    Client Repository
-                  </a>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
 
       {/* Rounded Portal Mask (Projects -> Contact) */}
       <div className="absolute bottom-0 inset-x-0 h-40 bg-gradient-to-t from-slate-950 to-transparent z-20 pointer-events-none"></div>

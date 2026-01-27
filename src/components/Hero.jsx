@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { ArrowDown, Github, Linkedin, Twitter, Facebook, Download } from 'lucide-react';
-import { personalInfo } from '@/data/portfolio';
+import { personalInfo, socialLinks } from '@/data/portfolio';
 import ImageWithLoader from '@/components/ui/ImageWithLoader';
 
 const Hero = () => {
@@ -15,13 +15,6 @@ const Hero = () => {
       });
     }
   };
-
-  const socialLinks = [
-    { icon: Github, url: 'https://github.com/Tafsirchy', label: 'GitHub' },
-    { icon: Linkedin, url: 'https://www.linkedin.com/in/tafsirchy/', label: 'LinkedIn' },
-    { icon: Twitter, url: 'https://x.com/chy_tafsir', label: 'Twitter' },
-    { icon: Facebook, url: 'https://www.facebook.com/tafsir.chowdhury.973567', label: 'Facebook' },
-  ];
 
   return (
     <section
@@ -89,21 +82,24 @@ const Hero = () => {
 
             {/* Social Media Links - Premium Style */}
             <div className="flex items-center gap-4 pt-4">
-              {socialLinks.map((social, index) => (
-                <motion.a
-                  key={index}
-                  href={social.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.1, y: -4 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="group relative w-12 h-12 bg-white/5 backdrop-blur-md hover:bg-white/10 rounded-xl flex items-center justify-center transition-all duration-500 border border-white/5 hover:border-cyan-500/50 overflow-hidden shadow-xl"
-                  aria-label={social.label}
-                >
-                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-indigo-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  <social.icon className="w-5 h-5 text-slate-400 group-hover:text-cyan-400 transition-all duration-500 relative z-10" />
-                </motion.a>
-              ))}
+              {socialLinks.map((social, index) => {
+                const Icon = { Github, Linkedin, Twitter, Facebook }[social.icon];
+                return (
+                  <motion.a
+                    key={index}
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    whileHover={{ scale: 1.1, y: -4 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="group relative w-12 h-12 bg-white/5 backdrop-blur-md hover:bg-white/10 rounded-xl flex items-center justify-center transition-all duration-500 border border-white/5 hover:border-cyan-500/50 overflow-hidden shadow-xl"
+                    aria-label={social.name}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-indigo-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <Icon className="w-5 h-5 text-slate-400 group-hover:text-cyan-400 transition-all duration-500 relative z-10" />
+                  </motion.a>
+                );
+              })}
             </div>
 
             {/* CTA Buttons - Enhanced Style */}

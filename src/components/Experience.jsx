@@ -5,9 +5,7 @@ import { experience } from '@/data/portfolio';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
-// Component defined without motion since it was reported unused by lint (added back if needed)
 import { motion } from 'framer-motion';
-
 const Experience = () => {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
@@ -154,10 +152,10 @@ const Experience = () => {
                           <p className="text-slate-300 text-sm leading-relaxed mb-5 group-hover:text-slate-100 transition-colors">{item.description}</p>
                           {item.achievements && item.achievements.length > 0 && (
                             <div className="space-y-3 mt-5 p-4 bg-white/5 rounded-xl border border-white/10 group-hover:border-indigo-400/30 group-hover:bg-indigo-500/10 transition-all duration-500">
-                              <p className="font-bold text-[10px] text-indigo-300 uppercase tracking-[0.2em] flex items-center gap-2">
+                              <div className="font-bold text-[10px] text-indigo-300 uppercase tracking-[0.2em] flex items-center gap-2">
                                 <div className="h-px w-8 bg-gradient-to-r from-indigo-400 to-transparent"></div>
                                 Key Contributions
-                              </p>
+                              </div>
                               <ul className="space-y-2.5">
                                 {item.achievements.map((achievement, idx) => (
                                    <motion.li 

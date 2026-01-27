@@ -16,12 +16,26 @@ const Navbar = () => {
     { label: 'CONTACT', href: '#contact' },
   ];
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
+
+    // Check for modal-open class periodically or via observer
+    const checkModal = () => {
+      setIsModalOpen(document.body.classList.contains('modal-open'));
+    };
+    
+    const observer = new MutationObserver(checkModal);
+    observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      observer.disconnect();
+    };
   }, []);
 
   const scrollToSection = (e, href) => {
@@ -40,7 +54,9 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      className={`fixed top-0 left-0 right-0 transition-all duration-500 ${
+        isModalOpen ? 'z-0 opacity-0 pointer-events-none' : 'z-50'
+      } ${
         isScrolled
           ? 'bg-slate-900/40 backdrop-blur-xl shadow-2xl border-b border-white/10'
           : 'bg-slate-950/20 backdrop-blur-lg border-b border-white/5'

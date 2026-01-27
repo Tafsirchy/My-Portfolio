@@ -14,18 +14,23 @@ export const personalInfo = {
 export const socialLinks = [
   {
     name: "GitHub",
-    url: "https://github.com/yourusername",
+    url: "https://github.com/Tafsirchy",
     icon: "Github",
   },
   {
     name: "LinkedIn",
-    url: "https://linkedin.com/in/yourusername",
+    url: "https://www.linkedin.com/in/tafsirchy/",
     icon: "Linkedin",
   },
   {
     name: "Twitter",
-    url: "https://twitter.com/yourusername",
+    url: "https://x.com/chy_tafsir",
     icon: "Twitter",
+  },
+  {
+    name: "Facebook",
+    url: "https://www.facebook.com/tafsir.chowdhury.973567",
+    icon: "Facebook",
   },
 ];
 
@@ -100,9 +105,24 @@ export const experience = [
 ];
 
 export const projects = [
-  
   {
     id: 1,
+    title: "MotruBi",
+    description: "A modern, full-stack e-commerce application built with Next.js 16, featuring a comprehensive motorcycle shopping experience, cart management, checkout system, and user dashboards.",
+    images: [
+      "/assets/MotruBi1.png",
+      "/assets/MotruBi2.png"
+    ], 
+    technologies: ["Next.js", "React", "Tailwind CSS", "Express", "Stripe", "NextAuth.js", "shadcn/ui"],
+    liveUrl: "https://motrubi.vercel.app/",
+    githubUrl: "https://github.com/Tafsirchy/Nextjs-Project",
+    githubServerUrl: "https://github.com/Tafsirchy/MotruBi-Backend",
+    challenges: "Managing complex user roles and secure payment processing with Stripe while maintaining a high-performance Next.js application.",
+    futurePlans: "Google OAuth, Real database (MongoDB/PostgreSQL), Email notifications, Bike comparison tool.",
+    featured: true,
+  },
+  {
+    id: 2,
     title: "Habit Tracker",
     description: "A full-stack MERN application that helps users build and maintain daily habits effectively. Users can create, update, delete, and mark habits as completed with detailed history, visual statistics, and reminders through a clean and responsive interface.",
     images: [
@@ -118,7 +138,7 @@ export const projects = [
     featured: true,
   },
   {
-    id: 2,
+    id: 3,
     title: "VitalFlow",
     description: "An efficient emergency blood search platform allowing users to find donors based on blood group and district/Upazila. Features include blood requests, real-time notifications, role-based access for Admins and Volunteers, and secure payment integration via Stripe.",
     images: [
@@ -134,7 +154,7 @@ export const projects = [
     featured: true,
   },
   {
-    id: 3,
+    id: 4,
     title: "GreenNest",
     description: "A modern, responsive web application focused on plant discovery and care. Users can explore indoor plants, view detailed plant information, book expert consultations, and manage their profiles through secure authentication with Firebase.",
     images: [
@@ -148,27 +168,5 @@ export const projects = [
     futurePlans: "Integrating an AI-powered plant health diagnostic tool and expanding the marketplace to include local nursery partnerships.",
     featured: true,
   },
-  {
-    id: 4,
-    title: "Apps Vault",
-    description: "A modern web application built with React, designed to browse, search, install (locally), and manage app listings. Features dynamic routing, filtering, chart visualization with Recharts, and persistent installation state using localStorage.",
-    images: [
-      "/assets/Project4.1.png",
-      "/assets/Project4.2.png"
-    ], 
-    technologies: ["React", "React Router", "Axios", "Recharts", "React Toastify", "Tailwind CSS", "DaisyUI", "Lucide Icons"],
-    liveUrl: "https://apps-vault.netlify.app/",
-    githubUrl: "https://github.com/Tafsirchy/My-eighth-assignment.git",
-    challenges: "Implementing real-time search filtering, managing installation state with localStorage persistence, and integrating Recharts for analytics visualization while maintaining smooth UI/UX.",
-    futurePlans: "Adding user authentication for cloud-based app management, implementing app ratings and reviews, and creating a recommendation system based on user preferences.",
-    featured: false,
-  },
-  
 ];
 
-export const stats = [
-  { label: "Years Experience", value: "2+" },
-  { label: "Projects Completed", value: "20+" },
-  { label: "Happy Clients", value: "15+" },
-  { label: "Code Commits", value: "1000+" },
-];

@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { useRef, useState } from 'react';
-import { Mail, Phone, MapPin, Github, Linkedin, Twitter, Send, MessageSquare, ArrowUpRight, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, Github, Linkedin, Twitter, Facebook, Send, MessageSquare, ArrowUpRight, CheckCircle2, AlertCircle } from 'lucide-react';
 import { personalInfo, socialLinks } from '@/data/portfolio';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -85,7 +85,7 @@ const Contact = () => {
     }
   };
 
-  const iconMap = { Github, Linkedin, Twitter };
+  const iconMap = { Github, Linkedin, Twitter, Facebook };
 
   return (
     <section ref={sectionRef} id="contact" className="relative py-24 bg-slate-950 text-white overflow-hidden">
