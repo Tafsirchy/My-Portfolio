@@ -120,16 +120,14 @@ const Hero = () => {
               </button>
 
               {/* Resume Download Button */}
-              <button
-                onClick={() => {
-                  // For now, just a placeholder - will download resume when available
-                  alert('Resume will be available for download soon!');
-                }}
+              <a
+                href={personalInfo.resume}
+                download
                 className="group relative px-8 py-4 bg-cyan-500/10 backdrop-blur-md text-cyan-400 font-display font-bold tracking-widest uppercase transition-all duration-500 rounded-full overflow-hidden flex items-center gap-2 border border-cyan-500/30 hover:border-cyan-500 hover:bg-cyan-500/20"
               >
                 <Download className="w-4 h-4 relative z-10 group-hover:animate-bounce" />
                 <span className="relative z-10 text-xs sm:text-sm">RESUME</span>
-              </button>
+              </a>
             </div>
           </motion.div>
 

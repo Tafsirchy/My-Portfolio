@@ -1,12 +1,14 @@
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { useRef, useState } from 'react';
-import { Mail, Phone, MapPin, Github, Linkedin, Twitter, Facebook, Send, MessageSquare, ArrowUpRight, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, Github, Linkedin, Twitter, Facebook, Send, MessageSquare, ArrowUpRight } from 'lucide-react';
 import { personalInfo, socialLinks } from '@/data/portfolio';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import emailjs from '@emailjs/browser';
+import { toast } from 'react-toastify';
+import SuccessModal from './SuccessModal';
 
 const Contact = () => {
   const sectionRef = useRef(null);
@@ -39,7 +41,7 @@ const Contact = () => {
     message: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -51,7 +53,6 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setSubmitStatus(null);
 
     try {
       // Send email using EmailJS
@@ -69,17 +70,12 @@ const Contact = () => {
       );
 
       console.log('Email sent successfully:', result.text);
-      setSubmitStatus('success');
+      setShowSuccessModal(true);
+      // toast.success('Message Sent Successfully!'); // Replaced by Modal
       setFormData({ name: '', email: '', subject: '', message: '' });
-      
-      // Clear success message after 5 seconds
-      setTimeout(() => setSubmitStatus(null), 5000);
     } catch (error) {
       console.error('Email send failed:', error);
-      setSubmitStatus('error');
-      
-      // Clear error message after 5 seconds
-      setTimeout(() => setSubmitStatus(null), 5000);
+      toast.error('Failed to send. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -397,28 +393,6 @@ const Contact = () => {
                       </span>
                     )}
                   </Button>
-
-                  {submitStatus === 'success' && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="p-4 bg-cyan-500/10 border border-cyan-500/30 rounded-xl flex items-center justify-center gap-3 text-cyan-400 font-bold text-xs uppercase tracking-widest"
-                    >
-                      <CheckCircle2 className="h-5 w-5" />
-                      Message Sent Successfully!
-                    </motion.div>
-                  )}
-
-                  {submitStatus === 'error' && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="p-4 bg-red-500/10 border border-red-500/30 rounded-xl flex items-center justify-center gap-3 text-red-400 font-bold text-xs uppercase tracking-widest"
-                    >
-                      <AlertCircle className="h-5 w-5" />
-                      Failed to send. Please try again.
-                    </motion.div>
-                  )}
                 </form>
               </Card>
             </motion.div>
@@ -500,28 +474,6 @@ const Contact = () => {
                       </span>
                     )}
                   </Button>
-
-                  {submitStatus === 'success' && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="p-4 bg-cyan-500/10 border border-cyan-500/30 rounded-xl flex items-center justify-center gap-3 text-cyan-400 font-bold text-xs uppercase tracking-widest"
-                    >
-                      <CheckCircle2 className="h-5 w-5" />
-                      Message Sent Successfully!
-                    </motion.div>
-                  )}
-
-                  {submitStatus === 'error' && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="p-4 bg-red-500/10 border border-red-500/30 rounded-xl flex items-center justify-center gap-3 text-red-400 font-bold text-xs uppercase tracking-widest"
-                    >
-                      <AlertCircle className="h-5 w-5" />
-                      Failed to send. Please try again.
-                    </motion.div>
-                  )}
                 </form>
               </Card>
             </motion.div>
@@ -531,6 +483,11 @@ const Contact = () => {
 
       {/* Modern Radial Separation */}
       <div className="absolute bottom-0 inset-x-0 h-40 bg-gradient-to-t from-black to-transparent pointer-events-none"></div>
+
+      <SuccessModal 
+        isOpen={showSuccessModal} 
+        onClose={() => setShowSuccessModal(false)} 
+      />
     </section>
   );
 };

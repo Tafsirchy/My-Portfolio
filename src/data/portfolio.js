@@ -8,7 +8,7 @@ export const personalInfo = {
   whatsapp: "+880 1633996633", // Added for direct contact
   location: "Dhaka, Bangladesh",
   bio: "I'm a passionate web developer with expertise in building modern, responsive, and user-friendly web applications. I love working with cutting-edge technologies and creating seamless user experiences.",
-  resume: "/path-to-your-resume.pdf",
+  resume: "/assets/React & Next.js Resume.pdf",
 };
 
 export const socialLinks = [

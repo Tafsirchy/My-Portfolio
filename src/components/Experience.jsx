@@ -1,11 +1,10 @@
-import { useInView, useScroll, useTransform } from 'framer-motion';
+import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { Briefcase, Calendar, CheckCircle } from 'lucide-react';
 import { experience } from '@/data/portfolio';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
-import { motion } from 'framer-motion';
 const Experience = () => {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
