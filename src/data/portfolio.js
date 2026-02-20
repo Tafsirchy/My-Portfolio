@@ -93,13 +93,14 @@ export const experience = [
 
   {
     id: 2,
-    company: "Startup Name",
-    position: "Web Developer Intern",
-    duration: "2021 - 2022",
-    description: "Assisted in building responsive web interfaces and implementing new features for the company's main product.",
+    company: "Shwapner Thikana LTD",
+    position: "Full-Stack Web Developer (Contractual)",
+    duration: "December 2025 - February 2026",
+    description: "Developed and delivered a premium, full-stack real estate platform focusing on property discovery and management. Handled both frontend and backend architecture leveraging Next.js, Express, and MongoDB.",
     achievements: [
-      "Built 5+ reusable components",
-      "Fixed critical bugs",
+      "Built an interactive geospatial search master plan for intuitive property exploration",
+      "Implemented a multi-layered RBAC dashboard system for Customers, Agents, and Administrators",
+      "Integrated secure authentication via JWT and Google OAuth 2.0"
     ],
   },
 ];
@@ -107,6 +108,22 @@ export const experience = [
 export const projects = [
   {
     id: 1,
+    title: "Shwapner Thikana LTD",
+    description: "A premium, full-stack real estate development platform designed to streamline property discovery. Features include an interactive geospatial Master Plan, premium property browsing, and a multi-layered dashboard system for Customers, Agents, and Administrators.",
+    images: [
+      "/assets/STLTD1.jpg",
+      "/assets/STLTD2.jpg"
+    ],
+    technologies: ["Next.js", "React", "Tailwind CSS", "Express.js", "MongoDB", "JWT", "NextAuth", "Framer Motion"],
+    liveUrl: "https://www.shwapnerthikana.com",
+    githubUrl: "https://github.com/Tafsirchy/Swapner-Thikana-LTD-FrontEnd",
+    githubServerUrl: "https://github.com/Tafsirchy/Swapner-Thikana-LTD-BackEnd",
+    challenges: "Implementing an interactive geospatial Master Plan search and managing a complex multi-layered role-based access control system (RBAC) securely.",
+    futurePlans: "AI-Powered property recommendations, 360-degree Virtual Tours integration, and Real-time Chat (WebSockets) between Customers and Agents.",
+    featured: true,
+  },
+  {
+    id: 2,
     title: "MotruBi",
     description: "A modern, full-stack e-commerce application built with Next.js 16, featuring a comprehensive motorcycle shopping experience, cart management, checkout system, and user dashboards.",
     images: [
@@ -122,12 +139,12 @@ export const projects = [
     featured: true,
   },
   {
-    id: 2,
+    id: 3,
     title: "Habit Tracker",
     description: "A full-stack MERN application that helps users build and maintain daily habits effectively. Users can create, update, delete, and mark habits as completed with detailed history, visual statistics, and reminders through a clean and responsive interface.",
     images: [
-      "/assets/Project1.1.png",
-      "/assets/Project1.2.png",
+      "/assets/HT1.png",
+      "/assets/HT2.png",
     ],
     technologies: ["HTML", "CSS", "JavaScript", "React", "Tailwind CSS", "DaisyUI", "Node.js", "Express.js", "MongoDB"],
     liveUrl: "https://habit-tracker-4a192.web.app/",
@@ -138,12 +155,12 @@ export const projects = [
     featured: true,
   },
   {
-    id: 3,
+    id: 4,
     title: "VitalFlow",
     description: "An efficient emergency blood search platform allowing users to find donors based on blood group and district/Upazila. Features include blood requests, real-time notifications, role-based access for Admins and Volunteers, and secure payment integration via Stripe.",
     images: [
-      "/assets/Project2.1.png",
-      "/assets/Project2.2.png"
+      "/assets/VF1.png",
+      "/assets/VF2.png",
     ],
     technologies: ["React", "Node.js", "Express.js", "MongoDB", "JWT", "Firebase", "Stripe", "Tailwind CSS", "DaisyUI"],
     liveUrl: "https://vitalflow-9b72a.web.app/",
@@ -154,12 +171,12 @@ export const projects = [
     featured: true,
   },
   {
-    id: 4,
+    id: 5,
     title: "GreenNest",
     description: "A modern, responsive web application focused on plant discovery and care. Users can explore indoor plants, view detailed plant information, book expert consultations, and manage their profiles through secure authentication with Firebase.",
     images: [
-      "/assets/Project3.1.png",
-      "/assets/Project3.2.png"
+      "/assets/GN1.png",
+      "/assets/GN2.png"
     ], 
     technologies: ["React", "Vite", "Firebase", "Tailwind CSS", "DaisyUI", "Framer Motion", "React Router"],
     liveUrl: "https://greennest-3d484.web.app/",
