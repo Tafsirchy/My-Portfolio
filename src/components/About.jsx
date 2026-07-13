@@ -12,357 +12,120 @@ import ImageWithLoader from "@/components/ui/ImageWithLoader";
 const About = () => {
   const sectionRef = useRef(null);
 
-  // Advanced scroll tracking
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "end start"],
   });
 
-  // Smooth spring for main section transitions
   const smoothProgress = useSpring(scrollYProgress, {
     stiffness: 100,
     damping: 30,
   });
 
-  // Main container reveals
-  const opacity = useTransform(
-    smoothProgress,
-    [0.1, 0.3, 0.7, 0.9],
-    [0, 1, 1, 0]
-  );
-  const scale = useTransform(smoothProgress, [0.1, 0.3], [0.9, 1]);
-  const rotateX = useTransform(smoothProgress, [0.1, 0.3], [10, 0]);
-
-  // Parallax ORBS with different intensities
-  const orbY1 = useTransform(smoothProgress, [0, 1], [-100, 100]);
-  const orbY2 = useTransform(smoothProgress, [0, 1], [150, -150]);
-  const orbY3 = useTransform(smoothProgress, [0, 1], [-50, 50]);
-
-  // Mobile: Simple slide-up animations
-  const mobileY = useTransform(smoothProgress, [0.2, 0.5], [60, 0]);
-  const mobileOpacity = useTransform(smoothProgress, [0.2, 0.4], [0, 1]);
+  const opacity = useTransform(smoothProgress, [0.1, 0.3, 0.7, 0.9], [0, 1, 1, 0]);
+  const scale = useTransform(smoothProgress, [0.1, 0.3], [0.95, 1]);
+  const translateY = useTransform(smoothProgress, [0.1, 0.3], [50, 0]);
 
   return (
     <section
       ref={sectionRef}
       id="about"
-      className="relative bg-slate-950 text-white py-20 overflow-hidden perspective-1000"
+      className="relative bg-background text-slate-900 py-32 overflow-hidden"
     >
-      {/* Creative Glassmorphism Background Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Floating Glassmorphic Orbs - Scroll Linked */}
-        <motion.div
-          style={{ y: orbY1 }}
-          className="absolute top-20 left-10 w-64 h-64 bg-gradient-to-br from-blue-600/20 to-cyan-500/20 rounded-full backdrop-blur-3xl border border-white/10"
-        />
-        <motion.div
-          style={{ y: orbY2 }}
-          className="absolute top-40 right-20 w-80 h-80 bg-gradient-to-br from-indigo-500/15 to-blue-500/15 rounded-full backdrop-blur-3xl border border-white/10"
-        />
-        <motion.div
-          style={{ y: orbY3 }}
-          className="absolute bottom-32 left-1/3 w-72 h-72 bg-gradient-to-br from-cyan-600/20 to-blue-600/20 rounded-full backdrop-blur-3xl border border-white/10"
-        />
-      </div>
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-neon-navy/50 to-transparent"></div>
 
-      {/* Main content - Horizontal layout with backdrop blur container */}
       <motion.div
-        style={{
-          opacity,
-          scale,
-          rotateX,
-          transformStyle: "preserve-3d",
-        }}
-        className="w-11/12 max-w-7xl mx-auto pb-20 relative z-10"
+        style={{ opacity, scale, y: translateY }}
+        className="max-w-7xl mx-auto w-full px-4 md:px-8 relative z-10"
       >
-        {/* Content container with border blur effect */}
-        <div className="relative backdrop-blur-md bg-white/5 rounded-3xl border border-white/10 p-6 md:p-10 shadow-2xl overflow-hidden">
-          {/* Animated Background Mesh */}
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-indigo-500/5 pointer-events-none"></div>
+        {/* Tech Container */}
+        <div className="relative glass-panel p-8 md:p-12 border-t-2 border-t-neon-navy/80 shadow-lg shadow-black/5">
+          {/* Decorative Corner Brackets */}
+          <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-neon-navy"></div>
+          <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-neon-navy"></div>
+          <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-neon-navy"></div>
+          <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-neon-navy"></div>
 
           {/* Section Headline */}
-          <div className="mb-16 relative">
-            <motion.div className="flex flex-col items-center md:items-start text-center md:text-left gap-4">
-              <div className="px-4 py-1 bg-white/5 border border-white/10 rounded-full backdrop-blur-sm">
-                <span className="text-[10px] font-bold tracking-[0.4em] text-cyan-400 uppercase">
-                  DISCOVER
-                </span>
-              </div>
-              <h2 className="text-4xl md:text-6xl font-display font-black tracking-tight text-white">
-                The Project <span className="text-gradient">Architect</span>
+          <div className="mb-16 border-b border-black/10 pb-6">
+            <div className="flex flex-col gap-2">
+              <span className="font-mono text-xs text-neon-olive tracking-widest uppercase font-bold">
+                // SECTION: ABT
+              </span>
+              <h2 className="text-3xl md:text-5xl font-display font-bold text-slate-900 uppercase tracking-tight flex items-center gap-4">
+                <span className="text-neon-olive">{'>'}</span> System.About
               </h2>
-              <div className="h-1 w-24 bg-gradient-to-r from-cyan-500 to-indigo-500 rounded-full"></div>
-            </motion.div>
+            </div>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            {/* Left side - Portrait Image - Mobile: Simple slide-up, Desktop: 3D tilt */}
-            {/* Mobile Version */}
-            <motion.div
-              style={{ y: mobileY, opacity: mobileOpacity }}
-              className="relative order-2 md:order-1 md:hidden"
-            >
-              <div className="relative w-full max-w-lg mx-auto group">
-                {/* 3D Depth Shadow */}
-                <div className="absolute -inset-4 bg-indigo-500/20 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-
-                {/* Portrait with dramatic positioning */}
-                <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/10">
-                  <ImageWithLoader
-                    src="/assets/About.png"
-                    alt="Profile"
-                    className="w-full h-auto object-cover scale-105 group-hover:scale-110 transition-transform duration-1000"
-                    style={{
-                      filter: "contrast(1.05) brightness(0.95)",
-                    }}
-                    onError={(e) => {
-                      e.target.src =
-                        "https://placehold.co/600x800/0f172a/06b6d4?text=Profile+Image";
-                    }}
-                  />
-                  {/* Subtle overlays */}
-                  <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/20 via-transparent to-cyan-500/20 mix-blend-overlay"></div>
-                  <div className="absolute bottom-0 inset-x-0 h-1/2 bg-gradient-to-t from-slate-950/80 to-transparent"></div>
-                </div>
-
-                {/* Floating Tech Badges - Experience Indicators */}
-                <motion.div
-                  style={{ y: useTransform(smoothProgress, [0, 1], [20, -20]) }}
-                  className="absolute -top-6 -right-6 px-6 py-3 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl hidden lg:block"
-                >
-                  <p className="text-xs font-bold text-cyan-400 tracking-widest uppercase">
-                    MERN Stack
-                  </p>
-                  <p className="text-[10px] text-gray-400">Specialist</p>
-                </motion.div>
-              </div>
-            </motion.div>
-
-            {/* Desktop Version */}
-            <motion.div
-              style={{
-                y: useTransform(smoothProgress, [0, 1], [50, -50]),
-                rotateY: useTransform(smoothProgress, [0.2, 0.8], [-10, 10]),
-              }}
-              className="relative order-2 md:order-1 hidden md:block"
-            >
-              <div className="relative w-full max-w-lg mx-auto group">
-                {/* 3D Depth Shadow */}
-                <div className="absolute -inset-4 bg-indigo-500/20 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-
-                {/* Portrait with dramatic positioning */}
-                <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/10">
-                  <ImageWithLoader
-                    src="/assets/About.png"
-                    alt="Profile"
-                    className="w-full h-auto object-cover scale-105 group-hover:scale-110 transition-transform duration-1000"
-                    style={{
-                      filter: "contrast(1.05) brightness(0.95)",
-                    }}
-                    onError={(e) => {
-                      e.target.src =
-                        "https://placehold.co/600x800/0f172a/06b6d4?text=Profile+Image";
-                    }}
-                  />
-                  {/* Subtle overlays */}
-                  <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/20 via-transparent to-cyan-500/20 mix-blend-overlay"></div>
-                  <div className="absolute bottom-0 inset-x-0 h-1/2 bg-gradient-to-t from-slate-950/80 to-transparent"></div>
-                </div>
-
-                {/* Floating Tech Badges - Experience Indicators */}
-                <motion.div
-                  style={{ y: useTransform(smoothProgress, [0, 1], [20, -20]) }}
-                  className="absolute -top-6 -right-6 px-6 py-3 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl hidden lg:block"
-                >
-                  <p className="text-xs font-bold text-cyan-400 tracking-widest uppercase">
-                    MERN Stack
-                  </p>
-                  <p className="text-[10px] text-gray-400">Specialist</p>
-                </motion.div>
-              </div>
-            </motion.div>
-
-            {/* Right side - Content - Mobile: Simple slide-up, Desktop: Parallax */}
-            {/* Mobile Version */}
-            <motion.div
-              style={{ y: mobileY, opacity: mobileOpacity }}
-              className="space-y-8 order-1 md:order-2 md:hidden"
-            >
-              <div className="space-y-4">
-                <h1 className="font-display font-black text-4xl md:text-5xl lg:text-7xl leading-none tracking-tight bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">
-                  {personalInfo.name.toUpperCase()}
-                </h1>
-                <div className="flex items-center gap-4">
-                  <div className="h-px flex-1 bg-gradient-to-r from-cyan-500/50 to-transparent"></div>
-                  <span className="text-[10px] font-bold tracking-[0.3em] text-cyan-500 uppercase">
-                    INNOVATOR
-                  </span>
+          <div className="grid md:grid-cols-12 gap-12 items-center">
+            {/* Left side - Portrait Image */}
+            <div className="md:col-span-5 relative group">
+              <div className="relative p-2 border border-black/10 bg-surface shadow-sm before:absolute before:inset-0 before:bg-grid before:opacity-10 before:mix-blend-overlay">
+                <ImageWithLoader
+                  src="/assets/About.png"
+                  alt="Profile"
+                  className="w-full h-auto object-cover filter grayscale contrast-125 transition-all duration-500 group-hover:grayscale-0"
+                  onError={(e) => {
+                    e.target.src = "https://placehold.co/600x800/ffffff/0ea5e9?text=SYS_AVATAR";
+                  }}
+                />
+                <div className="absolute inset-0 bg-neon-navy/5 mix-blend-overlay pointer-events-none"></div>
+                
+                {/* Tech Badges */}
+                <div className="absolute -bottom-4 -right-4 px-4 py-2 bg-surface border border-neon-navy/50 shadow-md">
+                  <p className="font-mono text-[10px] text-neon-navy uppercase font-bold">MERN_STACK</p>
+                  <p className="font-mono text-[8px] text-slate-500 uppercase tracking-widest font-bold">Level: Expert</p>
                 </div>
               </div>
+            </div>
 
-              <div className="space-y-6">
-                <p className="text-gray-200 text-lg leading-relaxed font-medium">
+            {/* Right side - Content */}
+            <div className="md:col-span-7 space-y-8 font-mono">
+              <div className="space-y-2">
+                <h3 className="font-display font-bold text-2xl md:text-4xl text-slate-900 uppercase tracking-wide">
+                  {personalInfo.name}
+                </h3>
+                <p className="text-neon-olive text-xs uppercase tracking-[0.3em] font-bold">
                   {personalInfo.headline}
                 </p>
-
-                <div className="text-base text-gray-400 font-light leading-relaxed space-y-4">
-                  <p>
-                    I specialize in building{" "}
-                    <span className="text-white font-medium border-b border-cyan-500/30">
-                      highly performant
-                    </span>{" "}
-                    and{" "}
-                    <span className="text-white font-medium border-b border-indigo-500/30">
-                      scalable
-                    </span>{" "}
-                    web applications.
-                  </p>
-                  <p className="text-sm">{personalInfo.bio}</p>
-                  <p className="border-l-2 border-indigo-500/50 pl-6 py-2 italic text-gray-300 relative bg-white/5 rounded-r-xl">
-                    <span className="absolute -left-1 top-0 bottom-0 w-2 bg-gradient-to-b from-cyan-500/50 to-indigo-500/50"></span>
-                    "Every line of code I write is an opportunity to solve a
-                    problem and create something beautiful."
-                  </p>
-                </div>
               </div>
 
-              {/* Signature & Location - Creative Minimal */}
-              <div className="pt-8 flex flex-wrap items-center gap-10">
-                <div className="relative group">
-                  <span className="font-signature text-6xl text-white group-hover:text-cyan-400 transition-colors duration-700 transform -rotate-3 cursor-default block">
-                    {personalInfo.name.split(" ")[0]}
-                  </span>
-                  <motion.div
-                    style={{
-                      scaleX: useTransform(smoothProgress, [0.3, 0.6], [0, 1]),
-                    }}
-                    className="h-0.5 w-full bg-gradient-to-r from-cyan-500 to-transparent mt-1 origin-left"
-                  ></motion.div>
-                </div>
-
-                <div className="h-14 w-px bg-white/10 hidden sm:block"></div>
-
-                <div className="flex flex-col">
-                  <span className="text-[10px] font-bold tracking-[0.4em] text-slate-500 uppercase mb-2">
-                    Operation Base
-                  </span>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-cyan-500 animate-pulse"></div>
-                    <span className="text-sm text-white font-medium tracking-widest uppercase">
-                      {personalInfo.location}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Desktop Version */}
-            <motion.div
-              style={{
-                y: useTransform(smoothProgress, [0, 1], [-30, 30]),
-              }}
-              className="space-y-8 order-1 md:order-2 hidden md:block"
-            >
-              <div className="space-y-4">
-                <h1 className="font-display font-black text-4xl md:text-5xl lg:text-7xl leading-none tracking-tight bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">
-                  {personalInfo.name.toUpperCase()}
-                </h1>
-                <div className="flex items-center gap-4">
-                  <div className="h-px flex-1 bg-gradient-to-r from-cyan-500/50 to-transparent"></div>
-                  <span className="text-[10px] font-bold tracking-[0.3em] text-cyan-500 uppercase">
-                    INNOVATOR
-                  </span>
-                </div>
-              </div>
-
-              <div className="space-y-6">
-                <p className="text-gray-200 text-lg leading-relaxed font-medium">
-                  {personalInfo.headline}
+              <div className="space-y-6 text-sm text-slate-600 leading-relaxed bg-slate-50 p-6 border-l-2 border-neon-navy shadow-sm border border-black/5">
+                <p>
+                  <span className="text-slate-900 font-bold">INITIALIZING BACKGROUND_PROCESS...</span>
+                  <br /><br />
+                  I specialize in engineering <span className="text-neon-navy font-bold">highly performant</span> and <span className="text-neon-olive font-bold">scalable</span> digital architectures.
                 </p>
-
-                <div className="text-base text-gray-400 font-light leading-relaxed space-y-4">
-                  <p>
-                    I specialize in building{" "}
-                    <span className="text-white font-medium border-b border-cyan-500/30">
-                      highly performant
-                    </span>{" "}
-                    and{" "}
-                    <span className="text-white font-medium border-b border-indigo-500/30">
-                      scalable
-                    </span>{" "}
-                    web applications.
-                  </p>
-                  <p className="text-sm">{personalInfo.bio}</p>
-                  <p className="border-l-2 border-indigo-500/50 pl-6 py-2 italic text-gray-300 relative bg-white/5 rounded-r-xl">
-                    <span className="absolute -left-1 top-0 bottom-0 w-2 bg-gradient-to-b from-cyan-500/50 to-indigo-500/50"></span>
-                    "Every line of code I write is an opportunity to solve a
-                    problem and create something beautiful."
+                <p>{personalInfo.bio}</p>
+                <div className="mt-4 p-4 bg-white border border-black/10 relative overflow-hidden shadow-sm">
+                  <div className="absolute left-0 top-0 bottom-0 w-1 bg-neon-olive"></div>
+                  <p className="text-xs text-slate-500 font-bold">
+                    <span className="text-neon-olive">"</span>
+                    Every line of code I write is an opportunity to solve a problem and architect something flawless.
+                    <span className="text-neon-olive">"</span>
                   </p>
                 </div>
               </div>
 
-              {/* Signature & Location - Creative Minimal */}
-              <div className="pt-8 flex flex-wrap items-center gap-10">
-                <div className="relative group">
-                  <span className="font-signature text-6xl text-white group-hover:text-cyan-400 transition-colors duration-700 transform -rotate-3 cursor-default block">
-                    {personalInfo.name.split(" ")[0]}
-                  </span>
-                  <motion.div
-                    style={{
-                      scaleX: useTransform(smoothProgress, [0.3, 0.6], [0, 1]),
-                    }}
-                    className="h-0.5 w-full bg-gradient-to-r from-cyan-500 to-transparent mt-1 origin-left"
-                  ></motion.div>
-                </div>
-
-                <div className="h-14 w-px bg-white/10 hidden sm:block"></div>
-
+              {/* Data Points */}
+              <div className="grid grid-cols-2 gap-4 pt-4 border-t border-black/10">
                 <div className="flex flex-col">
-                  <span className="text-[10px] font-bold tracking-[0.4em] text-slate-500 uppercase mb-2">
-                    Operation Base
+                  <span className="text-[10px] text-neon-navy uppercase tracking-widest mb-1 font-bold">Location_Data</span>
+                  <span className="text-sm text-slate-900 uppercase font-bold">{personalInfo.location}</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-[10px] text-neon-navy uppercase tracking-widest mb-1 font-bold">Status</span>
+                  <span className="text-sm text-slate-900 uppercase flex items-center gap-2 font-bold">
+                    <span className="w-1.5 h-1.5 bg-neon-navy animate-pulse"></span>
+                    Available for Deployment
                   </span>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-cyan-500 animate-pulse"></div>
-                    <span className="text-sm text-white font-medium tracking-widest uppercase">
-                      {personalInfo.location}
-                    </span>
-                  </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </motion.div>
-
-      {/* Creative Bottom Transition */}
-      <div className="absolute bottom-0 inset-x-0 h-40 pointer-events-none z-20">
-        <div className="absolute bottom-0 inset-x-0 h-40 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent"></div>
-        <svg
-          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full opacity-10"
-          viewBox="0 0 1000 200"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M0 200C100 200 150 150 300 150C450 150 550 100 700 100C850 100 900 200 1000 200H0Z"
-            fill="url(#wave-grad-about)"
-          />
-          <defs>
-            <linearGradient
-              id="wave-grad-about"
-              x1="0"
-              y1="200"
-              x2="1000"
-              y2="200"
-              gradientUnits="userSpaceOnUse"
-            >
-              <stop stopColor="#06b6d4" stopOpacity="0" />
-              <stop offset="0.5" stopColor="#06b6d4" />
-              <stop offset="1" stopColor="#06b6d4" stopOpacity="0" />
-            </linearGradient>
-          </defs>
-        </svg>
-      </div>
     </section>
   );
 };

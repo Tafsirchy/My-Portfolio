@@ -43,7 +43,7 @@ const ImageWithLoader = ({
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-                className="w-16 h-16 rounded-full border-4 border-transparent border-t-cyan-500 border-r-indigo-500"
+                className="w-16 h-16 rounded-full border-4 border-transparent border-t-blue-900 border-r-lime-700"
               />
               
               {/* Pulsing Center Icon */}
@@ -52,7 +52,7 @@ const ImageWithLoader = ({
                 transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
                 className="absolute inset-0 flex items-center justify-center"
               >
-                <Loader2 className="w-6 h-6 text-cyan-400" />
+                <Loader2 className="w-6 h-6 text-blue-800" />
               </motion.div>
             </div>
           </motion.div>

@@ -1,68 +1,205 @@
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import { useRef } from 'react';
+import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
+import { useRef, useState, useEffect } from 'react';
 import { 
   SiMongodb, SiExpress, SiReact, SiNodedotjs,
   SiJavascript, SiHtml5, SiCss3, SiTailwindcss, SiNextdotjs,
   SiFirebase, SiJsonwebtokens, SiMysql,
   SiGit, SiGithub, SiFigma,
-  SiNetlify, SiVercel, SiCloudflare
+  SiNetlify, SiVercel, SiCloudflare,
+  SiC, SiCplusplus, SiPython
 } from 'react-icons/si';
-import { TbApi, TbBolt } from 'react-icons/tb';
+import { TbApi, TbBolt, TbBrandCSharp } from 'react-icons/tb';
 import { VscCode } from 'react-icons/vsc';
+import { Terminal } from 'lucide-react';
 
-const SkillBadge = ({ tech, index, scrollYProgress }) => {
-  const yTransform = useTransform(
-    scrollYProgress,
-    [0.1, 0.5, 0.9],
-    index % 2 === 0 ? [20, -20, 20] : [-20, 20, -20]
+const SkillBadge = ({ tech, index, isMarquee = false }) => {
+  const Wrapper = isMarquee ? 'div' : motion.div;
+  const animProps = isMarquee ? {} : {
+    initial: { opacity: 0, scale: 0.9 },
+    whileInView: { opacity: 1, scale: 1 },
+    transition: { 
+      duration: 0.4,
+      delay: tech.delay * 0.05,
+    },
+    viewport: { once: true }
+  };
+
+  return (
+    <Wrapper
+      {...animProps}
+      className="group relative flex flex-col items-center gap-3 w-full"
+    >
+      <div className="relative w-16 h-16 md:w-20 md:h-20 bg-white border border-black/10 group-hover:border-neon-navy/50 flex items-center justify-center transition-all duration-300 backdrop-blur-md shadow-sm mx-auto">
+        {/* Corner Accents */}
+        <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-slate-300 group-hover:border-neon-navy transition-colors"></div>
+        <div className="absolute top-0 right-0 w-1.5 h-1.5 border-t border-r border-slate-300 group-hover:border-neon-navy transition-colors"></div>
+        <div className="absolute bottom-0 left-0 w-1.5 h-1.5 border-b border-l border-slate-300 group-hover:border-neon-navy transition-colors"></div>
+        <div className="absolute bottom-0 right-0 w-1.5 h-1.5 border-b border-r border-slate-300 group-hover:border-neon-navy transition-colors"></div>
+
+        {/* Scanline */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/5 to-transparent h-[200%] -top-[100%] group-hover:animate-[scan_2s_linear_infinite] pointer-events-none opacity-0 group-hover:opacity-100 mix-blend-overlay"></div>
+
+        <tech.Icon 
+          className="text-2xl md:text-3xl text-slate-400 group-hover:text-slate-900 transition-all duration-300 relative z-10"
+        />
+        
+        {/* Glow effect matching tech color on hover */}
+        <div 
+          className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300 blur-md pointer-events-none"
+          style={{ backgroundColor: tech.color }}
+        />
+      </div>
+
+      <div className="text-center font-mono w-full">
+        <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold group-hover:text-neon-navy transition-colors truncate">
+          {tech.name}
+        </p>
+      </div>
+    </Wrapper>
   );
-  const springY = useSpring(yTransform, { stiffness: 50, damping: 20 });
+};
+
+const mernCode = [
+  "> INIT SYS_CORE",
+  "> CONNECTING TO MONGODB...",
+  "> [SUCCESS] DB CONNECTED",
+  "> STARTING EXPRESS APP...",
+  "> [PORT] 5000 ACTIVE",
+  "> MOUNTING REACT UI...",
+  "> [NODE_ENV] PRODUCTION",
+  "> SYSTEM_READY"
+];
+
+const frontendCode = [
+  "> INIT UI_MODULES",
+  "> COMPILING REACT COMPONENTS...",
+  "> BUNDLING TAILWIND CSS...",
+  "> [WARN] 2 UNUSED VARIABLES",
+  "> OPTIMIZING ASSETS...",
+  "> RENDER_DOM() CALLED",
+  "> [STATUS] 60FPS ATTAINED"
+];
+
+const backendCode = [
+  "> INIT DATA_LINK",
+  "> INITIALIZING FIREBASE ADMIN...",
+  "> MOUNTING REST_API ROUTES...",
+  "> DB_MIGRATION CHECK...",
+  "> [OK] MYSQL SYNCED",
+  "> GENERATING JWT SECRET...",
+  "> LISTENING FOR REQUESTS..."
+];
+
+const workflowCode = [
+  "> INIT DEV_OPS",
+  "> GIT CHECKOUT MAIN",
+  "> PULLING LATEST CHANGES...",
+  "> RUNNING BUILD PIPELINE...",
+  "> [FIGMA] SYNCING TOKENS",
+  "> DEPLOYING TO CLOUDFLARE...",
+  "> [SUCCESS] DEPLOYMENT LIVE"
+];
+
+const languagesCode = [
+  "> INIT CORE_LOGIC",
+  "> COMPILING C/C++ BINARIES...",
+  "> RUNNING PYTHON SCRIPTS...",
+  "> [OK] MEMORY ALLOCATED",
+  "> EXECUTING C# RUNTIME...",
+  "> KERNEL SYNC SUCCESS",
+  "> [STATUS] NATIVE SPEED ATTAINED"
+];
+
+const CategoryCard = ({ category, index }) => {
+  const [visibleLines, setVisibleLines] = useState([]);
+  
+  useEffect(() => {
+    let interval;
+    if (category.codeSnippet) {
+      let i = 0;
+      interval = setInterval(() => {
+        setVisibleLines(prev => {
+           const newLines = [...prev, category.codeSnippet[i % category.codeSnippet.length]];
+           if (newLines.length > 8) newLines.shift();
+           return newLines;
+        });
+        i++;
+      }, 50);
+    }
+    return () => clearInterval(interval);
+  }, [category.codeSnippet]);
+
+  const half = Math.ceil(category.skills.length / 2);
+  const skills1 = category.skills.slice(0, half);
+  const skills2 = category.skills.slice(half);
+
+  // Duplicate skills 6 times to ensure a seamless infinite scroll loop since arrays are shorter
+  const marqueeSkills1 = [...skills1, ...skills1, ...skills1, ...skills1, ...skills1, ...skills1];
+  const marqueeSkills2 = [...skills2, ...skills2, ...skills2, ...skills2, ...skills2, ...skills2];
 
   return (
     <motion.div
-      style={{ y: springY }}
-      initial={{ opacity: 0, scale: 0.8 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      transition={{ 
-        duration: 0.5,
-        delay: tech.delay * 0.05,
-        type: "spring",
-        stiffness: 100
-      }}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
       viewport={{ once: true }}
-      whileHover={{ 
-        scale: 1.1,
-        transition: { duration: 0.2 }
-      }}
-      className="group relative"
+      className="bg-slate-50 border border-black/10 hover:border-neon-navy/30 transition-colors shadow-sm overflow-hidden flex flex-col sm:flex-row h-[350px] group"
     >
-      {/* Circular Badge */}
-      <div className="relative">
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-          className="absolute -inset-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-          style={{
-            background: `conic-gradient(from 0deg, ${tech.color}40, transparent, ${tech.color}40)`,
-            filter: 'blur(10px)'
-          }}
-        />
+      {/* Left Panel: Terminal Background */}
+      <div className="flex-1 sm:w-1/2 bg-slate-900 flex flex-col relative overflow-hidden border-b sm:border-b-0 sm:border-r border-black/10 p-6">
+        <div className="absolute inset-0 bg-grid opacity-10 pointer-events-none mix-blend-overlay"></div>
         
-        <div 
-          className="relative w-20 h-20 md:w-24 md:h-24 rounded-full backdrop-blur-md bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-cyan-500/50 transition-all duration-300"
-        >
-          <tech.Icon 
-            className="text-3xl md:text-4xl transition-all duration-500 group-hover:drop-shadow-[0_0_8px_rgba(6,182,212,0.5)]"
-            style={{ color: tech.color }}
-          />
+        {/* Header */}
+        <div className="relative z-10 flex flex-col gap-1 mb-4 pb-4 border-b border-white/10">
+          <div className="flex items-center gap-2">
+            <Terminal className="w-4 h-4 text-neon-olive" />
+            <h3 className="text-xl font-display font-bold uppercase tracking-widest text-white group-hover:text-neon-olive transition-colors">
+              {category.title}
+            </h3>
+          </div>
+          <span className="font-mono text-[10px] text-slate-400 font-bold tracking-[0.2em] uppercase pl-6">
+            {category.subtitle}
+          </span>
+        </div>
+
+        {/* Code Runner */}
+        <div className="relative z-10 flex-1 flex flex-col justify-end font-mono text-[10px] md:text-xs text-neon-olive/80 leading-relaxed font-bold pointer-events-none">
+          {visibleLines.map((line, idx) => (
+            <div key={idx} className="truncate">{line}</div>
+          ))}
+          <div className="animate-pulse mt-1 w-2 h-3 bg-neon-olive"></div>
         </div>
       </div>
 
-      {/* Tech name */}
-      <div className="mt-3 text-center">
-        <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest group-hover:text-cyan-400 transition-colors">
-          {tech.name}
-        </p>
+      {/* Right Panel: Infinite Vertical Marquee (2 Columns) */}
+      <div 
+        className="flex-1 sm:w-1/2 bg-slate-50 relative overflow-hidden p-6 flex gap-4 justify-center"
+        style={{ WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)', maskImage: 'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)' }}
+      >
+        <div className="flex-1 flex flex-col gap-8 animate-marquee-vertical hover:[animation-play-state:paused] pt-4">
+          {marqueeSkills1.map((tech, skillIdx) => (
+            <SkillBadge 
+              key={`col1-${skillIdx}`} 
+              tech={tech} 
+              index={skillIdx} 
+              isMarquee={true}
+            />
+          ))}
+        </div>
+        
+        {/* If skills2 has items, render the reverse scrolling column */}
+        {skills2.length > 0 && (
+          <div className="flex-1 flex flex-col gap-8 animate-marquee-vertical-reverse hover:[animation-play-state:paused] pt-4">
+            {marqueeSkills2.map((tech, skillIdx) => (
+              <SkillBadge 
+                key={`col2-${skillIdx}`} 
+                tech={tech} 
+                index={skillIdx} 
+                isMarquee={true}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </motion.div>
   );
@@ -70,75 +207,62 @@ const SkillBadge = ({ tech, index, scrollYProgress }) => {
 
 const Skills = () => {
   const sectionRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"]
-  });
-
-  const smoothProgress = useSpring(scrollYProgress, { stiffness: 80, damping: 20 });
-  const meshOpacity = useTransform(smoothProgress, [0.2, 0.5, 0.8], [0.3, 0.8, 0.3]);
-  const bgColor = useTransform(smoothProgress, [0, 1], ["#020617", "#0f172a"]);
   
-  // Mobile: Simple slide-up animations (faster timing)
-  const mobileY = useTransform(smoothProgress, [0.15, 0.35], [50, 0]);
-  const mobileOpacity = useTransform(smoothProgress, [0.15, 0.3], [0, 1]);
-
-  // CSS for performant animations
-  const particleStyles = `
-    @keyframes float {
-      0%, 100% { transform: translateY(0) rotate(0deg); }
-      50% { transform: translateY(-20px) rotate(10deg); }
-    }
-    .particle-float {
-      animation: float 10s ease-in-out infinite;
-      will-change: transform;
-    }
-  `;
-
   const categories = [
     {
-      title: "MERN Stack",
-      subtitle: "The Foundation",
-      color: "cyan",
+      title: "MERN_Stack",
+      subtitle: "SYS.CORE",
+      codeSnippet: mernCode,
       skills: [
         { name: "MongoDB", Icon: SiMongodb, color: "#47A248", delay: 0 },
-        { name: "Express.js", Icon: SiExpress, color: "#E0E0E0", delay: 1 },
+        { name: "Express.js", Icon: SiExpress, color: "#0f172a", delay: 1 },
         { name: "React", Icon: SiReact, color: "#61DAFB", delay: 2 },
         { name: "Node.js", Icon: SiNodedotjs, color: "#339933", delay: 3 },
       ]
     },
     {
-      title: "Modern Frontend",
-      subtitle: "Interface Mastery",
-      color: "indigo",
+      title: "Frontend",
+      subtitle: "UI.MODULES",
+      codeSnippet: frontendCode,
       skills: [
         { name: "JavaScript", Icon: SiJavascript, color: "#F7DF1E", delay: 4 },
         { name: "Tailwind", Icon: SiTailwindcss, color: "#06B6D4", delay: 5 },
-        { name: "Next.js", Icon: SiNextdotjs, color: "#FFFFFF", delay: 6 },
+        { name: "Next.js", Icon: SiNextdotjs, color: "#0f172a", delay: 6 },
         { name: "HTML5", Icon: SiHtml5, color: "#E34F26", delay: 7 },
         { name: "CSS3", Icon: SiCss3, color: "#1572B6", delay: 8 },
       ]
     },
     {
-      title: "Backend ecosystem",
-      subtitle: "Data & Systems",
-      color: "purple",
+      title: "Backend",
+      subtitle: "DATA.LINK",
+      codeSnippet: backendCode,
       skills: [
         { name: "Firebase", Icon: SiFirebase, color: "#FFCA28", delay: 9 },
-        { name: "REST API", Icon: TbApi, color: "#FF6C37", delay: 10 },
-        { name: "JWT", Icon: SiJsonwebtokens, color: "#E0E0E0", delay: 11 },
+        { name: "REST_API", Icon: TbApi, color: "#FF6C37", delay: 10 },
+        { name: "JWT", Icon: SiJsonwebtokens, color: "#0f172a", delay: 11 },
         { name: "MySQL", Icon: SiMysql, color: "#4479A1", delay: 12 },
       ]
     },
     {
-      title: "Workflow & Cloud",
-      subtitle: "DevOps & Design",
-      color: "blue",
+      title: "Workflow",
+      subtitle: "DEV.OPS",
+      codeSnippet: workflowCode,
       skills: [
-        { name: "Git & GitHub", Icon: SiGithub, color: "#FFFFFF", delay: 13 },
+        { name: "GitHub", Icon: SiGithub, color: "#0f172a", delay: 13 },
         { name: "Cloudflare", Icon: SiCloudflare, color: "#F38020", delay: 14 },
         { name: "Figma", Icon: SiFigma, color: "#F24E1E", delay: 15 },
-        { name: "VS Code", Icon: VscCode, color: "#007ACC", delay: 16 },
+        { name: "VS_Code", Icon: VscCode, color: "#007ACC", delay: 16 },
+      ]
+    },
+    {
+      title: "Languages",
+      subtitle: "CORE.LOGIC",
+      codeSnippet: languagesCode,
+      skills: [
+        { name: "C", Icon: SiC, color: "#A8B9CC", delay: 17 },
+        { name: "C++", Icon: SiCplusplus, color: "#00599C", delay: 18 },
+        { name: "C#", Icon: TbBrandCSharp, color: "#239120", delay: 19 },
+        { name: "Python", Icon: SiPython, color: "#3776AB", delay: 20 },
       ]
     }
   ];
@@ -147,177 +271,54 @@ const Skills = () => {
     <section 
       ref={sectionRef}
       id="skills" 
-      className="relative text-white py-24 overflow-hidden"
-      style={{ backgroundColor: bgColor }}
+      className="relative bg-white text-slate-900 py-32 overflow-hidden border-t border-black/5"
     >
-      <style>{particleStyles}</style>
+      <div className="absolute inset-0 bg-grid opacity-10 pointer-events-none mix-blend-overlay"></div>
 
-      {/* Digital Nebula Background */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {/* Layer 1: Shifting Nebula Gradients */}
-        <motion.div 
-          style={{ opacity: meshOpacity }}
-          className="absolute inset-0"
-        >
-          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-cyan-500/10 blur-[120px] rounded-full animate-pulse" />
-          <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-indigo-500/10 blur-[150px] rounded-full animate-pulse" style={{ animationDelay: '2s' }} />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[30%] h-[30%] bg-purple-500/5 blur-[100px] rounded-full" />
-        </motion.div>
-
-        {/* Layer 2: Animated SVG Circuits - Optimized pathLength */}
-        <svg className="absolute inset-0 w-full h-full opacity-20" viewBox="0 0 1000 1000" preserveAspectRatio="none">
-          <motion.path
-            d="M0 200h200v200h200v-100h300v300h300"
-            stroke="url(#circuit-grad)"
-            strokeWidth="1"
-            fill="none"
-            initial={{ pathLength: 0 }}
-            whileInView={{ pathLength: 1 }}
-            transition={{ duration: 1.5, ease: "easeInOut" }}
-            viewport={{ once: true }}
-          />
-          <motion.path
-            d="M1000 800h-300v-200h-200v100h-300v-300h-200"
-            stroke="url(#circuit-grad)"
-            strokeWidth="1"
-            fill="none"
-            initial={{ pathLength: 0 }}
-            whileInView={{ pathLength: 1 }}
-            transition={{ duration: 1.8, ease: "easeInOut", delay: 0.2 }}
-            viewport={{ once: true }}
-          />
-          <defs>
-            <linearGradient id="circuit-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#06b6d4" stopOpacity="0" />
-              <stop offset="50%" stopColor="#06b6d4" stopOpacity="1" />
-              <stop offset="100%" stopColor="#6366f1" stopOpacity="0" />
-            </linearGradient>
-          </defs>
-        </svg>
-
-        {/* Layer 3: Floating Code Particles (CSS Animated) */}
-        {[...Array(12)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute text-cyan-500/20 font-mono text-xl select-none particle-float"
-            style={{
-              left: `${(Math.sin(i * 123) * 50) + 50}%`,
-              top: `${(Math.cos(i * 456) * 50) + 50}%`,
-              animationDelay: `${i * 0.8}s`,
-              animationDuration: `${8 + (i % 5)}s`
-            }}
-          >
-            {['{', '}', '/>', '[]', '&&', '=>', '()'][i % 7]}
-          </div>
-        ))}
-
-        {/* Dynamic Grid Overlay */}
-        <div className="absolute inset-0 opacity-[0.03]" 
-          style={{
-            backgroundImage: `linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px)`,
-            backgroundSize: '40px 40px'
-          }}
-        />
-      </div>
-
-      <div className="relative z-20 w-11/12 max-w-7xl mx-auto pb-10">
+      <div className="relative z-20 max-w-7xl mx-auto w-full px-4 md:px-8">
         {/* Section Headline */}
-        <div className="mb-20 relative text-center">
-          <motion.div
-            style={{ y: useTransform(smoothProgress, [0, 1], [-20, 20]) }}
-            className="flex flex-col items-center gap-4"
-          >
-            <div className="px-4 py-1 bg-white/5 border border-white/10 rounded-full backdrop-blur-sm">
-              <span className="text-[10px] font-bold tracking-[0.4em] text-cyan-400 uppercase">ABILITIES</span>
-            </div>
-            <h2 className="text-4xl md:text-6xl font-display font-black tracking-tight text-white">
-               Specialized <span className="text-gradient">Toolkit</span>
+        <div className="mb-20 border-b border-black/10 pb-6 relative">
+          <div className="flex flex-col gap-2">
+            <span className="font-mono text-xs text-neon-olive tracking-widest uppercase font-bold">
+              // SECTION: SKL
+            </span>
+            <h2 className="text-3xl md:text-5xl font-display font-bold text-slate-900 uppercase tracking-tight flex items-center gap-4">
+              <span className="text-neon-olive">{'>'}</span> System.Skills
             </h2>
-            <div className="h-1 w-24 bg-gradient-to-r from-cyan-500 to-indigo-500 rounded-full"></div>
-          </motion.div>
+          </div>
         </div>
 
-        {/* Skill Categories Grid - Mobile: Simple slide-up, Desktop: 3D transforms */}
-        {/* Mobile Version */}
-        <div className="grid md:grid-cols-2 gap-8 md:hidden">
+        <div className="grid md:grid-cols-2 gap-8">
           {categories.map((category, index) => (
-            <motion.div
-              key={index}
-              style={{ y: mobileY, opacity: mobileOpacity }}
-              className="group relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 hover:bg-white/10 transition-all duration-500"
+            <div 
+              key={index} 
+              className={categories.length % 2 !== 0 && index === categories.length - 1 ? "md:col-span-2" : ""}
             >
-              {/* Accent Corner Glow */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
-              
-              <div className="mb-8">
-                <div className="flex items-center gap-3 mb-2">
-                  <div className={`w-2 h-8 rounded-full bg-${category.color}-500 shadow-lg shadow-${category.color}-500/50`}></div>
-                  <h3 className="text-2xl font-bold tracking-tight">{category.title}</h3>
-                </div>
-                <p className="text-xs text-gray-500 uppercase tracking-widest pl-5">{category.subtitle}</p>
-              </div>
-
-              <div className="flex flex-wrap gap-8 justify-center sm:justify-start">
-                {category.skills.map((tech, skillIdx) => (
-                  <SkillBadge 
-                    key={skillIdx} 
-                    tech={tech} 
-                    index={skillIdx} 
-                    scrollYProgress={scrollYProgress} 
-                  />
-                ))}
-              </div>
-            </motion.div>
+              <CategoryCard category={category} index={index} />
+            </div>
           ))}
         </div>
-        
-        {/* Desktop Version */}
-        <div className="hidden md:grid md:grid-cols-2 gap-8">
-          {categories.map((category, index) => {
-            // eslint-disable-next-line react-hooks/rules-of-hooks
-            const cardY = useTransform(smoothProgress, [0.1 + index * 0.1, 0.5 + index * 0.1], [50, 0]);
-            // eslint-disable-next-line react-hooks/rules-of-hooks
-            const cardRotate = useTransform(smoothProgress, [0.1, 0.5], [index % 2 === 0 ? -2 : 2, 0]);
-
-            return (
-              <motion.div
-                key={index}
-                style={{ y: cardY, rotateZ: cardRotate }}
-                className="group relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 hover:bg-white/10 transition-all duration-500"
-              >
-                {/* Accent Corner Glow */}
-                <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                
-                <div className="mb-8">
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className={`w-2 h-8 rounded-full bg-${category.color}-500 shadow-lg shadow-${category.color}-500/50`}></div>
-                    <h3 className="text-2xl font-bold tracking-tight">{category.title}</h3>
-                  </div>
-                  <p className="text-xs text-gray-500 uppercase tracking-widest pl-5">{category.subtitle}</p>
-                </div>
-
-                <div className="flex flex-wrap gap-8 justify-center sm:justify-start">
-                  {category.skills.map((tech, skillIdx) => (
-                    <SkillBadge 
-                      key={skillIdx} 
-                      tech={tech} 
-                      index={skillIdx} 
-                      scrollYProgress={scrollYProgress} 
-                    />
-                  ))}
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
       </div>
-
-      {/* Geometric V-Cut Separator */}
-      <div className="absolute bottom-0 inset-x-0 h-24 pointer-events-none z-20">
-        <svg className="absolute bottom-0 w-full h-full" preserveAspectRatio="none" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0 100H100V0L50 50L0 0V100Z" fill="#020617" />
-        </svg>
-      </div>
+      
+      {/* Decorative Custom Animations in Tailwind */}
+      <style>{`
+        @keyframes scan {
+          0% { transform: translateY(0); }
+          100% { transform: translateY(100%); }
+        }
+        @keyframes marquee-vertical {
+          0% { transform: translateY(0) translateZ(0); }
+          100% { transform: translateY(-50%) translateZ(0); }
+        }
+        .animate-marquee-vertical {
+          animation: marquee-vertical 4s linear infinite;
+          will-change: transform;
+        }
+        .animate-marquee-vertical-reverse {
+          animation: marquee-vertical 4s linear infinite reverse;
+          will-change: transform;
+        }
+      `}</style>
     </section>
   );
 };

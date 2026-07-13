@@ -10,7 +10,8 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 80px; /* Account for sticky navigation */
+  scroll-padding-top: 80px;
+  /* Account for sticky navigation */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -20,24 +21,33 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  background-color: #020617; /* Prevent white background glitches */
+  background-color: #020617;
+  /* Prevent white background glitches */
   color: white;
 }
 
 /* Professional Color Scheme Variables */
 :root {
-  --color-primary: #06b6d4; /* Cyan 500 */
-  --color-primary-dark: #0891b2; /* Cyan 600 */
-  --color-primary-light: #22d3ee; /* Cyan 400 */
-  --color-secondary: #6366f1; /* Indigo 500 */
-  --color-secondary-dark: #4f46e5; /* Indigo 600 */
-  --color-accent: #f59e0b; /* Amber 500 - for contrast CTA */
+  --color-primary: #06b6d4;
+  /* Cyan 500 */
+  --color-primary-dark: #0891b2;
+  /* Cyan 600 */
+  --color-primary-light: #22d3ee;
+  /* Cyan 400 */
+  --color-secondary: #6366f1;
+  /* Indigo 500 */
+  --color-secondary-dark: #4f46e5;
+  /* Indigo 600 */
+  --color-accent: #f59e0b;
+  /* Amber 500 - for contrast CTA */
   --color-accent-dark: #d97706;
   --color-success: #10b981;
   --color-warning: #f59e0b;
   --color-danger: #ef4444;
-  --color-dark: #020617; /* Slate 950 - Deepest Back */
-  --color-dark-light: #0f172a; /* Slate 900 - Section Back */
+  --color-dark: #020617;
+  /* Slate 950 - Deepest Back */
+  --color-dark-light: #0f172a;
+  /* Slate 900 - Section Back */
   --color-gray: #64748b;
   --color-gray-light: #94a3b8;
   --color-light: #f8fafc;
@@ -60,14 +70,12 @@ body {
 
 /* Animated gradient background */
 .gradient-bg {
-  background: linear-gradient(
-    135deg,
-    #667eea 0%,
-    #764ba2 25%,
-    #f093fb 50%,
-    #4facfe 75%,
-    #00f2fe 100%
-  );
+  background: linear-gradient(135deg,
+      #667eea 0%,
+      #764ba2 25%,
+      #f093fb 50%,
+      #4facfe 75%,
+      #00f2fe 100%);
   background-size: 400% 400%;
 }
 
@@ -112,6 +120,7 @@ section {
 
 /* Reduce motion for users who prefer it */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -133,3 +142,24 @@ img {
   transform: translateZ(0);
   will-change: transform, opacity;
 }
+
+@keyframes scan {
+  0% {
+    transform: translateY(-100%);
+  }
+
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes marquee-vertical {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
