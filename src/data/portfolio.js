@@ -86,17 +86,17 @@ export const education = [
 
 export const experience = [
   {
-  id: 1,
-  company: "University Project",
-  position: "Backend Developer",
-  duration: "2025",
-  description: "Developed a backend-focused Hotel Management System as a university project using PHP and MySQL, with HTML and CSS for the user interface. Implemented core features for managing hotel operations and data handling.",
-  achievements: [
-    "Designed and implemented a relational database using MySQL",
-    "Built CRUD functionality for hotel rooms, bookings, and customer records",
-    "Integrated server-side logic using PHP for data validation and processing",
-  ],
-},
+    id: 1,
+    company: "University Project",
+    position: "Backend Developer",
+    duration: "2025",
+    description: "Developed a backend-focused Hotel Management System as a university project using PHP and MySQL, with HTML and CSS for the user interface. Implemented core features for managing hotel operations and data handling.",
+    achievements: [
+      "Designed and implemented a relational database using MySQL",
+      "Built CRUD functionality for hotel rooms, bookings, and customer records",
+      "Integrated server-side logic using PHP for data validation and processing",
+    ],
+  },
 
   {
     id: 2,
@@ -114,12 +114,26 @@ export const experience = [
 
 export const projects = [
   {
+    id: 7,
+    title: "Bristiii",
+    description: "A UI masterpiece and premium full-stack art gallery platform built with Next.js 16. It features a minimalist museum-grade aesthetic with immersive GSAP animations, interactive generative art components like 'The Breathing Canopy', and a secure e-commerce flow for art acquisition.",
+    images: [
+      "/assets/BRISTIII.png"
+    ],
+    technologies: ["Next.js", "React", "GSAP", "Tailwind CSS", "Express.js", "MongoDB", "Stripe", "Zustand"],
+    liveUrl: "https://bristiii-web.vercel.app",
+    githubUrl: "https://github.com/Tafsirchy/Artwork-E-commerce-Platform",
+    challenges: "Integrating complex GSAP animations with Next.js App Router, optimizing generative canvas performance, and securely handling PDF invoice generation and Stripe checkouts.",
+    futurePlans: "AR View for visualizing artwork in user's space, Real-time Auction System for rare pieces, and Multi-currency Support.",
+    featured: true,
+    disableIframe: false,
+  },
+  {
     id: 1,
     title: "Shwapner Thikana LTD",
     description: "A premium, full-stack real estate development platform designed to streamline property discovery. Features include an interactive geospatial Master Plan, premium property browsing, and a multi-layered dashboard system for Customers, Agents, and Administrators.",
     images: [
-      "/assets/STLTD1.jpg",
-      "/assets/STLTD2.jpg"
+      "/assets/STLTD1.jpg"
     ],
     technologies: ["Next.js", "React", "Tailwind CSS", "Express.js", "MongoDB", "JWT", "NextAuth", "Framer Motion"],
     liveUrl: "https://www.shwapnerthikana.com",
@@ -130,13 +144,43 @@ export const projects = [
     featured: true,
   },
   {
+    id: 6,
+    title: "Smart Youth ICT",
+    description: "A premium, full-stack youth empowerment and e-commerce platform built with Next.js 14 and Express. Features dynamic learning experiences, interactive mapping, secure multi-step checkout, and comprehensive administrative tools.",
+    images: [
+      "/assets/SYICT1.jpg"
+    ],
+    technologies: ["Next.js", "React", "Tailwind CSS", "Express.js", "MongoDB", "Stripe", "NextAuth", "Zustand"],
+    liveUrl: "https://smartyouthict.com",
+    githubUrl: "https://github.com/Tafsirchy/Smart-Youth-ICT-Frontend",
+    githubServerUrl: "https://github.com/Tafsirchy/Smart-Youth-ICT-Backend",
+    challenges: "Implementing interactive mapping (Youth Hubs) with React Leaflet, integrating secure multi-step checkout with Stripe, and managing persistent cart state.",
+    futurePlans: "Live Webinars for real-time interactive sessions, Gamification (badges/achievements) for completing modules, and Multi-language Support.",
+    featured: true,
+    disableIframe: true,
+  },
+  {
+    id: 8,
+    title: "Bakery & Co.",
+    description: "A premium bakery e-commerce platform offering a museum-grade shopping experience. Features interactive product browsing, persistent cart management, secure Stripe checkout, delivery mapping, and sophisticated role-based dashboards.",
+    images: [
+      "/assets/BEKARY.png"
+    ],
+    technologies: ["Next.js", "React", "Tailwind CSS", "Express.js", "MongoDB", "Stripe", "Leaflet", "Zustand"],
+    liveUrl: "https://online-bakery-shop-frontend.vercel.app",
+    githubUrl: "https://github.com/Tafsirchy/Online-Bakery-Shop-Frontend",
+    challenges: "Integrating interactive Leaflet maps with Next.js App Router, managing complex global state with Zustand across shopping features, and implementing strict role-based authentication guards.",
+    futurePlans: "Advanced inventory analytics for managers, AI-powered customized dietary recommendations, and loyalty points system.",
+    featured: true,
+    disableIframe: false,
+  },
+  {
     id: 2,
     title: "MotruBi",
     description: "A modern, full-stack e-commerce application built with Next.js 16, featuring a comprehensive motorcycle shopping experience, cart management, checkout system, and user dashboards.",
     images: [
-      "/assets/MotruBi1.png",
-      "/assets/MotruBi2.png"
-    ], 
+      "/assets/MotruBi1.png"
+    ],
     technologies: ["Next.js", "React", "Tailwind CSS", "Express", "Stripe", "NextAuth.js", "shadcn/ui"],
     liveUrl: "https://motrubi.vercel.app/",
     githubUrl: "https://github.com/Tafsirchy/Nextjs-Project",
@@ -150,8 +194,7 @@ export const projects = [
     title: "Habit Tracker",
     description: "A full-stack MERN application that helps users build and maintain daily habits effectively. Users can create, update, delete, and mark habits as completed with detailed history, visual statistics, and reminders through a clean and responsive interface.",
     images: [
-      "/assets/HT1.png",
-      "/assets/HT2.png",
+      "/assets/HT1.png"
     ],
     technologies: ["HTML", "CSS", "JavaScript", "React", "Tailwind CSS", "DaisyUI", "Node.js", "Express.js", "MongoDB"],
     liveUrl: "https://habit-tracker-4a192.web.app/",
@@ -166,8 +209,7 @@ export const projects = [
     title: "VitalFlow",
     description: "An efficient emergency blood search platform allowing users to find donors based on blood group and district/Upazila. Features include blood requests, real-time notifications, role-based access for Admins and Volunteers, and secure payment integration via Stripe.",
     images: [
-      "/assets/VF1.png",
-      "/assets/VF2.png",
+      "/assets/VF1.png"
     ],
     technologies: ["React", "Node.js", "Express.js", "MongoDB", "JWT", "Firebase", "Stripe", "Tailwind CSS", "DaisyUI"],
     liveUrl: "https://vitalflow-9b72a.web.app/",
@@ -182,9 +224,8 @@ export const projects = [
     title: "GreenNest",
     description: "A modern, responsive web application focused on plant discovery and care. Users can explore indoor plants, view detailed plant information, book expert consultations, and manage their profiles through secure authentication with Firebase.",
     images: [
-      "/assets/GN1.png",
-      "/assets/GN2.png"
-    ], 
+      "/assets/GN1.png"
+    ],
     technologies: ["React", "Vite", "Firebase", "Tailwind CSS", "DaisyUI", "Framer Motion", "React Router"],
     liveUrl: "https://greennest-3d484.web.app/",
     githubUrl: "https://github.com/Tafsirchy/GreenNest",

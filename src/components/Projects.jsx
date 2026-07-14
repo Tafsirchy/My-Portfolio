@@ -119,21 +119,34 @@ const ProjectCard = ({ project, index, openModal, scrollYProgress }) => {
                         </div>
                       </div>
                       
-                      {/* The iframe */}
-                      <div className="flex-1 w-full bg-white relative overflow-hidden" ref={containerRef}>
-                         <div className="absolute inset-0 flex items-center justify-center font-mono text-xs text-slate-400">Loading Preview...</div>
-                         <iframe 
-                           src={project.liveUrl} 
-                           style={{
-                             width: '1440px',
-                             height: '810px',
-                             transform: `scale(${iframeScale})`,
-                             transformOrigin: '0 0'
-                           }}
-                           className="absolute top-0 left-0 border-none pointer-events-auto bg-white z-10"
-                           title={`${project.title} Preview`}
-                           sandbox="allow-scripts allow-same-origin allow-popups"
-                         />
+                      {/* The iframe or fallback */}
+                      <div className="flex-1 w-full bg-slate-50 relative overflow-hidden" ref={containerRef}>
+                         {project.disableIframe ? (
+                           <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 p-6 text-center z-20 border-t border-black/5">
+                             <Monitor className="w-8 h-8 text-slate-300 mb-2" />
+                             <p className="font-mono text-xs md:text-sm font-bold text-slate-600">Preview protected by site security</p>
+                             <p className="font-mono text-[10px] md:text-xs text-slate-500 mt-2">
+                               Click the <span className="text-neon-navy font-bold border border-black/10 bg-white px-1 py-0.5 rounded shadow-sm mx-1">EXECUTE</span> button below
+                               <br />to open in a new tab
+                             </p>
+                           </div>
+                         ) : (
+                           <>
+                             <div className="absolute inset-0 flex items-center justify-center font-mono text-xs text-slate-400">Loading Preview...</div>
+                             <iframe 
+                               src={project.liveUrl} 
+                               style={{
+                                 width: '1440px',
+                                 height: '810px',
+                                 transform: `scale(${iframeScale})`,
+                                 transformOrigin: '0 0'
+                               }}
+                               className="absolute top-0 left-0 border-none pointer-events-auto bg-white z-10"
+                               title={`${project.title} Preview`}
+                               sandbox="allow-scripts allow-same-origin allow-popups"
+                             />
+                           </>
+                         )}
                       </div>
                     </motion.div>
                   )}
@@ -221,7 +234,7 @@ const Projects = () => {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
   const [selectedProject, setSelectedProject] = useState(null);
-  const [showAllProjectsMobile, setShowAllProjectsMobile] = useState(false);
+  const [showAllProjects, setShowAllProjects] = useState(false);
 
   const lenis = useLenis();
 
@@ -270,7 +283,7 @@ const Projects = () => {
           {/* Projects List */}
           <div className="space-y-32">
             {projects.map((project, index) => (
-              <div key={project.id} className={index >= 3 && !showAllProjectsMobile ? 'hidden sm:block' : 'block'}>
+              <div key={project.id} className={index >= 4 && !showAllProjects ? 'hidden' : 'block'}>
                 <ProjectCard 
                   project={project} 
                   index={index} 
@@ -280,11 +293,11 @@ const Projects = () => {
             ))}
           </div>
           
-          {/* Load More Button (Mobile Only) */}
-          {projects.length > 3 && !showAllProjectsMobile && (
-            <div className="mt-16 flex justify-center sm:hidden">
+          {/* Load More Button */}
+          {projects.length > 4 && !showAllProjects && (
+            <div className="mt-16 flex justify-center">
               <button
-                onClick={() => setShowAllProjectsMobile(true)}
+                onClick={() => setShowAllProjects(true)}
                 className="font-mono text-sm text-slate-800 border-2 border-slate-800 bg-transparent px-8 py-3 uppercase font-bold hover:bg-slate-800 hover:text-white active:bg-slate-800 active:text-white transition-colors"
               >
                 Load More Projects
