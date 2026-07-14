@@ -103,11 +103,11 @@ const Hero = () => {
   return (
     <section
       id="home"
-      className="relative flex items-center justify-center min-h-screen bg-background bg-grid overflow-hidden"
+      className="relative flex items-center justify-center  bg-background bg-grid overflow-hidden"
     >
       {/* Background Central Image & Compiling Interface */}
       <div className="absolute inset-0 z-10 flex items-end justify-center pointer-events-none">
-        <div className="relative w-full max-w-4xl h-[85vh] md:h-[95vh] flex items-end justify-center overflow-hidden">
+        <div className="relative w-full max-w-6xl h-full flex items-end justify-center overflow-hidden">
 
           {/* Subtle Backlight */}
           <motion.div
@@ -136,11 +136,11 @@ const Hero = () => {
           {isCompiling && (
             <img
               src="/assets/HeroProfile.png"
-              className="absolute z-20 w-full h-full object-contain object-bottom opacity-10 filter grayscale brightness-0"
+              className="absolute z-20 w-full h-[85vh] md:h-[95vh] object-contain object-bottom opacity-10 filter grayscale brightness-0"
               style={{
-                WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 5%, black 100%)',
+                WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 25%, black 75%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 5%, black 100%)',
                 WebkitMaskComposite: 'source-in',
-                maskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 5%, black 100%)',
+                maskImage: 'linear-gradient(to right, transparent 0%, black 25%, black 75%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 5%, black 100%)',
                 maskComposite: 'intersect'
               }}
               alt="Silhouette"
@@ -151,11 +151,11 @@ const Hero = () => {
           <motion.img
             src="/assets/HeroProfile.png"
             alt="Hero Profile"
-            className="relative z-30 w-full h-full object-contain object-bottom drop-shadow-2xl"
+            className="relative z-30 w-full h-[85vh] md:h-[95vh] object-contain object-bottom drop-shadow-2xl"
             style={{
-              WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 5%, black 100%)',
+              WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 25%, black 75%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 5%, black 100%)',
               WebkitMaskComposite: 'source-in',
-              maskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 5%, black 100%)',
+              maskImage: 'linear-gradient(to right, transparent 0%, black 25%, black 75%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 5%, black 100%)',
               maskComposite: 'intersect'
             }}
             initial={{ clipPath: "inset(0 0 100% 0)", filter: "brightness(1.5) hue-rotate(90deg)" }}
@@ -191,7 +191,7 @@ const Hero = () => {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,#fafafa_100%)] pointer-events-none z-10" />
 
       {/* Main HUD Overlay Content */}
-      <div className="relative z-30 max-w-7xl mx-auto w-full px-4 md:px-8 pb-24 pt-20 md:pb-12 md:pt-20 min-h-screen flex flex-col md:grid md:grid-cols-12 gap-8 items-center md:items-stretch">
+      <div className="relative z-30 max-w-7xl mx-auto w-full px-4 md:px-8 pb-24 pt-20 md:pb-12 md:pt-20  flex flex-col md:grid md:grid-cols-12 gap-8 items-center md:items-stretch">
 
         {/* ================= LEFT HUD PANEL ================= */}
         <motion.div
@@ -223,24 +223,24 @@ const Hero = () => {
                 <span className="text-[10px] tracking-widest text-neon-navy font-bold uppercase">STATUS: ONLINE</span>
               </motion.div>
 
-              <div className="flex items-center gap-3 font-mono text-sm tracking-[0.2em] text-slate-500 uppercase font-bold bg-white/50 px-2 py-1 rounded-sm">
-                <span>[</span><span className="text-slate-800">{personalInfo.name}</span><span>]</span>
+              <div className="flex items-center gap-3 font-mono text-sm tracking-[0.2em] uppercase font-bold bg-white/90 px-3 py-1.5 rounded-sm shadow-sm border border-black/5">
+                <span className="text-slate-400">[</span><span className="text-slate-900">{personalInfo.name}</span><span className="text-slate-400">]</span>
               </div>
             </div>
 
             {/* Main Heading */}
-            <h1 className="font-display font-bold text-5xl lg:text-6xl leading-none tracking-tight text-slate-900 uppercase">
-              <span className="block opacity-90 text-2xl lg:text-3xl mb-2 text-slate-500 tracking-widest drop-shadow-sm">Digital</span>
-              <span className="block text-gradient-navy drop-shadow-sm">Architect</span>
+            <h1 className="font-display font-black text-6xl lg:text-7xl leading-none tracking-tighter uppercase relative z-10">
+              <span className="block text-3xl lg:text-4xl mb-2 text-slate-800 tracking-widest drop-shadow-sm">Digital</span>
+              <span className="block bg-clip-text text-transparent bg-gradient-to-r from-neon-navy via-blue-800 to-slate-900 drop-shadow-sm pb-2">Architect</span>
             </h1>
 
-            <div className="flex items-center gap-4 py-1 font-mono text-[10px] md:text-xs text-neon-navy uppercase tracking-[0.3em] font-bold">
-              <div className="h-px w-8 bg-neon-navy/50"></div>
-              <span className="bg-white/50 px-2 py-1 rounded-sm">{personalInfo.tagline}</span>
+            <div className="flex items-center gap-4 py-1 font-mono text-xs text-neon-navy uppercase tracking-[0.3em] font-bold">
+              <div className="h-px w-12 bg-neon-navy"></div>
+              <span className="bg-white/90 px-3 py-1.5 rounded-sm shadow-sm border border-black/5">{personalInfo.tagline}</span>
             </div>
 
             {/* Description */}
-            <p className="text-xs md:text-sm text-slate-700 font-sans leading-relaxed border-l-2 border-neon-navy/50 pl-4 bg-white/70 backdrop-blur-sm p-3 shadow-sm border-y border-r border-y-white/50 border-r-white/50">
+            <p className="text-sm md:text-base text-slate-800 font-sans leading-relaxed border-l-[3px] border-neon-navy pl-5 bg-white/90 backdrop-blur-md p-4 shadow-md border-y border-r border-y-black/5 border-r-black/5 max-w-lg">
               {personalInfo.headline}
             </p>
           </div>
