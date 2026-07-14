@@ -1,5 +1,6 @@
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
+import { useInView } from 'framer-motion';
 import { 
   SiMongodb, SiExpress, SiReact, SiNodedotjs,
   SiJavascript, SiHtml5, SiCss3, SiTailwindcss, SiNextdotjs,
@@ -29,7 +30,7 @@ const SkillBadge = ({ tech, index, isMarquee = false }) => {
       {...animProps}
       className="group relative flex flex-col items-center gap-3 w-full"
     >
-      <div className="relative w-16 h-16 md:w-20 md:h-20 bg-white border border-black/10 group-hover:border-neon-navy/50 flex items-center justify-center transition-all duration-300 backdrop-blur-md shadow-sm mx-auto">
+      <div className="relative w-16 h-16 md:w-20 md:h-20 bg-white border border-black/10 group-hover:border-neon-navy/50 flex items-center justify-center transition-all duration-300 shadow-sm mx-auto">
         {/* Corner Accents */}
         <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-slate-300 group-hover:border-neon-navy transition-colors"></div>
         <div className="absolute top-0 right-0 w-1.5 h-1.5 border-t border-r border-slate-300 group-hover:border-neon-navy transition-colors"></div>
@@ -37,7 +38,7 @@ const SkillBadge = ({ tech, index, isMarquee = false }) => {
         <div className="absolute bottom-0 right-0 w-1.5 h-1.5 border-b border-r border-slate-300 group-hover:border-neon-navy transition-colors"></div>
 
         {/* Scanline */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/5 to-transparent h-[200%] -top-[100%] group-hover:animate-[scan_2s_linear_infinite] pointer-events-none opacity-0 group-hover:opacity-100 mix-blend-overlay"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/5 to-transparent h-[200%] -top-[100%] group-hover:animate-[scan_2s_linear_infinite] pointer-events-none opacity-0 group-hover:opacity-100"></div>
 
         <tech.Icon 
           className="text-2xl md:text-3xl text-slate-400 group-hover:text-slate-900 transition-all duration-300 relative z-10"
@@ -111,23 +112,30 @@ const languagesCode = [
 ];
 
 const CategoryCard = ({ category, index }) => {
-  const [visibleLines, setVisibleLines] = useState([]);
+  const cardRef = useRef(null);
+  const codeContainerRef = useRef(null);
+  const isInView = useInView(cardRef, { margin: "0px 0px -100px 0px" });
   
   useEffect(() => {
     let interval;
-    if (category.codeSnippet) {
+    if (category.codeSnippet && isInView && codeContainerRef.current) {
       let i = 0;
+      const lines = [];
       interval = setInterval(() => {
-        setVisibleLines(prev => {
-           const newLines = [...prev, category.codeSnippet[i % category.codeSnippet.length]];
-           if (newLines.length > 8) newLines.shift();
-           return newLines;
-        });
+        lines.push(category.codeSnippet[i % category.codeSnippet.length]);
+        if (lines.length > 8) lines.shift();
+        
+        // Direct DOM manipulation for maximum smoothness (bypasses React re-renders)
+        if (codeContainerRef.current) {
+          codeContainerRef.current.innerHTML = lines.map(line => 
+            `<div class="truncate">${line}</div>`
+          ).join('') + '<div class="animate-pulse mt-1 w-2 h-3 bg-neon-olive"></div>';
+        }
         i++;
-      }, 50);
+      }, 40); // Fast 40ms interval
     }
     return () => clearInterval(interval);
-  }, [category.codeSnippet]);
+  }, [category.codeSnippet, isInView]);
 
   const half = Math.ceil(category.skills.length / 2);
   const skills1 = category.skills.slice(0, half);
@@ -139,6 +147,7 @@ const CategoryCard = ({ category, index }) => {
 
   return (
     <motion.div
+      ref={cardRef}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -147,7 +156,7 @@ const CategoryCard = ({ category, index }) => {
     >
       {/* Left Panel: Terminal Background */}
       <div className="flex-1 sm:w-1/2 bg-slate-900 flex flex-col relative overflow-hidden border-b sm:border-b-0 sm:border-r border-black/10 p-6">
-        <div className="absolute inset-0 bg-grid opacity-10 pointer-events-none mix-blend-overlay"></div>
+        <div className="absolute inset-0 bg-grid opacity-10 pointer-events-none"></div>
         
         {/* Header */}
         <div className="relative z-10 flex flex-col gap-1 mb-4 pb-4 border-b border-white/10">
@@ -163,10 +172,10 @@ const CategoryCard = ({ category, index }) => {
         </div>
 
         {/* Code Runner */}
-        <div className="relative z-10 flex-1 flex flex-col justify-end font-mono text-[10px] md:text-xs text-neon-olive/80 leading-relaxed font-bold pointer-events-none">
-          {visibleLines.map((line, idx) => (
-            <div key={idx} className="truncate">{line}</div>
-          ))}
+        <div 
+          ref={codeContainerRef}
+          className="relative z-10 flex-1 flex flex-col justify-end font-mono text-[10px] md:text-xs text-neon-olive/80 leading-relaxed font-bold pointer-events-none"
+        >
           <div className="animate-pulse mt-1 w-2 h-3 bg-neon-olive"></div>
         </div>
       </div>
