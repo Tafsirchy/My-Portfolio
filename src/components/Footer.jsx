@@ -24,7 +24,7 @@ const Footer = () => {
              <Terminal className="w-5 h-5" />
              <span className="font-bold tracking-widest uppercase text-lg">System.Core</span>
           </div>
-          <span className="text-[10px] text-slate-500 tracking-[0.3em] uppercase font-bold">
+          <span className="text-xs md:text-sm text-slate-500 tracking-[0.3em] uppercase font-bold">
             User: {personalInfo.name.toUpperCase()}
           </span>
         </div>
@@ -33,13 +33,13 @@ const Footer = () => {
         <div className="w-full max-w-xs h-px bg-gradient-to-r from-transparent via-black/10 to-transparent"></div>
 
         {/* Info */}
-        <div className="space-y-2">
-          <p className="text-[10px] text-slate-500 tracking-widest uppercase font-bold">
+        <div className="space-y-2 pb-[env(safe-area-inset-bottom)]">
+          <p className="text-xs text-slate-500 tracking-widest uppercase font-bold">
             © {currentYear} // All_Systems_Nominal
           </p>
           <a
             href={`mailto:${personalInfo.email}`}
-            className="text-[10px] text-neon-olive hover:text-slate-900 transition-colors tracking-widest block uppercase font-bold"
+            className="text-xs text-neon-olive hover:text-slate-900 active:text-slate-900 transition-colors tracking-widest block uppercase font-bold min-h-[44px] flex items-center justify-center"
           >
             {personalInfo.email}
           </a>
@@ -48,10 +48,10 @@ const Footer = () => {
         {/* Back to Top */}
         <button
           onClick={scrollToTop}
-          className="mt-4 px-6 py-3 border border-black/10 hover:border-neon-navy text-slate-500 hover:text-neon-navy bg-slate-50 transition-all duration-300 flex items-center gap-3 group uppercase text-[10px] tracking-widest font-bold shadow-sm"
+          className="mt-4 px-6 py-3 min-h-[44px] border border-black/10 hover:border-neon-navy active:border-neon-navy text-slate-500 hover:text-neon-navy active:text-neon-navy bg-slate-50 transition-all duration-300 flex items-center gap-3 group uppercase text-xs tracking-widest font-bold shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-navy"
         >
           <span>Initiate_Reboot</span>
-          <ArrowUp className="h-3 w-3 group-hover:-translate-y-1 transition-transform" />
+          <ArrowUp className="h-4 w-4 group-hover:-translate-y-1 transition-transform" />
         </button>
 
       </div>

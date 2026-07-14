@@ -41,10 +41,10 @@ const About = () => {
         {/* Tech Container */}
         <div className="relative glass-panel p-8 md:p-12 border-t-2 border-t-neon-navy/80 shadow-lg shadow-black/5">
           {/* Decorative Corner Brackets */}
-          <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-neon-navy"></div>
-          <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-neon-navy"></div>
-          <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-neon-navy"></div>
-          <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-neon-navy"></div>
+          <div className="hidden md:block absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-neon-navy"></div>
+          <div className="hidden md:block absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-neon-navy"></div>
+          <div className="hidden md:block absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-neon-navy"></div>
+          <div className="hidden md:block absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-neon-navy"></div>
 
           {/* Section Headline */}
           <div className="mb-16 border-b border-black/10 pb-6">
@@ -74,8 +74,8 @@ const About = () => {
                 
                 {/* Tech Badges */}
                 <div className="absolute -bottom-4 -right-4 px-4 py-2 bg-surface border border-neon-navy/50 shadow-md">
-                  <p className="font-mono text-[10px] text-neon-navy uppercase font-bold">MERN_STACK</p>
-                  <p className="font-mono text-[8px] text-slate-500 uppercase tracking-widest font-bold">Level: Expert</p>
+                  <p className="font-mono text-xs md:text-sm text-neon-navy uppercase font-bold">MERN_STACK</p>
+                  <p className="font-mono text-xs text-slate-500 uppercase tracking-widest font-bold">Level: Expert</p>
                 </div>
               </div>
             </div>
@@ -111,11 +111,11 @@ const About = () => {
               {/* Data Points */}
               <div className="grid grid-cols-2 gap-4 pt-4 border-t border-black/10">
                 <div className="flex flex-col">
-                  <span className="text-[10px] text-neon-navy uppercase tracking-widest mb-1 font-bold">Location_Data</span>
+                  <span className="text-xs md:text-sm text-neon-navy uppercase tracking-widest mb-1 font-bold">Location_Data</span>
                   <span className="text-sm text-slate-900 uppercase font-bold">{personalInfo.location}</span>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-[10px] text-neon-navy uppercase tracking-widest mb-1 font-bold">Status</span>
+                  <span className="text-xs md:text-sm text-neon-navy uppercase tracking-widest mb-1 font-bold">Status</span>
                   <span className="text-sm text-slate-900 uppercase flex items-center gap-2 font-bold">
                     <span className="w-1.5 h-1.5 bg-neon-navy animate-pulse"></span>
                     Available for Deployment

@@ -1,10 +1,23 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  
+  const stateRef = useRef({ isHovered: false, isMenuOpen: false });
+  const timeoutRef = useRef(null);
+
+  useEffect(() => {
+    stateRef.current.isMenuOpen = isMobileMenuOpen;
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [isMobileMenuOpen]);
 
   const navItems = [
     { label: 'HOME', href: '#home' },
@@ -21,18 +34,31 @@ const Navbar = () => {
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
+      setIsVisible(true);
+
+      clearTimeout(timeoutRef.current);
+
+      // Hide navbar after 600ms of no scrolling, unless hovered or menu is open
+      if (window.scrollY > 100) {
+        timeoutRef.current = setTimeout(() => {
+          if (!stateRef.current.isHovered && !stateRef.current.isMenuOpen) {
+            setIsVisible(false);
+          }
+        }, 600);
+      }
     };
 
     const checkModal = () => {
       setIsModalOpen(document.body.classList.contains('modal-open'));
     };
-    
+
     const observer = new MutationObserver(checkModal);
     observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      clearTimeout(timeoutRef.current);
       observer.disconnect();
     };
   }, []);
@@ -53,13 +79,27 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 transition-all duration-300 ${
-        isModalOpen ? 'z-0 opacity-0 pointer-events-none' : 'z-50'
-      } ${
-        isScrolled
+      onMouseEnter={() => {
+        stateRef.current.isHovered = true;
+        setIsVisible(true);
+      }}
+      onMouseLeave={() => {
+        stateRef.current.isHovered = false;
+        if (window.scrollY > 100) {
+          clearTimeout(timeoutRef.current);
+          timeoutRef.current = setTimeout(() => {
+            if (!stateRef.current.isHovered && !stateRef.current.isMenuOpen) {
+              setIsVisible(false);
+            }
+          }, 600);
+        }
+      }}
+      className={`fixed top-0 left-0 right-0 transition-all duration-500 ${isModalOpen ? 'z-0 opacity-0 pointer-events-none' : 'z-50'
+        } ${isVisible ? 'translate-y-0' : '-translate-y-full'
+        } ${isScrolled
           ? 'bg-background/90 backdrop-blur-md border-b border-black/10'
           : 'bg-transparent border-b border-transparent'
-      }`}
+        }`}
     >
       <div className="max-w-7xl mx-auto w-full px-4 md:px-8">
         <div className="flex items-center justify-between h-16">
@@ -101,7 +141,7 @@ const Navbar = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2 text-slate-500 hover:text-neon-navy focus:outline-none transition-colors"
+            className="md:hidden p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center text-slate-500 hover:text-neon-navy active:text-neon-navy focus-visible:ring-2 focus-visible:outline-none transition-colors"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -123,7 +163,7 @@ const Navbar = () => {
                   key={item.label}
                   href={item.href}
                   onClick={(e) => scrollToSection(e, item.href)}
-                  className="font-mono text-xs tracking-[0.2em] text-slate-600 font-bold hover:text-neon-navy hover:bg-black/5 transition-all py-4 px-4 block border-b border-black/5 flex items-center gap-2"
+                  className="font-mono text-xs tracking-[0.2em] text-slate-600 font-bold active:bg-black/10 active:text-neon-navy transition-all py-4 px-4 block border-b border-black/5 flex items-center gap-2"
                 >
                   <span className="text-neon-navy">{'>'}</span> {item.label}
                 </a>

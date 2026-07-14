@@ -51,8 +51,8 @@ const SkillBadge = ({ tech, index, isMarquee = false }) => {
         />
       </div>
 
-      <div className="text-center font-mono w-full">
-        <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold group-hover:text-neon-navy transition-colors truncate">
+      <div className="text-center font-mono w-full mt-2">
+        <p className="text-xs md:text-sm text-slate-500 uppercase tracking-widest font-bold md:group-hover:text-neon-navy active:text-neon-navy transition-colors truncate">
           {tech.name}
         </p>
       </div>
@@ -141,9 +141,10 @@ const CategoryCard = ({ category, index }) => {
   const skills1 = category.skills.slice(0, half);
   const skills2 = category.skills.slice(half);
 
-  // Duplicate skills 6 times to ensure a seamless infinite scroll loop since arrays are shorter
-  const marqueeSkills1 = [...skills1, ...skills1, ...skills1, ...skills1, ...skills1, ...skills1];
-  const marqueeSkills2 = [...skills2, ...skills2, ...skills2, ...skills2, ...skills2, ...skills2];
+  // Create blocks of 3 to fill the height, rendering two identical blocks 
+  // ensures a mathematically perfect seamless scroll at exactly -50% translation.
+  const block1 = [...skills1, ...skills1, ...skills1];
+  const block2 = [...skills2, ...skills2, ...skills2];
 
   return (
     <motion.div
@@ -166,7 +167,7 @@ const CategoryCard = ({ category, index }) => {
               {category.title}
             </h3>
           </div>
-          <span className="font-mono text-[10px] text-slate-400 font-bold tracking-[0.2em] uppercase pl-6">
+          <span className="font-mono text-xs md:text-sm text-slate-400 font-bold tracking-[0.2em] uppercase pl-6">
             {category.subtitle}
           </span>
         </div>
@@ -174,7 +175,7 @@ const CategoryCard = ({ category, index }) => {
         {/* Code Runner */}
         <div 
           ref={codeContainerRef}
-          className="relative z-10 flex-1 flex flex-col justify-end font-mono text-[10px] md:text-xs text-neon-olive/80 leading-relaxed font-bold pointer-events-none"
+          className="relative z-10 flex-1 flex flex-col justify-end font-mono text-xs md:text-sm text-neon-olive/80 leading-relaxed font-bold pointer-events-none"
         >
           <div className="animate-pulse mt-1 w-2 h-3 bg-neon-olive"></div>
         </div>
@@ -185,28 +186,32 @@ const CategoryCard = ({ category, index }) => {
         className="flex-1 sm:w-1/2 bg-slate-50 relative overflow-hidden p-6 flex gap-4 justify-center"
         style={{ WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)', maskImage: 'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)' }}
       >
-        <div className="flex-1 flex flex-col gap-8 animate-marquee-vertical hover:[animation-play-state:paused] pt-4">
-          {marqueeSkills1.map((tech, skillIdx) => (
-            <SkillBadge 
-              key={`col1-${skillIdx}`} 
-              tech={tech} 
-              index={skillIdx} 
-              isMarquee={true}
-            />
-          ))}
+        <div className="flex-1 relative h-full w-full overflow-hidden group/marquee">
+          <div className="absolute top-0 left-0 w-full flex flex-col gap-8 pb-8 animate-marquee-1 group-hover/marquee:[animation-play-state:paused] active:[animation-play-state:paused]">
+            {block1.map((tech, skillIdx) => (
+              <SkillBadge key={`b1-1-${skillIdx}`} tech={tech} index={skillIdx} isMarquee={true} />
+            ))}
+          </div>
+          <div className="absolute top-0 left-0 w-full flex flex-col gap-8 pb-8 animate-marquee-2 group-hover/marquee:[animation-play-state:paused] active:[animation-play-state:paused]">
+            {block1.map((tech, skillIdx) => (
+              <SkillBadge key={`b1-2-${skillIdx}`} tech={tech} index={skillIdx} isMarquee={true} />
+            ))}
+          </div>
         </div>
         
         {/* If skills2 has items, render the reverse scrolling column */}
         {skills2.length > 0 && (
-          <div className="flex-1 flex flex-col gap-8 animate-marquee-vertical-reverse hover:[animation-play-state:paused] pt-4">
-            {marqueeSkills2.map((tech, skillIdx) => (
-              <SkillBadge 
-                key={`col2-${skillIdx}`} 
-                tech={tech} 
-                index={skillIdx} 
-                isMarquee={true}
-              />
-            ))}
+          <div className="flex-1 relative h-full w-full overflow-hidden group/marquee2">
+            <div className="absolute top-0 left-0 w-full flex flex-col gap-8 pb-8 animate-marquee-1-reverse group-hover/marquee2:[animation-play-state:paused] active:[animation-play-state:paused]">
+              {block2.map((tech, skillIdx) => (
+                <SkillBadge key={`b2-1-${skillIdx}`} tech={tech} index={skillIdx} isMarquee={true} />
+              ))}
+            </div>
+            <div className="absolute top-0 left-0 w-full flex flex-col gap-8 pb-8 animate-marquee-2-reverse group-hover/marquee2:[animation-play-state:paused] active:[animation-play-state:paused]">
+              {block2.map((tech, skillIdx) => (
+                <SkillBadge key={`b2-2-${skillIdx}`} tech={tech} index={skillIdx} isMarquee={true} />
+              ))}
+            </div>
           </div>
         )}
       </div>
@@ -268,10 +273,11 @@ const Skills = () => {
       subtitle: "CORE.LOGIC",
       codeSnippet: languagesCode,
       skills: [
-        { name: "C", Icon: SiC, color: "#A8B9CC", delay: 17 },
-        { name: "C++", Icon: SiCplusplus, color: "#00599C", delay: 18 },
-        { name: "C#", Icon: TbBrandCSharp, color: "#239120", delay: 19 },
-        { name: "Python", Icon: SiPython, color: "#3776AB", delay: 20 },
+        { name: "JavaScript", Icon: SiJavascript, color: "#F7DF1E", delay: 17 },
+        { name: "C", Icon: SiC, color: "#A8B9CC", delay: 18 },
+        { name: "C++", Icon: SiCplusplus, color: "#00599C", delay: 19 },
+        { name: "C#", Icon: TbBrandCSharp, color: "#239120", delay: 20 },
+        { name: "Python", Icon: SiPython, color: "#3776AB", delay: 21 },
       ]
     }
   ];
@@ -315,16 +321,36 @@ const Skills = () => {
           0% { transform: translateY(0); }
           100% { transform: translateY(100%); }
         }
-        @keyframes marquee-vertical {
-          0% { transform: translateY(0) translateZ(0); }
-          100% { transform: translateY(-50%) translateZ(0); }
+        @keyframes marquee-1 {
+          0% { transform: translateY(0); }
+          100% { transform: translateY(-100%); }
         }
-        .animate-marquee-vertical {
-          animation: marquee-vertical 4s linear infinite;
+        @keyframes marquee-2 {
+          0% { transform: translateY(100%); }
+          100% { transform: translateY(0); }
+        }
+        @keyframes marquee-1-reverse {
+          0% { transform: translateY(0); }
+          100% { transform: translateY(100%); }
+        }
+        @keyframes marquee-2-reverse {
+          0% { transform: translateY(-100%); }
+          100% { transform: translateY(0); }
+        }
+        .animate-marquee-1 {
+          animation: marquee-1 8s linear infinite;
           will-change: transform;
         }
-        .animate-marquee-vertical-reverse {
-          animation: marquee-vertical 4s linear infinite reverse;
+        .animate-marquee-2 {
+          animation: marquee-2 8s linear infinite;
+          will-change: transform;
+        }
+        .animate-marquee-1-reverse {
+          animation: marquee-1-reverse 8s linear infinite;
+          will-change: transform;
+        }
+        .animate-marquee-2-reverse {
+          animation: marquee-2-reverse 8s linear infinite;
           will-change: transform;
         }
       `}</style>

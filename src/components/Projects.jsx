@@ -17,6 +17,7 @@ const ProjectCard = ({ project, index, openModal, scrollYProgress }) => {
   const [iframeScale, setIframeScale] = useState(1);
 
   const handleMouseEnter = () => {
+    if (window.innerWidth < 1024) return;
     // 300ms delay before loading iframe to avoid accidental triggers
     hoverTimeoutRef.current = setTimeout(() => {
       setIsHovered(true);
@@ -87,7 +88,7 @@ const ProjectCard = ({ project, index, openModal, scrollYProgress }) => {
                   <Terminal className="w-4 h-4 text-neon-navy" />
                   <span className="font-mono text-xs text-slate-400">source_code.exe</span>
                 </div>
-                <pre className="font-mono text-[10px] sm:text-xs text-neon-navy/80 overflow-hidden">
+                <pre className="font-mono text-xs md:text-[10px] text-neon-navy/80 overflow-hidden">
                   <code>{project.codeSnippet}</code>
                 </pre>
               </div>
@@ -111,7 +112,7 @@ const ProjectCard = ({ project, index, openModal, scrollYProgress }) => {
                           <div className="w-2.5 h-2.5 rounded-full bg-emerald-400"></div>
                         </div>
                         <div className="flex-1 mx-2 flex justify-center">
-                          <div className="bg-white/80 border border-black/5 rounded-sm px-3 py-0.5 text-[9px] font-mono text-slate-600 flex items-center gap-1 shadow-inner w-3/4 max-w-sm overflow-hidden whitespace-nowrap">
+                          <div className="bg-white/80 border border-black/5 rounded-sm px-3 py-1 md:py-0.5 text-xs md:text-[9px] font-mono text-slate-600 flex items-center gap-1 shadow-inner w-3/4 max-w-sm overflow-hidden whitespace-nowrap">
                             <span className="text-emerald-600">https://</span>
                             {project.liveUrl.replace(/^https?:\/\//, '')}
                           </div>
@@ -163,7 +164,7 @@ const ProjectCard = ({ project, index, openModal, scrollYProgress }) => {
       <div className={`lg:col-span-5 ${isEven ? 'lg:order-2' : 'lg:order-1'}`}>
         <div className={`flex flex-col ${isEven ? 'lg:items-start lg:text-left' : 'lg:items-end lg:text-right'} gap-6`}>
           <div className="space-y-2">
-            <span className="font-mono text-[10px] text-neon-olive tracking-widest uppercase block font-bold">
+            <span className="font-mono text-xs md:text-[10px] text-neon-olive tracking-widest uppercase block font-bold">
               // Project_ID: {String(index + 1).padStart(2, '0')}
             </span>
             <h3 className="text-3xl md:text-4xl font-display font-bold text-slate-900 tracking-tight uppercase group-hover:text-neon-navy transition-colors">
@@ -180,34 +181,34 @@ const ProjectCard = ({ project, index, openModal, scrollYProgress }) => {
 
           <div className={`flex flex-wrap gap-2 ${isEven ? 'justify-start' : 'lg:justify-end'}`}>
             {project.technologies.map((tech, i) => (
-              <span key={i} className="font-mono text-[10px] px-2 py-1 border border-black/10 text-slate-600 uppercase tracking-wider bg-slate-50 font-bold">
+              <span key={i} className="font-mono text-xs md:text-[10px] px-2.5 md:px-2 py-1.5 md:py-1 border border-black/10 text-slate-600 uppercase tracking-wider bg-slate-50 font-bold">
                 {tech}
               </span>
             ))}
           </div>
 
-          <div className={`flex flex-wrap gap-4 pt-4 ${isEven ? 'justify-start' : 'lg:justify-end'}`}>
+          <div className={`flex flex-col sm:flex-row flex-wrap gap-3 md:gap-4 pt-4 w-full md:w-auto ${isEven ? 'justify-start' : 'lg:justify-end'}`}>
             <a 
               href={project.liveUrl} 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="font-mono text-xs text-white bg-neon-navy px-6 py-2 uppercase font-bold hover:shadow-[0_0_15px_rgba(30,58,138,0.4)] transition-all flex items-center gap-2"
+              className="font-mono text-sm md:text-xs text-white bg-neon-navy px-6 py-2.5 md:py-2 uppercase font-bold hover:shadow-[0_0_15px_rgba(30,58,138,0.4)] transition-all flex items-center justify-center gap-2 w-full sm:w-auto"
             >
-              <Monitor className="w-3 h-3" /> Execute
+              <Monitor className="w-4 h-4 md:w-3 md:h-3" /> Execute
             </a>
             <a 
               href={project.githubUrl} 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="font-mono text-xs text-slate-700 border border-black/20 bg-white px-6 py-2 uppercase font-bold hover:border-neon-navy hover:text-neon-navy transition-colors flex items-center gap-2 shadow-sm"
+              className="font-mono text-sm md:text-xs text-slate-700 border border-black/20 bg-white px-6 py-2.5 md:py-2 uppercase font-bold hover:border-neon-navy hover:text-neon-navy transition-colors flex items-center justify-center gap-2 shadow-sm w-full sm:w-auto"
             >
-              <Code className="w-3 h-3" /> Source
+              <Code className="w-4 h-4 md:w-3 md:h-3" /> Source
             </a>
             <button 
               onClick={() => openModal(project)}
-              className="font-mono text-xs text-neon-olive border border-neon-olive/50 bg-white px-4 py-2 uppercase font-bold hover:bg-neon-olive/10 transition-colors flex items-center gap-2 shadow-sm"
+              className="font-mono text-sm md:text-xs text-neon-olive border border-neon-olive/50 bg-white px-4 py-2.5 md:py-2 uppercase font-bold hover:bg-neon-olive/10 transition-colors flex items-center justify-center gap-2 shadow-sm w-full sm:w-auto"
             >
-              <Info className="w-3 h-3" /> Logs
+              <Info className="w-4 h-4 md:w-3 md:h-3" /> Logs
             </button>
           </div>
         </div>
@@ -220,6 +221,7 @@ const Projects = () => {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
   const [selectedProject, setSelectedProject] = useState(null);
+  const [showAllProjectsMobile, setShowAllProjectsMobile] = useState(false);
 
   const lenis = useLenis();
 
@@ -268,14 +270,27 @@ const Projects = () => {
           {/* Projects List */}
           <div className="space-y-32">
             {projects.map((project, index) => (
-              <ProjectCard 
-                key={project.id} 
-                project={project} 
-                index={index} 
-                openModal={openModal} 
-              />
+              <div key={project.id} className={index >= 3 && !showAllProjectsMobile ? 'hidden sm:block' : 'block'}>
+                <ProjectCard 
+                  project={project} 
+                  index={index} 
+                  openModal={openModal} 
+                />
+              </div>
             ))}
           </div>
+          
+          {/* Load More Button (Mobile Only) */}
+          {projects.length > 3 && !showAllProjectsMobile && (
+            <div className="mt-16 flex justify-center sm:hidden">
+              <button
+                onClick={() => setShowAllProjectsMobile(true)}
+                className="font-mono text-sm text-slate-800 border-2 border-slate-800 bg-transparent px-8 py-3 uppercase font-bold hover:bg-slate-800 hover:text-white active:bg-slate-800 active:text-white transition-colors"
+              >
+                Load More Projects
+              </button>
+            </div>
+          )}
         </motion.div>
       </div>
 
@@ -283,7 +298,7 @@ const Projects = () => {
       {typeof window !== 'undefined' && createPortal(
         <AnimatePresence>
           {selectedProject && (
-            <div className="fixed inset-0 z-[100000] flex items-center justify-center p-4 sm:p-6">
+            <div className="fixed inset-0 z-[100000] flex items-center justify-center p-0 md:p-4 sm:p-6">
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -298,7 +313,7 @@ const Projects = () => {
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.3 }}
                 data-lenis-prevent
-                className="relative w-full max-w-4xl max-h-[90vh] bg-white border border-neon-navy/30 flex flex-col z-10 shadow-[0_0_50px_rgba(0,0,0,0.1)]"
+                className="relative w-full h-full md:h-auto max-w-4xl md:max-h-[90vh] bg-white border-0 md:border border-neon-navy/30 flex flex-col z-10 shadow-[0_0_50px_rgba(0,0,0,0.1)]"
               >
                 {/* Modal Header */}
                 <div className="flex items-center justify-between p-4 border-b border-black/10 bg-slate-50">
@@ -308,9 +323,9 @@ const Projects = () => {
                   </div>
                   <button 
                     onClick={closeModal}
-                    className="p-1 hover:bg-neon-navy/20 text-slate-500 hover:text-slate-900 transition-colors"
+                    className="p-2.5 md:p-1 -mr-2 md:-mr-0 hover:bg-neon-navy/20 text-slate-500 hover:text-slate-900 transition-colors rounded"
                   >
-                    <X className="w-5 h-5" />
+                    <X className="w-6 h-6 md:w-5 md:h-5" />
                   </button>
                 </div>
 
@@ -329,18 +344,18 @@ const Projects = () => {
 
                   {/* Description */}
                   <div className="space-y-2 border-l-2 border-neon-navy pl-4">
-                    <h3 className="text-xs text-neon-navy uppercase tracking-widest font-bold">System_Overview</h3>
-                    <p className="text-slate-600 text-sm leading-relaxed">
+                    <h3 className="text-sm md:text-xs text-neon-navy uppercase tracking-widest font-bold">System_Overview</h3>
+                    <p className="text-slate-600 text-base md:text-sm leading-relaxed">
                       {selectedProject.description}
                     </p>
                   </div>
   
                   {/* Tech Stack */}
                   <div className="space-y-3">
-                    <h3 className="text-xs text-neon-olive uppercase tracking-widest font-bold">Dependencies</h3>
+                    <h3 className="text-sm md:text-xs text-neon-olive uppercase tracking-widest font-bold">Dependencies</h3>
                     <div className="flex flex-wrap gap-2">
                       {selectedProject.technologies.map((tech, i) => (
-                        <span key={i} className="px-2 py-1 bg-slate-50 border border-black/10 text-[10px] text-slate-700 uppercase font-bold">
+                        <span key={i} className="px-2.5 md:px-2 py-1.5 md:py-1 bg-slate-50 border border-black/10 text-xs md:text-[10px] text-slate-700 uppercase font-bold">
                           {tech}
                         </span>
                       ))}
@@ -350,28 +365,28 @@ const Projects = () => {
                   <div className="grid md:grid-cols-2 gap-6 pt-4 border-t border-black/10">
                     {/* Challenges */}
                     <div className="space-y-2">
-                      <h3 className="text-xs text-red-500 uppercase tracking-widest font-bold">Errors_Encountered</h3>
-                      <p className="text-slate-500 text-xs leading-relaxed italic">
+                      <h3 className="text-sm md:text-xs text-red-500 uppercase tracking-widest font-bold">Errors_Encountered</h3>
+                      <p className="text-slate-500 text-sm md:text-xs leading-relaxed italic">
                         "{selectedProject.challenges}"
                       </p>
                     </div>
   
                     {/* Future Plans */}
                     <div className="space-y-2">
-                      <h3 className="text-xs text-emerald-500 uppercase tracking-widest font-bold">Future_Patches</h3>
-                      <p className="text-slate-500 text-xs leading-relaxed">
+                      <h3 className="text-sm md:text-xs text-emerald-500 uppercase tracking-widest font-bold">Future_Patches</h3>
+                      <p className="text-slate-500 text-sm md:text-xs leading-relaxed">
                         {selectedProject.futurePlans}
                       </p>
                     </div>
                   </div>
   
                   {/* Actions */}
-                  <div className="flex gap-4 pt-6 border-t border-black/10">
+                  <div className="flex flex-col sm:flex-row gap-3 md:gap-4 pt-6 border-t border-black/10 pb-4 md:pb-0">
                     <a 
                       href={selectedProject.liveUrl} 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="flex-1 text-center bg-neon-navy text-white text-xs font-bold uppercase py-3 hover:shadow-[0_0_15px_rgba(30,58,138,0.4)] transition-all"
+                      className="flex-1 text-center bg-neon-navy text-white text-sm md:text-xs font-bold uppercase py-3 md:py-3 hover:shadow-[0_0_15px_rgba(30,58,138,0.4)] transition-all"
                     >
                       Init Deployment
                     </a>
@@ -379,7 +394,7 @@ const Projects = () => {
                       href={selectedProject.githubUrl} 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="flex-1 text-center border border-black/20 bg-slate-50 text-slate-800 text-xs font-bold uppercase py-3 hover:border-neon-navy hover:text-neon-navy transition-colors"
+                      className="flex-1 text-center border border-black/20 bg-slate-50 text-slate-800 text-sm md:text-xs font-bold uppercase py-3 md:py-3 hover:border-neon-navy hover:text-neon-navy transition-colors"
                     >
                       View Source
                     </a>

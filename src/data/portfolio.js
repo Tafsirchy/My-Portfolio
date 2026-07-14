@@ -36,11 +36,16 @@ export const socialLinks = [
 
 export const skills = [
   {
+    category: "Languages",
+    items: [
+      { name: "JavaScript", icon: "🟨", level: 95 },
+      { name: "TypeScript", icon: "🔷", level: 85 },
+    ],
+  },
+  {
     category: "Frontend",
     items: [
       { name: "React", icon: "⚛️", level: 90 },
-      { name: "JavaScript", icon: "🟨", level: 95 },
-      { name: "TypeScript", icon: "🔷", level: 85 },
       { name: "HTML5", icon: "🟧", level: 95 },
       { name: "CSS3", icon: "🎨", level: 90 },
       { name: "Tailwind CSS", icon: "💨", level: 90 },
@@ -67,6 +72,7 @@ export const education = [
     duration: "2023 - 2027",
     description: "Currently completing graduation with a focus on web development, software engineering, and data structures. Continuously working on practical projects using modern web technologies.",
     gpa: "3.5/4.0",
+    fileName: "BCSE"
   },
   {
     id: 2,
@@ -74,6 +80,7 @@ export const education = [
     degree: "MERN Stack Development Certification",
     duration: "2025",
     description: "Comprehensive certification covering modern web technologies, including React, Node.js, Next.js, MongoDB, and Firebase, along with hands-on experience in deploying applications using Vercel, Netlify, Firebase Hosting, Surge, and cloud platforms.",
+    fileName: "MERN_Stack"
   },
 ];
 

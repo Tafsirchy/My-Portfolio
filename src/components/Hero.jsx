@@ -120,7 +120,7 @@ const Hero = () => {
           <AnimatePresence>
             {isCompiling && (
               <motion.div
-                className="absolute bottom-0 left-4 md:left-12 w-full max-w-3xl h-[90%] z-20 flex flex-col justify-start p-4 md:p-8 font-mono text-[10px] md:text-xs text-neon-olive/80 leading-tight font-bold mix-blend-screen overflow-hidden"
+                className="absolute bottom-0 left-4 md:left-12 w-full max-w-3xl h-[90%] z-20 flex flex-col justify-start p-4 md:p-8 font-mono text-xs md:text-sm text-neon-olive/80 leading-tight font-bold mix-blend-screen overflow-hidden"
                 initial={{ opacity: 1 }}
                 exit={{ opacity: 0, filter: "blur(10px)" }}
                 transition={{ duration: 0.5 }}
@@ -220,7 +220,7 @@ const Hero = () => {
                 className="px-3 py-1 bg-neon-navy/10 border border-neon-navy/30 flex items-center gap-2 font-mono shadow-sm"
               >
                 <div className="w-2 h-2 bg-neon-navy rounded-full animate-pulse"></div>
-                <span className="text-[10px] tracking-widest text-neon-navy font-bold uppercase">STATUS: ONLINE</span>
+                <span className="text-xs md:text-sm tracking-widest text-neon-navy font-bold uppercase">STATUS: ONLINE</span>
               </motion.div>
 
               <div className="flex items-center gap-3 font-mono text-sm tracking-[0.2em] uppercase font-bold bg-white/90 px-3 py-1.5 rounded-sm shadow-sm border border-black/5">
@@ -256,22 +256,12 @@ const Hero = () => {
           transition={{ duration: 0.8, delay: isCompiling ? 0 : 0.7 }}
           className="col-span-12 md:col-span-4 lg:col-span-4 flex flex-col items-center md:items-end justify-center gap-8 w-full mt-4 md:mt-0"
         >
-          {/* Data tags - Right Aligned */}
-          <div className="hidden md:flex flex-col gap-1 font-mono text-[10px] text-neon-navy bg-white/80 p-3 border border-neon-navy/20 backdrop-blur-md font-bold text-right shadow-lg">
-            <div className="flex items-center justify-end gap-2 text-slate-400 mb-1 border-b border-slate-200 pb-1">
-              <Cpu className="w-4 h-4" />
-              <span>SYSTEM_METRICS</span>
-            </div>
-            <span>COORD: 34.0522°N</span>
-            <span>SYS_TEMP: OPTIMAL</span>
-            <span className="text-neon-olive">ID: MERN_DEV_01</span>
-            <span className="text-slate-500">FW: V2.4.1</span>
-          </div>
+
 
           <div className="flex flex-col items-center md:items-end gap-6 bg-white/60 md:bg-transparent backdrop-blur-md md:backdrop-blur-none p-6 md:p-0 rounded-lg shadow-xl md:shadow-none border border-white/50 md:border-none w-full">
             {/* Social Links */}
             <div className="flex md:flex-col items-center md:items-end gap-4 w-full justify-center md:justify-end">
-              <span className="hidden md:block font-mono text-[9px] text-slate-400 tracking-widest uppercase rotate-180 bg-white/50 px-1 py-2" style={{ writingMode: 'vertical-rl' }}>
+              <span className="hidden md:block font-mono text-xs md:text-sm text-slate-400 tracking-widest uppercase rotate-180 bg-white/50 px-1 py-2" style={{ writingMode: 'vertical-rl' }}>
                 SOCIAL_LINKS
               </span>
               <div className="flex md:flex-col gap-4">
@@ -284,7 +274,7 @@ const Hero = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       whileHover={{ scale: 1.1, x: -5 }}
-                      className="w-10 h-10 border border-black/10 bg-white/90 shadow-sm hover:bg-neon-navy hover:border-neon-navy flex items-center justify-center transition-all duration-300 group"
+                      className="w-[44px] h-[44px] md:w-12 md:h-12 border border-black/10 bg-white/90 shadow-sm hover:bg-neon-navy active:bg-neon-navy hover:border-neon-navy flex items-center justify-center transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2"
                       aria-label={social.name}
                     >
                       <Icon className="w-4 h-4 text-slate-500 group-hover:text-white transition-colors" />
@@ -295,22 +285,22 @@ const Hero = () => {
             </div>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col items-center md:items-end gap-4 font-mono text-xs tracking-widest uppercase w-full">
+            <div className="flex flex-col items-center md:items-end gap-4 font-mono text-sm md:text-base tracking-widest uppercase w-full mt-2">
               <button
                 onClick={() => scrollToSection('#contact')}
-                className="group relative w-full md:w-auto px-8 py-4 bg-neon-navy text-white font-bold overflow-hidden transition-all hover:shadow-[0_0_20px_rgba(30,58,138,0.4)] flex justify-center md:justify-end"
+                className="group relative w-full md:w-auto px-10 py-5 bg-neon-navy text-white font-bold overflow-hidden transition-all hover:shadow-[0_0_20px_rgba(30,58,138,0.4)] flex justify-center md:justify-end"
               >
                 <span className="relative z-10 flex items-center gap-2">
-                  INITIATE_CONTACT <ArrowDown className="w-3 h-3 -rotate-90 group-hover:translate-x-1 transition-transform" />
+                  INITIATE_CONTACT <ArrowDown className="w-4 h-4 -rotate-90 group-hover:translate-x-1 transition-transform" />
                 </span>
               </button>
 
               <a
                 href={personalInfo.resume}
                 download
-                className="group w-full md:w-auto px-8 py-3 bg-white/90 backdrop-blur-md text-slate-800 border border-black/10 shadow-sm hover:border-neon-navy hover:text-neon-navy transition-all flex items-center justify-center md:justify-end gap-2 font-bold"
+                className="group w-full md:w-auto px-10 py-4 bg-white/90 backdrop-blur-md text-slate-800 border border-black/10 shadow-sm hover:border-neon-navy hover:text-neon-navy transition-all flex items-center justify-center md:justify-end gap-2 font-bold"
               >
-                <Download className="w-3 h-3 group-hover:animate-bounce" />
+                <Download className="w-4 h-4 group-hover:animate-bounce" />
                 <span>GET_RESUME</span>
               </a>
             </div>
@@ -323,7 +313,7 @@ const Hero = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: isCompiling ? 0 : 1 }}
         transition={{ delay: isCompiling ? 0 : 2 }}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center z-40 font-mono text-[10px] text-slate-500 tracking-[0.2em] uppercase font-bold"
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center z-40 font-mono text-xs md:text-sm text-slate-500 tracking-[0.2em] uppercase font-bold"
       >
         <span className="mb-2 bg-white/70 px-3 py-1 backdrop-blur-sm shadow-sm rounded-sm">Scroll_Down</span>
         <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 1.5 }}>

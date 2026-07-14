@@ -103,7 +103,7 @@ const Contact = () => {
                   <div className="absolute left-0 top-0 bottom-0 w-1 bg-neon-navy opacity-0 group-hover:opacity-100 transition-opacity"></div>
                   <Mail className="h-6 w-6 text-slate-500 group-hover:text-neon-navy transition-colors" />
                   <div className="flex-1">
-                    <p className="font-mono text-[10px] text-slate-500 uppercase tracking-widest mb-1 font-bold">Direct_Message</p>
+                    <p className="font-mono text-xs md:text-[10px] text-slate-500 uppercase tracking-widest mb-1 font-bold">Direct_Message</p>
                     <a href={`mailto:${personalInfo.email}`} className="font-mono text-slate-900 font-bold text-sm hover:text-neon-navy transition-colors">
                       <ScrambleText text={personalInfo.email} forceHover={hoveredCard === 'email'} />
                     </a>
@@ -121,7 +121,7 @@ const Contact = () => {
                     <div className="relative bg-white border border-black/10 p-6 hover:border-neon-olive transition-colors h-full shadow-sm">
                       <div className="absolute left-0 top-0 bottom-0 w-1 bg-neon-olive opacity-0 group-hover:opacity-100 transition-opacity"></div>
                       <Phone className="h-5 w-5 text-slate-500 group-hover:text-neon-olive transition-colors mb-4" />
-                      <p className="font-mono text-[10px] text-slate-500 uppercase tracking-widest mb-1 font-bold">Voice_Comm</p>
+                      <p className="font-mono text-xs md:text-[10px] text-slate-500 uppercase tracking-widest mb-1 font-bold">Voice_Comm</p>
                       <p className="font-mono text-sm text-slate-900 font-bold"><ScrambleText text={personalInfo.phone} forceHover={hoveredCard === 'phone'} /></p>
                     </div>
                   </a>
@@ -137,7 +137,7 @@ const Contact = () => {
                     <div className="relative bg-white border border-black/10 p-6 hover:border-neon-navy transition-colors h-full shadow-sm">
                       <div className="absolute left-0 top-0 bottom-0 w-1 bg-neon-navy opacity-0 group-hover:opacity-100 transition-opacity"></div>
                       <SiWhatsapp className="h-5 w-5 text-slate-500 group-hover:text-neon-navy transition-colors mb-4" />
-                      <p className="font-mono text-[10px] text-slate-500 uppercase tracking-widest mb-1 font-bold">Live_Chat</p>
+                      <p className="font-mono text-xs md:text-[10px] text-slate-500 uppercase tracking-widest mb-1 font-bold">Live_Chat</p>
                       <p className="font-mono text-sm text-slate-900 font-bold"><ScrambleText text={personalInfo.whatsapp} forceHover={hoveredCard === 'whatsapp'} /></p>
                     </div>
                   </a>
@@ -169,15 +169,15 @@ const Contact = () => {
               <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-neon-olive"></div>
 
               <div className="mb-8 border-b border-white/10 pb-4">
-                 <h3 className="font-mono text-sm text-white uppercase tracking-widest font-bold flex items-center gap-2">
-                  <Terminal className="w-4 h-4 text-neon-olive" /> Init_Transmission
+                 <h3 className="font-mono text-base md:text-sm text-white uppercase tracking-widest font-bold flex items-center gap-2">
+                  <Terminal className="w-5 h-5 md:w-4 md:h-4 text-neon-olive" /> Init_Transmission
                  </h3>
               </div>
               
               <form onSubmit={handleSubmit} className="space-y-6 font-mono">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <label className="text-xs text-neon-olive tracking-widest font-bold flex items-center gap-2">
+                    <label className="text-sm md:text-xs text-neon-olive tracking-widest font-bold flex items-center gap-2">
                       <span>{'>'}</span> Enter_Identity:
                     </label>
                     <Input
@@ -186,11 +186,11 @@ const Contact = () => {
                       onChange={handleChange}
                       required
                       placeholder="[ TYPE HERE ]"
-                      className="bg-transparent border-0 border-b border-white/20 text-white placeholder:text-slate-600 focus:border-neon-olive h-10 rounded-none uppercase text-xs font-bold shadow-none px-0 focus-visible:ring-0"
+                      className="bg-transparent border-0 border-b border-white/20 text-white placeholder:text-slate-600 focus:border-neon-olive h-10 rounded-none uppercase text-base md:text-xs font-bold shadow-none px-0 focus-visible:ring-0"
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-xs text-neon-olive tracking-widest font-bold flex items-center gap-2">
+                    <label className="text-sm md:text-xs text-neon-olive tracking-widest font-bold flex items-center gap-2">
                       <span>{'>'}</span> Email_Endpoint:
                     </label>
                     <Input
@@ -200,13 +200,13 @@ const Contact = () => {
                       onChange={handleChange}
                       required
                       placeholder="[ TYPE HERE ]"
-                      className="bg-transparent border-0 border-b border-white/20 text-white placeholder:text-slate-600 focus:border-neon-olive h-10 rounded-none uppercase text-xs font-bold shadow-none px-0 focus-visible:ring-0"
+                      className="bg-transparent border-0 border-b border-white/20 text-white placeholder:text-slate-600 focus:border-neon-olive h-10 rounded-none uppercase text-base md:text-xs font-bold shadow-none px-0 focus-visible:ring-0"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-xs text-neon-olive tracking-widest font-bold flex items-center gap-2">
+                  <label className="text-sm md:text-xs text-neon-olive tracking-widest font-bold flex items-center gap-2">
                     <span>{'>'}</span> Subject_Matter:
                   </label>
                   <Input
@@ -215,12 +215,12 @@ const Contact = () => {
                     onChange={handleChange}
                     required
                     placeholder="[ TYPE HERE ]"
-                    className="bg-transparent border-0 border-b border-white/20 text-white placeholder:text-slate-600 focus:border-neon-olive h-10 rounded-none uppercase text-xs font-bold shadow-none px-0 focus-visible:ring-0"
+                    className="bg-transparent border-0 border-b border-white/20 text-white placeholder:text-slate-600 focus:border-neon-olive h-10 rounded-none uppercase text-base md:text-xs font-bold shadow-none px-0 focus-visible:ring-0"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-xs text-neon-olive tracking-widest font-bold flex items-center gap-2">
+                  <label className="text-sm md:text-xs text-neon-olive tracking-widest font-bold flex items-center gap-2">
                     <span>{'>'}</span> Payload:
                   </label>
                   <Textarea
@@ -230,7 +230,7 @@ const Contact = () => {
                     required
                     placeholder="[ TYPE HERE ]"
                     rows={5}
-                    className="bg-transparent border-0 border-b border-white/20 text-white placeholder:text-slate-600 focus:border-neon-olive rounded-none resize-none uppercase text-xs px-0 py-2 font-bold shadow-none focus-visible:ring-0"
+                    className="bg-transparent border-0 border-b border-white/20 text-white placeholder:text-slate-600 focus:border-neon-olive rounded-none resize-none uppercase text-base md:text-xs px-0 py-2 font-bold shadow-none focus-visible:ring-0"
                   />
                 </div>
 
