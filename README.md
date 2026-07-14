@@ -75,7 +75,7 @@ firebase deploy
 
 ## 🤝 Let's Connect
 Feel free to reach out if you want to collaborate on a project or just say hi!
-- **Email:** [EMAIL_ADDRESS] (Replace with actual if needed)
+- **Email:** [EMAIL_ADDRESS] (tafsirchy1000@gmail.com)
 - **GitHub:** [@Tafsirchy](https://github.com/Tafsirchy)
 
 > "Transmitting data securely..." 👾
