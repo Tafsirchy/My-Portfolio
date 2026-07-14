@@ -23,6 +23,8 @@ const Contact = () => {
     message: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   const handleChange = (e) => {
     setFormData({
@@ -34,6 +36,7 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setErrorMsg('');
 
     try {
       const result = await emailjs.send(
@@ -51,8 +54,10 @@ const Contact = () => {
 
       console.log('Email sent successfully:', result.text);
       setFormData({ name: '', email: '', subject: '', message: '' });
+      setIsSuccessModalOpen(true);
     } catch (error) {
       console.error('Email send failed:', error);
+      setErrorMsg('Transmission failed. Please check your uplink (internet connection) or try direct email.');
     } finally {
       setIsSubmitting(false);
     }
@@ -234,6 +239,16 @@ const Contact = () => {
                   />
                 </div>
 
+                {errorMsg && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: -10 }} 
+                    animate={{ opacity: 1, y: 0 }} 
+                    className="text-red-500 font-mono text-xs uppercase tracking-widest border border-red-500/30 bg-red-500/10 p-3 flex items-center gap-2"
+                  >
+                    <span className="text-red-500 font-bold">!</span> {errorMsg}
+                  </motion.div>
+                )}
+
                 <button
                   type="submit"
                   className="w-full bg-neon-olive/10 border border-neon-olive text-neon-olive font-bold h-14 uppercase tracking-[0.2em] hover:bg-neon-olive hover:text-slate-900 transition-colors flex items-center justify-center gap-3 text-xs mt-8 group"
@@ -256,6 +271,11 @@ const Contact = () => {
           </motion.div>
         </div>
       </div>
+      
+      <SuccessModal 
+        isOpen={isSuccessModalOpen} 
+        onClose={() => setIsSuccessModalOpen(false)} 
+      />
     </section>
   );
 };
