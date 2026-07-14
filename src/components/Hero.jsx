@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowDown, Github, Linkedin, Twitter, Facebook, Download, Terminal, Cpu } from 'lucide-react';
+import { ArrowDown, Github, Linkedin, Twitter, Facebook, Download, Terminal, Cpu, ArrowRight } from 'lucide-react';
 import { personalInfo, socialLinks } from '@/data/portfolio';
 
 const CODE_SNIPPETS = [
@@ -223,8 +223,19 @@ const Hero = () => {
                 <span className="text-xs md:text-sm tracking-widest text-neon-navy font-bold uppercase">STATUS: ONLINE</span>
               </motion.div>
 
-              <div className="flex items-center gap-3 font-mono text-sm tracking-[0.2em] uppercase font-bold bg-white/90 px-3 py-1.5 rounded-sm shadow-sm border border-black/5">
-                <span className="text-slate-400">[</span><span className="text-slate-900">{personalInfo.name}</span><span className="text-slate-400">]</span>
+              <div className="flex flex-col items-start gap-1.5">
+                <div className="flex items-center gap-3 font-mono text-base md:text-lg tracking-[0.2em] uppercase font-bold bg-white/90 px-4 py-2 rounded-sm shadow-sm border border-black/5">
+                  <span className="text-slate-400">[</span><span className="text-slate-900">{personalInfo.name}</span><span className="text-slate-400">]</span>
+                </div>
+                <a 
+                  href="https://boonec.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="group flex items-center gap-1.5 font-mono text-[10px] md:text-xs text-slate-500 hover:text-neon-navy uppercase tracking-[0.15em] pl-1 font-semibold transition-colors duration-300"
+                >
+                  <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform duration-300" />
+                  <span className="group-hover:tracking-[0.25em] transition-all duration-300">Founder of BOONEC</span>
+                </a>
               </div>
             </div>
 

@@ -84,11 +84,11 @@ const Experience = () => {
                 </button>
               </div>
               
-              <div className="p-4 relative flex-1 overflow-y-auto">
+              <div className="p-4 relative flex-1 overflow-hidden hover:overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                 {/* Vertical Branch Line */}
                 <div className="absolute left-7 top-6 bottom-6 w-0.5 bg-[#333333]"></div>
                 
-                <div className="space-y-6">
+                <div className="space-y-3">
                   {experience.map((item) => {
                     const isActive = activeId === item.id;
                     return (
@@ -112,7 +112,7 @@ const Experience = () => {
                         </div>
 
                         {/* Commit Info */}
-                        <div className={`flex-1 pb-4 border-b border-[#333333]/50 transition-all ${
+                        <div className={`flex-1 pb-3 border-b border-[#333333]/50 transition-all ${
                           isActive ? 'opacity-100' : 'opacity-80 active:opacity-100 md:opacity-60 md:group-hover:opacity-100'
                         }`}>
                           <div className="flex items-center gap-2 mb-1">
@@ -140,7 +140,7 @@ const Experience = () => {
             </div>
 
             {/* Right Pane: Commit/PR Details */}
-            <div className="flex-1 bg-[#1e1e1e] overflow-hidden relative flex flex-col">
+            <div className="flex-1 bg-[#1e1e1e] overflow-hidden hover:overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] relative flex flex-col">
               {/* Fake Grid Background */}
               <div className="absolute inset-0 bg-grid-pattern opacity-5 pointer-events-none"></div>
 
@@ -151,7 +151,7 @@ const Experience = () => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.3 }}
-                  className="p-4 md:p-6 flex flex-col max-w-4xl w-full mx-auto relative z-10 h-full justify-center"
+                  className="p-4 md:p-6 flex flex-col max-w-4xl w-full mx-auto relative z-10 min-h-full justify-center"
                 >
                   {/* PR Header */}
                   <div className="mb-4 border-b border-[#333333] pb-4">

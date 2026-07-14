@@ -86,6 +86,18 @@ export const education = [
 
 export const experience = [
   {
+    id: 4,
+    company: "BOONEC",
+    position: "Founder & CEO",
+    duration: "Present",
+    description: "BOONEC builds modern websites, powerful web apps, scalable SaaS platforms, and smart digital solutions for startups and businesses. Focused on clean design, fast performance, secure systems, and innovative tech.",
+    achievements: [
+      "Leading a team to deliver full-stack applications and premium web experiences.",
+      "Driving business growth and establishing strategic client partnerships.",
+      "Ensuring museum-grade UI/UX aesthetics across all agency projects."
+    ],
+  },
+  {
     id: 1,
     company: "University Project",
     position: "Backend Developer",
@@ -108,6 +120,18 @@ export const experience = [
       "Built an interactive geospatial search master plan for intuitive property exploration",
       "Implemented a multi-layered RBAC dashboard system for Customers, Agents, and Administrators",
       "Integrated secure authentication via JWT and Google OAuth 2.0"
+    ],
+  },
+  {
+    id: 3,
+    company: "Smart Youth ICT",
+    position: "Full-Stack Web Developer",
+    duration: "March 2026 - Present",
+    description: "Working as a core developer, successfully designing and building the official Smart Youth ICT platform from the ground up.",
+    achievements: [
+      "Designed and developed the official full-stack e-commerce and educational platform.",
+      "Implemented seamless integrations including secure payment gateways and interactive mapping.",
+      "Ensured high performance, security, and a premium user experience across all devices."
     ],
   },
 ];
