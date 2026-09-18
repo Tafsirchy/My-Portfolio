@@ -1,359 +1,147 @@
-import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
-import { useRef, useState, useEffect } from 'react';
-import { useInView } from 'framer-motion';
 import { 
   SiMongodb, SiExpress, SiReact, SiNodedotjs,
-  SiJavascript, SiHtml5, SiCss3, SiTailwindcss, SiNextdotjs,
-  SiFirebase, SiJsonwebtokens, SiMysql,
-  SiGit, SiGithub, SiFigma,
-  SiNetlify, SiVercel, SiCloudflare,
+  SiJavascript, SiTypescript, SiHtml5, SiCss3, SiTailwindcss, SiNextdotjs,
+  SiFirebase, SiJsonwebtokens, SiMysql, SiPostgresql, SiPrisma, SiRedis,
+  SiGit, SiGithub, SiFigma, SiVercel, SiNetlify, SiPostman, SiNestjs,
   SiC, SiCplusplus, SiPython
 } from 'react-icons/si';
-import { TbApi, TbBolt, TbBrandCSharp } from 'react-icons/tb';
-import { VscCode } from 'react-icons/vsc';
-import { Terminal } from 'lucide-react';
+import { Layers, Server, Database, Wrench, Code2 } from 'lucide-react';
 
-const SkillBadge = ({ tech, index, isMarquee = false }) => {
-  const Wrapper = isMarquee ? 'div' : motion.div;
-  const animProps = isMarquee ? {} : {
-    initial: { opacity: 0, scale: 0.9 },
-    whileInView: { opacity: 1, scale: 1 },
-    transition: { 
-      duration: 0.4,
-      delay: tech.delay * 0.05,
-    },
-    viewport: { once: true }
-  };
-
-  return (
-    <Wrapper
-      {...animProps}
-      className="group relative flex flex-col items-center gap-3 w-full"
-    >
-      <div className="relative w-16 h-16 md:w-20 md:h-20 bg-white border border-black/10 group-hover:border-neon-navy/50 flex items-center justify-center transition-all duration-300 shadow-sm mx-auto">
-        {/* Corner Accents */}
-        <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-slate-300 group-hover:border-neon-navy transition-colors"></div>
-        <div className="absolute top-0 right-0 w-1.5 h-1.5 border-t border-r border-slate-300 group-hover:border-neon-navy transition-colors"></div>
-        <div className="absolute bottom-0 left-0 w-1.5 h-1.5 border-b border-l border-slate-300 group-hover:border-neon-navy transition-colors"></div>
-        <div className="absolute bottom-0 right-0 w-1.5 h-1.5 border-b border-r border-slate-300 group-hover:border-neon-navy transition-colors"></div>
-
-        {/* Scanline */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/5 to-transparent h-[200%] -top-[100%] group-hover:animate-[scan_2s_linear_infinite] pointer-events-none opacity-0 group-hover:opacity-100"></div>
-
-        <tech.Icon 
-          className="text-2xl md:text-3xl text-slate-400 group-hover:text-slate-900 transition-all duration-300 relative z-10"
-        />
-        
-        {/* Glow effect matching tech color on hover */}
-        <div 
-          className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300 blur-md pointer-events-none"
-          style={{ backgroundColor: tech.color }}
-        />
-      </div>
-
-      <div className="text-center font-mono w-full mt-2">
-        <p className="text-xs md:text-sm text-slate-500 uppercase tracking-widest font-bold md:group-hover:text-neon-navy active:text-neon-navy transition-colors truncate">
-          {tech.name}
-        </p>
-      </div>
-    </Wrapper>
-  );
-};
-
-const mernCode = [
-  "> INIT SYS_CORE",
-  "> CONNECTING TO MONGODB...",
-  "> [SUCCESS] DB CONNECTED",
-  "> STARTING EXPRESS APP...",
-  "> [PORT] 5000 ACTIVE",
-  "> MOUNTING REACT UI...",
-  "> [NODE_ENV] PRODUCTION",
-  "> SYSTEM_READY"
+const skillCategories = [
+  {
+    title: 'Core Languages',
+    icon: Code2,
+    description: 'Foundational programming and scripting languages.',
+    skills: [
+      { name: 'JavaScript (ES6+)', icon: SiJavascript, color: '#f7df1e' },
+      { name: 'TypeScript', icon: SiTypescript, color: '#3178c6' },
+      { name: 'HTML5', icon: SiHtml5, color: '#e34f26' },
+      { name: 'CSS3', icon: SiCss3, color: '#1572b6' },
+      { name: 'C / C++', icon: SiCplusplus, color: '#00599c' },
+      { name: 'Python', icon: SiPython, color: '#3776ab' },
+    ],
+  },
+  {
+    title: 'Frontend Engineering',
+    icon: Layers,
+    description: 'Modern frameworks, styling architectures, and state engines.',
+    skills: [
+      { name: 'React 19', icon: SiReact, color: '#61dafb' },
+      { name: 'Next.js 16 (App Router)', icon: SiNextdotjs, color: '#000000' },
+      { name: 'Tailwind CSS', icon: SiTailwindcss, color: '#06b6d4' },
+      { name: 'Component Systems', icon: SiReact, color: '#61dafb' },
+      { name: 'Zustand State Management', icon: SiJavascript, color: '#854d0e' },
+      { name: 'Responsive Web Design', icon: SiCss3, color: '#1572b6' },
+    ],
+  },
+  {
+    title: 'Backend & APIs',
+    icon: Server,
+    description: 'Server architecture, RESTful services, and authorization.',
+    skills: [
+      { name: 'Node.js', icon: SiNodedotjs, color: '#339933' },
+      { name: 'Express.js', icon: SiExpress, color: '#000000' },
+      { name: 'NestJS', icon: SiNestjs, color: '#ea2845' },
+      { name: 'RESTful API Design', icon: SiNodedotjs, color: '#339933' },
+      { name: 'JWT & OAuth Authentication', icon: SiJsonwebtokens, color: '#000000' },
+      { name: 'Stripe Payment Gateway', icon: SiJavascript, color: '#6366f1' },
+    ],
+  },
+  {
+    title: 'Databases & Storage',
+    icon: Database,
+    description: 'Relational & document stores, caching, and ORMs.',
+    skills: [
+      { name: 'MongoDB', icon: SiMongodb, color: '#47a248' },
+      { name: 'PostgreSQL', icon: SiPostgresql, color: '#4169e1' },
+      { name: 'MySQL', icon: SiMysql, color: '#4479a1' },
+      { name: 'Prisma ORM', icon: SiPrisma, color: '#2d3748' },
+      { name: 'Redis (Caching)', icon: SiRedis, color: '#dc382d' },
+      { name: 'Firebase', icon: SiFirebase, color: '#ffca28' },
+    ],
+  },
+  {
+    title: 'DevOps, Tools & Workflow',
+    icon: Wrench,
+    description: 'Version control, cloud deployment, and developer tooling.',
+    skills: [
+      { name: 'Git & GitHub', icon: SiGithub, color: '#181717' },
+      { name: 'Vercel Deployment', icon: SiVercel, color: '#000000' },
+      { name: 'Netlify', icon: SiNetlify, color: '#00c7b7' },
+      { name: 'Postman (API Testing)', icon: SiPostman, color: '#ff6c37' },
+      { name: 'Figma to Code', icon: SiFigma, color: '#f24e1e' },
+      { name: 'Linux & Monorepos', icon: SiGit, color: '#f05032' },
+    ],
+  },
 ];
-
-const frontendCode = [
-  "> INIT UI_MODULES",
-  "> COMPILING REACT COMPONENTS...",
-  "> BUNDLING TAILWIND CSS...",
-  "> [WARN] 2 UNUSED VARIABLES",
-  "> OPTIMIZING ASSETS...",
-  "> RENDER_DOM() CALLED",
-  "> [STATUS] 60FPS ATTAINED"
-];
-
-const backendCode = [
-  "> INIT DATA_LINK",
-  "> INITIALIZING FIREBASE ADMIN...",
-  "> MOUNTING REST_API ROUTES...",
-  "> DB_MIGRATION CHECK...",
-  "> [OK] MYSQL SYNCED",
-  "> GENERATING JWT SECRET...",
-  "> LISTENING FOR REQUESTS..."
-];
-
-const workflowCode = [
-  "> INIT DEV_OPS",
-  "> GIT CHECKOUT MAIN",
-  "> PULLING LATEST CHANGES...",
-  "> RUNNING BUILD PIPELINE...",
-  "> [FIGMA] SYNCING TOKENS",
-  "> DEPLOYING TO CLOUDFLARE...",
-  "> [SUCCESS] DEPLOYMENT LIVE"
-];
-
-const languagesCode = [
-  "> INIT CORE_LOGIC",
-  "> COMPILING C/C++ BINARIES...",
-  "> RUNNING PYTHON SCRIPTS...",
-  "> [OK] MEMORY ALLOCATED",
-  "> EXECUTING C# RUNTIME...",
-  "> KERNEL SYNC SUCCESS",
-  "> [STATUS] NATIVE SPEED ATTAINED"
-];
-
-const CategoryCard = ({ category, index }) => {
-  const cardRef = useRef(null);
-  const codeContainerRef = useRef(null);
-  const isInView = useInView(cardRef, { margin: "0px 0px -100px 0px" });
-  
-  useEffect(() => {
-    let interval;
-    if (category.codeSnippet && isInView && codeContainerRef.current) {
-      let i = 0;
-      const lines = [];
-      interval = setInterval(() => {
-        lines.push(category.codeSnippet[i % category.codeSnippet.length]);
-        if (lines.length > 8) lines.shift();
-        
-        // Direct DOM manipulation for maximum smoothness (bypasses React re-renders)
-        if (codeContainerRef.current) {
-          codeContainerRef.current.innerHTML = lines.map(line => 
-            `<div class="truncate">${line}</div>`
-          ).join('') + '<div class="animate-pulse mt-1 w-2 h-3 bg-neon-olive"></div>';
-        }
-        i++;
-      }, 40); // Fast 40ms interval
-    }
-    return () => clearInterval(interval);
-  }, [category.codeSnippet, isInView]);
-
-  const half = Math.ceil(category.skills.length / 2);
-  const skills1 = category.skills.slice(0, half);
-  const skills2 = category.skills.slice(half);
-
-  // Create blocks of 3 to fill the height, rendering two identical blocks 
-  // ensures a mathematically perfect seamless scroll at exactly -50% translation.
-  const block1 = [...skills1, ...skills1, ...skills1];
-  const block2 = [...skills2, ...skills2, ...skills2];
-
-  return (
-    <motion.div
-      ref={cardRef}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      viewport={{ once: true }}
-      className="bg-slate-50 border border-black/10 hover:border-neon-navy/30 transition-colors shadow-sm overflow-hidden flex flex-col sm:flex-row h-[350px] group"
-    >
-      {/* Left Panel: Terminal Background */}
-      <div className="flex-1 sm:w-1/2 bg-slate-900 flex flex-col relative overflow-hidden border-b sm:border-b-0 sm:border-r border-black/10 p-6">
-        <div className="absolute inset-0 bg-grid opacity-10 pointer-events-none"></div>
-        
-        {/* Header */}
-        <div className="relative z-10 flex flex-col gap-1 mb-4 pb-4 border-b border-white/10">
-          <div className="flex items-center gap-2">
-            <Terminal className="w-4 h-4 text-neon-olive" />
-            <h3 className="text-xl font-display font-bold uppercase tracking-widest text-white group-hover:text-neon-olive transition-colors">
-              {category.title}
-            </h3>
-          </div>
-          <span className="font-mono text-xs md:text-sm text-slate-400 font-bold tracking-[0.2em] uppercase pl-6">
-            {category.subtitle}
-          </span>
-        </div>
-
-        {/* Code Runner */}
-        <div 
-          ref={codeContainerRef}
-          className="relative z-10 flex-1 flex flex-col justify-end font-mono text-xs md:text-sm text-neon-olive/80 leading-relaxed font-bold pointer-events-none"
-        >
-          <div className="animate-pulse mt-1 w-2 h-3 bg-neon-olive"></div>
-        </div>
-      </div>
-
-      {/* Right Panel: Infinite Vertical Marquee (2 Columns) */}
-      <div 
-        className="flex-1 sm:w-1/2 bg-slate-50 relative overflow-hidden p-6 flex gap-4 justify-center"
-        style={{ WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)', maskImage: 'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)' }}
-      >
-        <div className="flex-1 relative h-full w-full overflow-hidden group/marquee">
-          <div className="absolute top-0 left-0 w-full flex flex-col gap-8 pb-8 animate-marquee-1 group-hover/marquee:[animation-play-state:paused] active:[animation-play-state:paused]">
-            {block1.map((tech, skillIdx) => (
-              <SkillBadge key={`b1-1-${skillIdx}`} tech={tech} index={skillIdx} isMarquee={true} />
-            ))}
-          </div>
-          <div className="absolute top-0 left-0 w-full flex flex-col gap-8 pb-8 animate-marquee-2 group-hover/marquee:[animation-play-state:paused] active:[animation-play-state:paused]">
-            {block1.map((tech, skillIdx) => (
-              <SkillBadge key={`b1-2-${skillIdx}`} tech={tech} index={skillIdx} isMarquee={true} />
-            ))}
-          </div>
-        </div>
-        
-        {/* If skills2 has items, render the reverse scrolling column */}
-        {skills2.length > 0 && (
-          <div className="flex-1 relative h-full w-full overflow-hidden group/marquee2">
-            <div className="absolute top-0 left-0 w-full flex flex-col gap-8 pb-8 animate-marquee-1-reverse group-hover/marquee2:[animation-play-state:paused] active:[animation-play-state:paused]">
-              {block2.map((tech, skillIdx) => (
-                <SkillBadge key={`b2-1-${skillIdx}`} tech={tech} index={skillIdx} isMarquee={true} />
-              ))}
-            </div>
-            <div className="absolute top-0 left-0 w-full flex flex-col gap-8 pb-8 animate-marquee-2-reverse group-hover/marquee2:[animation-play-state:paused] active:[animation-play-state:paused]">
-              {block2.map((tech, skillIdx) => (
-                <SkillBadge key={`b2-2-${skillIdx}`} tech={tech} index={skillIdx} isMarquee={true} />
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-    </motion.div>
-  );
-};
 
 const Skills = () => {
-  const sectionRef = useRef(null);
-  
-  const categories = [
-    {
-      title: "MERN_Stack",
-      subtitle: "SYS.CORE",
-      codeSnippet: mernCode,
-      skills: [
-        { name: "MongoDB", Icon: SiMongodb, color: "#47A248", delay: 0 },
-        { name: "Express.js", Icon: SiExpress, color: "#0f172a", delay: 1 },
-        { name: "React", Icon: SiReact, color: "#61DAFB", delay: 2 },
-        { name: "Node.js", Icon: SiNodedotjs, color: "#339933", delay: 3 },
-      ]
-    },
-    {
-      title: "Frontend",
-      subtitle: "UI.MODULES",
-      codeSnippet: frontendCode,
-      skills: [
-        { name: "JavaScript", Icon: SiJavascript, color: "#F7DF1E", delay: 4 },
-        { name: "Tailwind", Icon: SiTailwindcss, color: "#06B6D4", delay: 5 },
-        { name: "Next.js", Icon: SiNextdotjs, color: "#0f172a", delay: 6 },
-        { name: "HTML5", Icon: SiHtml5, color: "#E34F26", delay: 7 },
-        { name: "CSS3", Icon: SiCss3, color: "#1572B6", delay: 8 },
-      ]
-    },
-    {
-      title: "Backend",
-      subtitle: "DATA.LINK",
-      codeSnippet: backendCode,
-      skills: [
-        { name: "Firebase", Icon: SiFirebase, color: "#FFCA28", delay: 9 },
-        { name: "REST_API", Icon: TbApi, color: "#FF6C37", delay: 10 },
-        { name: "JWT", Icon: SiJsonwebtokens, color: "#0f172a", delay: 11 },
-        { name: "MySQL", Icon: SiMysql, color: "#4479A1", delay: 12 },
-      ]
-    },
-    {
-      title: "Workflow",
-      subtitle: "DEV.OPS",
-      codeSnippet: workflowCode,
-      skills: [
-        { name: "GitHub", Icon: SiGithub, color: "#0f172a", delay: 13 },
-        { name: "Cloudflare", Icon: SiCloudflare, color: "#F38020", delay: 14 },
-        { name: "Figma", Icon: SiFigma, color: "#F24E1E", delay: 15 },
-        { name: "VS_Code", Icon: VscCode, color: "#007ACC", delay: 16 },
-      ]
-    },
-    {
-      title: "Languages",
-      subtitle: "CORE.LOGIC",
-      codeSnippet: languagesCode,
-      skills: [
-        { name: "JavaScript", Icon: SiJavascript, color: "#F7DF1E", delay: 17 },
-        { name: "C", Icon: SiC, color: "#A8B9CC", delay: 18 },
-        { name: "C++", Icon: SiCplusplus, color: "#00599C", delay: 19 },
-        { name: "C#", Icon: TbBrandCSharp, color: "#239120", delay: 20 },
-        { name: "Python", Icon: SiPython, color: "#3776AB", delay: 21 },
-      ]
-    }
-  ];
-
   return (
-    <section 
-      ref={sectionRef}
-      id="skills" 
-      className="relative bg-white text-slate-900 py-32 overflow-hidden border-t border-black/5"
-    >
-      <div className="absolute inset-0 bg-grid opacity-10 pointer-events-none mix-blend-overlay"></div>
-
-      <div className="relative z-20 max-w-7xl mx-auto w-full px-4 md:px-8">
-        {/* Section Headline */}
-        <div className="mb-20 border-b border-black/10 pb-6 relative">
-          <div className="flex flex-col gap-2">
-            <span className="font-mono text-xs text-neon-olive tracking-widest uppercase font-bold">
-              // SECTION: SKL
-            </span>
-            <h2 className="text-3xl md:text-5xl font-display font-bold text-slate-900 uppercase tracking-tight flex items-center gap-4">
-              <span className="text-neon-olive">{'>'}</span> System.Skills
-            </h2>
-          </div>
+    <section id="skills" className="py-20 md:py-28 border-t border-zinc-200/80 bg-zinc-50/50">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* Section Header */}
+        <div className="max-w-2xl mb-14 space-y-2">
+          <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Technical Skills</p>
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-zinc-950">
+            Engineered with a versatile, production-proven stack.
+          </h2>
+          <p className="text-sm text-zinc-600">
+            A comprehensive overview of the programming languages, frameworks, databases, and tooling I use daily.
+          </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          {categories.map((category, index) => (
-            <div 
-              key={index} 
-              className={categories.length % 2 !== 0 && index === categories.length - 1 ? "md:col-span-2" : ""}
-            >
-              <CategoryCard category={category} index={index} />
-            </div>
-          ))}
+        {/* Categories Matrix */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          {skillCategories.map((category, idx) => {
+            const Icon = category.icon;
+
+            return (
+              <div
+                key={idx}
+                className="p-6 bg-white border border-zinc-200/90 rounded-2xl shadow-xs hover:border-zinc-300 hover:shadow-subtle transition-all flex flex-col justify-between"
+              >
+                <div className="space-y-4">
+                  {/* Category Header */}
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-zinc-100 text-zinc-900 flex items-center justify-center">
+                      <Icon className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-bold text-zinc-950">
+                        {category.title}
+                      </h3>
+                      <p className="text-[11px] text-zinc-500">
+                        {category.description}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Skills Grid */}
+                  <div className="grid grid-cols-2 gap-2 pt-2 border-t border-zinc-100">
+                    {category.skills.map((skill, sIdx) => {
+                      const SkillIcon = skill.icon;
+                      return (
+                        <div
+                          key={sIdx}
+                          className="flex items-center gap-2 p-2 rounded-lg bg-zinc-50 hover:bg-zinc-100/80 border border-zinc-200/50 transition-colors"
+                        >
+                          <SkillIcon className="w-4 h-4 text-zinc-600 shrink-0" />
+                          <span className="text-xs font-medium text-zinc-800 truncate">
+                            {skill.name}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+              </div>
+            );
+          })}
         </div>
+
       </div>
-      
-      {/* Decorative Custom Animations in Tailwind */}
-      <style>{`
-        @keyframes scan {
-          0% { transform: translateY(0); }
-          100% { transform: translateY(100%); }
-        }
-        @keyframes marquee-1 {
-          0% { transform: translateY(0); }
-          100% { transform: translateY(-100%); }
-        }
-        @keyframes marquee-2 {
-          0% { transform: translateY(100%); }
-          100% { transform: translateY(0); }
-        }
-        @keyframes marquee-1-reverse {
-          0% { transform: translateY(0); }
-          100% { transform: translateY(100%); }
-        }
-        @keyframes marquee-2-reverse {
-          0% { transform: translateY(-100%); }
-          100% { transform: translateY(0); }
-        }
-        .animate-marquee-1 {
-          animation: marquee-1 8s linear infinite;
-          will-change: transform;
-        }
-        .animate-marquee-2 {
-          animation: marquee-2 8s linear infinite;
-          will-change: transform;
-        }
-        .animate-marquee-1-reverse {
-          animation: marquee-1-reverse 8s linear infinite;
-          will-change: transform;
-        }
-        .animate-marquee-2-reverse {
-          animation: marquee-2-reverse 8s linear infinite;
-          will-change: transform;
-        }
-      `}</style>
     </section>
   );
 };
