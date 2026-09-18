@@ -1,336 +1,200 @@
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowDown, Github, Linkedin, Twitter, Facebook, Download, Terminal, Cpu, ArrowRight } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { ArrowDown, FileDown, Github, Linkedin, Twitter, Mail, ArrowUpRight, MapPin, Sparkles, Code2 } from 'lucide-react';
+import { SiWhatsapp } from 'react-icons/si';
 import { personalInfo, socialLinks } from '@/data/portfolio';
 
-const CODE_SNIPPETS = [
-  "import { createRoot } from 'react-dom/client';",
-  "import { App } from './App';",
-  "const container = document.getElementById('root');",
-  "const root = createRoot(container);",
-  "root.render(<App />);",
-  "// INITIALIZING SYSTEM...",
-  "// ESTABLISHING SECURE CONNECTION...",
-  "import data from '@database/local';",
-  "export default function SystemInit() {",
-  "  return <System data={data} />;",
-  "}",
-  "await decrypt('HeroProfile.png');",
-  "renderImage();",
-  "// BYPASSING FIREWALL...",
-  "// ACCESS GRANTED.",
-  "const user = new User({ status: 'ONLINE' });",
-  "console.log('Welcome back, Commander.');",
-  "// Rerouting power to primary systems...",
-  "import { motion } from 'framer-motion';",
-  "const AnimatedProfile = () => {",
-  "  return <motion.img src={profile} />;",
-  "}",
-  "function optimizeRender() {",
-  "  return true;",
-  "}",
-  "class Hacker extends Developer {",
-  "  constructor() { super(); }",
-  "}"
-];
-
 const Hero = () => {
-  const [text, setText] = useState('');
-  const [isTyping, setIsTyping] = useState(false);
-  const [isCompiling, setIsCompiling] = useState(true);
-  const [compileLines, setCompileLines] = useState([]);
-
-  const fullText = `> INITIALIZING SECURE CONNECTION...\n> ACCESS GRANTED.\n> WELCOME TO PORTFOLIO_V2.0`;
-
-  // Compilation Effect
-  useEffect(() => {
-    let interval;
-    if (isCompiling) {
-      // Add a line of code every 50ms
-      interval = setInterval(() => {
-        setCompileLines(prev => {
-          const newLine = CODE_SNIPPETS[Math.floor(Math.random() * CODE_SNIPPETS.length)];
-          const updated = [...prev, newLine];
-          // Keep only the last 30 lines so it scrolls upwards
-          if (updated.length > 30) updated.shift();
-          return updated;
-        });
-      }, 50);
-
-      // Stop compiling after 3 seconds
-      setTimeout(() => {
-        setIsCompiling(false);
-        clearInterval(interval);
-      }, 3000);
-    }
-    return () => clearInterval(interval);
-  }, [isCompiling]);
-
-  // Terminal Typing Effect (Starts after compiling finishes)
-  useEffect(() => {
-    if (!isCompiling && !isTyping && text === '') {
-      setIsTyping(true);
-    }
-  }, [isCompiling, isTyping, text]);
-
-  useEffect(() => {
-    let i = 0;
-    if (isTyping) {
-      const timer = setInterval(() => {
-        setText(fullText.substring(0, i));
-        i++;
-        if (i > fullText.length) {
-          clearInterval(timer);
-          setIsTyping(false);
-        }
-      }, 40);
-      return () => clearInterval(timer);
-    }
-  }, [fullText, isTyping]);
-
   const scrollToSection = (href) => {
-    const element = document.querySelector(href);
-    if (element) {
-      const offset = 80;
-      const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+    const target = document.querySelector(href);
+    if (target) {
+      const topOffset = 80;
+      const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - topOffset;
       window.scrollTo({
-        top: elementPosition - offset,
+        top: targetPosition,
         behavior: 'smooth',
       });
     }
   };
 
   return (
-    <section
-      id="home"
-      className="relative flex items-center justify-center  bg-background bg-grid overflow-hidden"
-    >
-      {/* Background Central Image & Compiling Interface */}
-      <div className="absolute inset-0 z-10 flex items-end justify-center pointer-events-none">
-        <div className="relative w-full max-w-6xl h-full flex items-end justify-center overflow-hidden">
+    <section id="home" className="relative pt-12 pb-20 md:pt-20 md:pb-28 overflow-hidden">
+      {/* Subtle background ambient mesh */}
+      <div className="absolute inset-0 bg-grid-subtle pointer-events-none opacity-60"></div>
+      <div className="absolute top-0 right-1/4 w-96 h-96 bg-zinc-200/40 rounded-full blur-3xl pointer-events-none -z-10"></div>
+      <div className="absolute bottom-10 left-10 w-80 h-80 bg-blue-100/30 rounded-full blur-3xl pointer-events-none -z-10"></div>
 
-          {/* Subtle Backlight */}
-          <motion.div
-            className="absolute inset-0 bg-neon-navy/20 blur-[120px] rounded-full top-1/4"
-            animate={{ opacity: isCompiling ? 0.1 : 1 }}
-            transition={{ duration: 2 }}
-          />
-
-          {/* Fake Interface Code Overlay (Behind the rendering image) */}
-          <AnimatePresence>
-            {isCompiling && (
-              <motion.div
-                className="absolute bottom-0 left-4 md:left-12 w-full max-w-3xl h-[90%] z-20 flex flex-col justify-start p-4 md:p-8 font-mono text-xs md:text-sm text-neon-olive/80 leading-tight font-bold mix-blend-screen overflow-hidden"
-                initial={{ opacity: 1 }}
-                exit={{ opacity: 0, filter: "blur(10px)" }}
-                transition={{ duration: 0.5 }}
-              >
-                {compileLines.map((line, index) => (
-                  <div key={index} className="truncate w-full text-left">{line}</div>
-                ))}
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {/* Base Silhouette (Shows where the image will be) */}
-          {isCompiling && (
-            <img
-              src="/assets/HeroProfile.png"
-              className="absolute z-20 w-full h-[85vh] md:h-[95vh] object-contain object-bottom opacity-10 filter grayscale brightness-0"
-              style={{
-                WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 25%, black 75%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 5%, black 100%)',
-                WebkitMaskComposite: 'source-in',
-                maskImage: 'linear-gradient(to right, transparent 0%, black 25%, black 75%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 5%, black 100%)',
-                maskComposite: 'intersect'
-              }}
-              alt="Silhouette"
-            />
-          )}
-
-          {/* Rendered Hero Profile Image (Reveals from top to bottom) */}
-          <motion.img
-            src="/assets/HeroProfile.png"
-            alt="Hero Profile"
-            className="relative z-30 w-full h-[85vh] md:h-[95vh] object-contain object-bottom drop-shadow-2xl"
-            style={{
-              WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 25%, black 75%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 5%, black 100%)',
-              WebkitMaskComposite: 'source-in',
-              maskImage: 'linear-gradient(to right, transparent 0%, black 25%, black 75%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 5%, black 100%)',
-              maskComposite: 'intersect'
-            }}
-            initial={{ clipPath: "inset(0 0 100% 0)", filter: "brightness(1.5) hue-rotate(90deg)" }}
-            animate={{
-              clipPath: isCompiling ? "inset(0 0 100% 0)" : "inset(0 0 0% 0)",
-              filter: isCompiling ? "brightness(1.5) hue-rotate(90deg)" : "brightness(1.05) hue-rotate(0deg)"
-            }}
-            transition={{
-              clipPath: { duration: 3, ease: "linear" },
-              filter: { duration: 3, ease: "easeOut" }
-            }}
-          />
-
-          {/* The Rendering Scanner Line */}
-          <AnimatePresence>
-            {isCompiling && (
-              <motion.div
-                className="absolute left-0 w-full h-1 bg-white shadow-[0_0_20px_rgba(77,124,15,1),0_0_10px_rgba(77,124,15,1)] z-40"
-                initial={{ top: "0%" }}
-                animate={{ top: "100%" }}
-                transition={{ duration: 3, ease: "linear" }}
-                exit={{ opacity: 0 }}
-              />
-            )}
-          </AnimatePresence>
-        </div>
-
-        {/* Fade Out Grid at Bottom */}
-        <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-background via-background/80 to-transparent z-20" />
-      </div>
-
-      {/* Edge Vignette */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,#fafafa_100%)] pointer-events-none z-10" />
-
-      {/* Main HUD Overlay Content */}
-      <div className="relative z-30 max-w-7xl mx-auto w-full px-4 md:px-8 pb-24 pt-20 md:pb-12 md:pt-20  flex flex-col md:grid md:grid-cols-12 gap-8 items-center md:items-stretch">
-
-        {/* ================= LEFT HUD PANEL ================= */}
-        <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: isCompiling ? 0 : 1, x: isCompiling ? -50 : 0 }}
-          transition={{ duration: 0.8, delay: isCompiling ? 0 : 0.5 }}
-          className="col-span-12 md:col-span-4 lg:col-span-4 flex flex-col items-start justify-center gap-8 w-full mt-10 md:mt-0"
-        >
-          {/* Terminal Box */}
-          <div className="hidden md:block glass-panel p-4 font-mono text-xs text-neon-navy border-l-2 border-neon-navy w-full bg-white/60 backdrop-blur-md shadow-lg border-y border-r border-white/50">
-            <div className="flex items-center gap-2 mb-2 pb-2 border-b border-neon-navy/20">
-              <Terminal className="w-4 h-4" />
-              <span>system_status.log</span>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+          
+          {/* Left / Main Text Column */}
+          <div className="lg:col-span-7 flex flex-col items-start space-y-6">
+            
+            {/* Status pill */}
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-100 border border-zinc-200 text-zinc-700 text-xs font-medium">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span>Full-Stack Web Developer & Founder</span>
             </div>
-            <div className="whitespace-pre-wrap min-h-[48px]">{text}</div>
-            <span className="animate-pulse text-slate-900">_</span>
-          </div>
 
-          <div className="flex flex-col gap-6 bg-white/60 md:bg-transparent backdrop-blur-md md:backdrop-blur-none p-6 md:p-0 rounded-lg shadow-xl md:shadow-none border border-white/50 md:border-none w-full">
-            {/* Status & Name */}
-            <div className="flex flex-col items-start gap-4">
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: isCompiling ? 0 : 1 }}
-                transition={{ delay: isCompiling ? 0 : 1.2 }}
-                className="px-3 py-1 bg-neon-navy/10 border border-neon-navy/30 flex items-center gap-2 font-mono shadow-sm"
-              >
-                <div className="w-2 h-2 bg-neon-navy rounded-full animate-pulse"></div>
-                <span className="text-xs md:text-sm tracking-widest text-neon-navy font-bold uppercase">STATUS: ONLINE</span>
-              </motion.div>
-
-              <div className="flex flex-col items-start gap-1.5">
-                <div className="flex items-center gap-3 font-mono text-base md:text-lg tracking-[0.2em] uppercase font-bold bg-white/90 px-4 py-2 rounded-sm shadow-sm border border-black/5">
-                  <span className="text-slate-400">[</span><span className="text-slate-900">{personalInfo.name}</span><span className="text-slate-400">]</span>
-                </div>
-                <a 
-                  href="https://boonec.com" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="group flex items-center gap-1.5 font-mono text-[10px] md:text-xs text-slate-500 hover:text-neon-navy uppercase tracking-[0.15em] pl-1 font-semibold transition-colors duration-300"
+            {/* Main Headline */}
+            <div className="space-y-3">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-zinc-950 leading-[1.1]">
+                Building high-performance, thoughtful web applications.
+              </h1>
+              <p className="text-lg sm:text-xl text-zinc-600 font-normal leading-relaxed max-w-2xl">
+                I'm <span className="text-zinc-950 font-semibold">{personalInfo.name}</span>, a full-stack engineer and Founder of{' '}
+                <a
+                  href="https://boonec.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-zinc-950 font-semibold underline underline-offset-4 decoration-zinc-300 hover:decoration-zinc-950 transition-colors inline-flex items-center gap-0.5"
                 >
-                  <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform duration-300" />
-                  <span className="group-hover:tracking-[0.25em] transition-all duration-300">Founder of BOONEC</span>
+                  BOONEC
+                  <ArrowUpRight className="w-3.5 h-3.5 inline" />
                 </a>
+                . I build robust digital platforms, scalable architectures, and refined interfaces using React, Next.js, and Node.js.
+              </p>
+            </div>
+
+            {/* Quick Metrics / Highlights */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 w-full py-2">
+              <div className="p-3 bg-white border border-zinc-200/80 rounded-lg shadow-xs">
+                <p className="text-xs text-zinc-500 font-medium">Core Stack</p>
+                <p className="text-sm font-semibold text-zinc-900 mt-0.5">Next.js, React, Node</p>
+              </div>
+              <div className="p-3 bg-white border border-zinc-200/80 rounded-lg shadow-xs">
+                <p className="text-xs text-zinc-500 font-medium">Leadership</p>
+                <p className="text-sm font-semibold text-zinc-900 mt-0.5">Founder @ BOONEC</p>
+              </div>
+              <div className="p-3 bg-white border border-zinc-200/80 rounded-lg shadow-xs col-span-2 sm:col-span-1">
+                <p className="text-xs text-zinc-500 font-medium">Location</p>
+                <p className="text-sm font-semibold text-zinc-900 mt-0.5 flex items-center gap-1">
+                  <MapPin className="w-3.5 h-3.5 text-zinc-400" />
+                  Dhaka (UTC+6)
+                </p>
               </div>
             </div>
 
-            {/* Main Heading */}
-            <h1 className="font-display font-black text-6xl lg:text-7xl leading-none tracking-tighter uppercase relative z-10">
-              <span className="block text-3xl lg:text-4xl mb-2 text-slate-800 tracking-widest drop-shadow-sm">Digital</span>
-              <span className="block bg-clip-text text-transparent bg-gradient-to-r from-neon-navy via-blue-800 to-slate-900 drop-shadow-sm pb-2">Architect</span>
-            </h1>
-
-            <div className="flex items-center gap-4 py-1 font-mono text-xs text-neon-navy uppercase tracking-[0.3em] font-bold">
-              <div className="h-px w-12 bg-neon-navy"></div>
-              <span className="bg-white/90 px-3 py-1.5 rounded-sm shadow-sm border border-black/5">{personalInfo.tagline}</span>
-            </div>
-
-            {/* Description */}
-            <p className="text-sm md:text-base text-slate-800 font-sans leading-relaxed border-l-[3px] border-neon-navy pl-5 bg-white/90 backdrop-blur-md p-4 shadow-md border-y border-r border-y-black/5 border-r-black/5 max-w-lg">
-              {personalInfo.headline}
-            </p>
-          </div>
-        </motion.div>
-
-        {/* ================= CENTER SPACER ================= */}
-        <div className="hidden md:block md:col-span-4 lg:col-span-4 pointer-events-none"></div>
-
-        {/* ================= RIGHT HUD PANEL ================= */}
-        <motion.div
-          initial={{ opacity: 0, x: 50 }}
-          animate={{ opacity: isCompiling ? 0 : 1, x: isCompiling ? 50 : 0 }}
-          transition={{ duration: 0.8, delay: isCompiling ? 0 : 0.7 }}
-          className="col-span-12 md:col-span-4 lg:col-span-4 flex flex-col items-center md:items-end justify-center gap-8 w-full mt-4 md:mt-0"
-        >
-
-
-          <div className="flex flex-col items-center md:items-end gap-6 bg-white/60 md:bg-transparent backdrop-blur-md md:backdrop-blur-none p-6 md:p-0 rounded-lg shadow-xl md:shadow-none border border-white/50 md:border-none w-full">
-            {/* Social Links */}
-            <div className="flex md:flex-col items-center md:items-end gap-4 w-full justify-center md:justify-end">
-              <span className="hidden md:block font-mono text-xs md:text-sm text-slate-400 tracking-widest uppercase rotate-180 bg-white/50 px-1 py-2" style={{ writingMode: 'vertical-rl' }}>
-                SOCIAL_LINKS
-              </span>
-              <div className="flex md:flex-col gap-4">
-                {socialLinks.map((social, index) => {
-                  const Icon = { Github, Linkedin, Twitter, Facebook }[social.icon];
-                  return (
-                    <motion.a
-                      key={index}
-                      href={social.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      whileHover={{ scale: 1.1, x: -5 }}
-                      className="w-[44px] h-[44px] md:w-12 md:h-12 border border-black/10 bg-white/90 shadow-sm hover:bg-neon-navy active:bg-neon-navy hover:border-neon-navy flex items-center justify-center transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2"
-                      aria-label={social.name}
-                    >
-                      <Icon className="w-4 h-4 text-slate-500 group-hover:text-white transition-colors" />
-                    </motion.a>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-col items-center md:items-end gap-4 font-mono text-sm md:text-base tracking-widest uppercase w-full mt-2">
+            {/* Action Buttons */}
+            <div className="flex flex-wrap items-center gap-3 pt-2">
               <button
-                onClick={() => scrollToSection('#contact')}
-                className="group relative w-full md:w-auto px-10 py-5 bg-neon-navy text-white font-bold overflow-hidden transition-all hover:shadow-[0_0_20px_rgba(30,58,138,0.4)] flex justify-center md:justify-end"
+                onClick={() => scrollToSection('#projects')}
+                className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-white bg-zinc-900 hover:bg-zinc-800 rounded-lg transition-all shadow-sm active:scale-95"
               >
-                <span className="relative z-10 flex items-center gap-2">
-                  INITIATE_CONTACT <ArrowDown className="w-4 h-4 -rotate-90 group-hover:translate-x-1 transition-transform" />
-                </span>
+                View Selected Works
+                <ArrowDown className="w-4 h-4" />
               </button>
 
               <a
                 href={personalInfo.resume}
+                target="_blank"
+                rel="noopener noreferrer"
                 download
-                className="group w-full md:w-auto px-10 py-4 bg-white/90 backdrop-blur-md text-slate-800 border border-black/10 shadow-sm hover:border-neon-navy hover:text-neon-navy transition-all flex items-center justify-center md:justify-end gap-2 font-bold"
+                className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-zinc-800 bg-white hover:bg-zinc-50 border border-zinc-200/90 rounded-lg transition-all shadow-xs active:scale-95"
               >
-                <Download className="w-4 h-4 group-hover:animate-bounce" />
-                <span>GET_RESUME</span>
+                <FileDown className="w-4 h-4 text-zinc-600" />
+                Download Resume
               </a>
+
+              <button
+                onClick={() => scrollToSection('#contact')}
+                className="inline-flex items-center gap-1.5 px-4 py-2.5 text-sm font-medium text-zinc-600 hover:text-zinc-950 transition-colors"
+              >
+                Contact Me
+                <ArrowUpRight className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Social Proof & Direct Channels */}
+            <div className="flex items-center gap-4 pt-4 border-t border-zinc-200/70 w-full">
+              <span className="text-xs font-medium text-zinc-500">Connect:</span>
+              <div className="flex items-center gap-2">
+                <a
+                  href="https://github.com/Tafsirchy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100 rounded-md transition-colors"
+                  aria-label="GitHub Profile"
+                >
+                  <Github className="w-4 h-4" />
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/tafsirchy/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100 rounded-md transition-colors"
+                  aria-label="LinkedIn Profile"
+                >
+                  <Linkedin className="w-4 h-4" />
+                </a>
+                <a
+                  href="https://x.com/chy_tafsir"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100 rounded-md transition-colors"
+                  aria-label="Twitter Profile"
+                >
+                  <Twitter className="w-4 h-4" />
+                </a>
+                <a
+                  href={`https://wa.me/${personalInfo.phone.replace(/[^0-9]/g, '')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 text-zinc-600 hover:text-emerald-600 hover:bg-zinc-100 rounded-md transition-colors"
+                  aria-label="WhatsApp Contact"
+                >
+                  <SiWhatsapp className="w-4 h-4" />
+                </a>
+                <a
+                  href={`mailto:${personalInfo.email}`}
+                  className="p-2 text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100 rounded-md transition-colors"
+                  aria-label="Direct Email"
+                >
+                  <Mail className="w-4 h-4" />
+                </a>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Right / Visual Column */}
+          <div className="lg:col-span-5 flex justify-center lg:justify-end">
+            <div className="relative w-full max-w-sm">
+              {/* Clean frame */}
+              <div className="relative rounded-2xl overflow-hidden bg-white border border-zinc-200/90 shadow-elevated p-2">
+                <div className="relative rounded-xl overflow-hidden aspect-[4/5] bg-zinc-100">
+                  <img
+                    src="/assets/HeroProfile.png"
+                    alt={personalInfo.name}
+                    className="w-full h-full object-cover object-top filter contrast-[1.03] hover:scale-102 transition-transform duration-500"
+                    onError={(e) => {
+                      e.target.src = "/assets/About.png";
+                    }}
+                  />
+                  {/* Subtle gradient vignette at bottom */}
+                  <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-zinc-900/60 to-transparent flex items-end p-4">
+                    <div>
+                      <p className="text-white text-sm font-semibold tracking-tight">{personalInfo.name}</p>
+                      <p className="text-zinc-200 text-xs font-normal">Full-Stack Engineer & Builder</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Minimalist floating credentials card */}
+              <div className="absolute -bottom-5 -left-4 sm:-left-6 bg-white/95 backdrop-blur-md border border-zinc-200 rounded-xl p-3.5 shadow-lg flex items-center gap-3">
+                <div className="w-9 h-9 rounded-lg bg-zinc-900 text-white flex items-center justify-center font-bold text-xs">
+                  <Code2 className="w-4 h-4" />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold text-zinc-900">Modern Web Specialist</p>
+                  <p className="text-[11px] text-zinc-500 font-medium">React · Next.js · Node · Cloud</p>
+                </div>
+              </div>
             </div>
           </div>
-        </motion.div>
-      </div>
 
-      {/* Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: isCompiling ? 0 : 1 }}
-        transition={{ delay: isCompiling ? 0 : 2 }}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center z-40 font-mono text-xs md:text-sm text-slate-500 tracking-[0.2em] uppercase font-bold"
-      >
-        <span className="mb-2 bg-white/70 px-3 py-1 backdrop-blur-sm shadow-sm rounded-sm">Scroll_Down</span>
-        <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 1.5 }}>
-          <ArrowDown className="h-4 w-4 text-neon-navy" />
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </section>
   );
 };
