@@ -1,473 +1,206 @@
-import { motion, useInView, AnimatePresence, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
-import { useRef, useState, useEffect } from 'react';
-import { createPortal } from 'react-dom';
-import { useLenis } from 'lenis/react';
-import { Github, X, Info, Terminal, Monitor, Code, ArrowLeft } from 'lucide-react';
-import ImageWithLoader from '@/components/ui/ImageWithLoader';
-import ProjectsShowcaseModal from './ProjectsShowcaseModal';
+import { useState, useMemo } from 'react';
+import { ExternalLink, Github, ArrowUpRight, Sparkles, Code2, Layers, Info } from 'lucide-react';
 import { projects } from '@/data/portfolio';
+import ProjectsShowcaseModal from './ProjectsShowcaseModal';
 
-const ProjectCard = ({ project, index, openModal, scrollYProgress }) => {
-  const cardRef = useRef(null);
-  const isInView = useInView(cardRef, { once: true, margin: "-100px" });
-  const isEven = index % 2 === 0;
+const categories = [
+  { id: 'all', label: 'All Projects' },
+  { id: 'next', label: 'Next.js & React' },
+  { id: 'ecommerce', label: 'E-Commerce & SaaS' },
+  { id: 'fullstack', label: 'Full-Stack MERN' },
+];
 
-  const [isHovered, setIsHovered] = useState(false);
-  const hoverTimeoutRef = useRef(null);
-  const containerRef = useRef(null);
-  const [iframeScale, setIframeScale] = useState(1);
+const Projects = () => {
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedProject, setSelectedProject] = useState(null);
 
-  const handleMouseEnter = () => {
-    if (window.innerWidth < 1024) return;
-    // 300ms delay before loading iframe to avoid accidental triggers
-    hoverTimeoutRef.current = setTimeout(() => {
-      setIsHovered(true);
-    }, 300);
-  };
-
-  const handleMouseLeave = () => {
-    if (hoverTimeoutRef.current) {
-      clearTimeout(hoverTimeoutRef.current);
+  const filteredProjects = useMemo(() => {
+    if (selectedCategory === 'all') return projects;
+    if (selectedCategory === 'next') {
+      return projects.filter(p => 
+        p.technologies.some(t => t.toLowerCase().includes('next') || t.toLowerCase().includes('react'))
+      );
     }
-    setIsHovered(false);
-  };
-
-  useEffect(() => {
-    if (isHovered && containerRef.current) {
-      const updateScale = () => {
-        if (containerRef.current) {
-          // Use offsetWidth to ignore the CSS transform scale from Framer Motion
-          const width = containerRef.current.offsetWidth;
-          // Force a 1440px desktop width and scale it down to fit the container
-          setIframeScale(width / 1440);
-        }
-      };
-      
-      updateScale();
-      window.addEventListener('resize', updateScale);
-      return () => window.removeEventListener('resize', updateScale);
+    if (selectedCategory === 'ecommerce') {
+      return projects.filter(p => 
+        p.title.toLowerCase().includes('commerce') || 
+        p.title.toLowerCase().includes('bakery') ||
+        p.description.toLowerCase().includes('e-commerce') ||
+        p.description.toLowerCase().includes('real estate') ||
+        p.technologies.some(t => t.toLowerCase().includes('stripe'))
+      );
     }
-  }, [isHovered]);
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      transition: { duration: 0.6, ease: "easeOut" }
+    if (selectedCategory === 'fullstack') {
+      return projects.filter(p => 
+        p.technologies.some(t => 
+          t.toLowerCase().includes('mongo') || 
+          t.toLowerCase().includes('express') || 
+          t.toLowerCase().includes('node') ||
+          t.toLowerCase().includes('firebase')
+        )
+      );
     }
-  };
+    return projects;
+  }, [selectedCategory]);
 
   return (
-    <motion.div
-      ref={cardRef}
-      variants={itemVariants}
-      initial="hidden"
-      animate={isInView ? "visible" : "hidden"}
-      className="grid lg:grid-cols-12 gap-8 items-center group relative"
-    >
-      {/* Background linking line */}
-      <div className="absolute top-1/2 left-0 w-full h-px bg-black/5 -z-10 group-hover:bg-neon-navy/20 transition-colors duration-700 hidden lg:block"></div>
-
-      {/* Image Side */}
-      <div className={`lg:col-span-7 ${isEven ? 'lg:order-1' : 'lg:order-2'}`}>
-        <div className="relative p-2 bg-white/80 border border-black/10 group-hover:border-neon-navy/50 transition-colors duration-500 backdrop-blur-md shadow-sm">
-          {/* Tech Corners */}
-          <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-neon-navy opacity-0 group-hover:opacity-100 transition-opacity"></div>
-          <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-neon-navy opacity-0 group-hover:opacity-100 transition-opacity"></div>
-          <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-neon-navy opacity-0 group-hover:opacity-100 transition-opacity"></div>
-          <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-neon-navy opacity-0 group-hover:opacity-100 transition-opacity"></div>
-
-          <div 
-            className="relative aspect-video overflow-hidden bg-slate-100 before:absolute before:inset-0 before:bg-grid before:opacity-10 before:mix-blend-overlay cursor-pointer"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-          >
-            {project.codeSnippet ? (
-              <div className="absolute inset-0 bg-slate-900 p-6 flex flex-col">
-                <div className="flex items-center gap-2 mb-4 border-b border-white/10 pb-2">
-                  <Terminal className="w-4 h-4 text-neon-navy" />
-                  <span className="font-mono text-xs text-slate-400">source_code.exe</span>
-                </div>
-                <pre className="font-mono text-xs md:text-[10px] text-neon-navy/80 overflow-hidden">
-                  <code>{project.codeSnippet}</code>
-                </pre>
-              </div>
-            ) : (
-              <>
-                {/* Iframe Live Preview */}
-                <AnimatePresence>
-                  {isHovered && project.liveUrl && (
-                    <motion.div 
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.95 }}
-                      transition={{ duration: 0.3 }}
-                      className="absolute inset-0 z-40 flex flex-col bg-slate-50 border border-neon-navy/30 overflow-hidden shadow-2xl"
-                    >
-                      {/* Mock Browser Header */}
-                      <div className="w-full bg-slate-200 border-b border-black/10 px-3 py-1.5 flex items-center gap-2">
-                        <div className="flex gap-1.5">
-                          <div className="w-2.5 h-2.5 rounded-full bg-red-400"></div>
-                          <div className="w-2.5 h-2.5 rounded-full bg-yellow-400"></div>
-                          <div className="w-2.5 h-2.5 rounded-full bg-emerald-400"></div>
-                        </div>
-                        <div className="flex-1 mx-2 flex justify-center">
-                          <div className="bg-white/80 border border-black/5 rounded-sm px-3 py-1 md:py-0.5 text-xs md:text-[9px] font-mono text-slate-600 flex items-center gap-1 shadow-inner w-3/4 max-w-sm overflow-hidden whitespace-nowrap">
-                            <span className="text-emerald-600">https://</span>
-                            {project.liveUrl.replace(/^https?:\/\//, '')}
-                          </div>
-                        </div>
-                      </div>
-                      
-                      {/* The iframe or fallback */}
-                      <div className="flex-1 w-full bg-slate-50 relative overflow-hidden" ref={containerRef}>
-                         {project.disableIframe ? (
-                           <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 p-6 text-center z-20 border-t border-black/5">
-                             <Monitor className="w-8 h-8 text-slate-300 mb-2" />
-                             <p className="font-mono text-xs md:text-sm font-bold text-slate-600">Preview protected by site security</p>
-                             <p className="font-mono text-[10px] md:text-xs text-slate-500 mt-2">
-                               Click the <span className="text-neon-navy font-bold border border-black/10 bg-white px-1 py-0.5 rounded shadow-sm mx-1">EXECUTE</span> button below
-                               <br />to open in a new tab
-                             </p>
-                           </div>
-                         ) : (
-                           <>
-                             <div className="absolute inset-0 flex items-center justify-center font-mono text-xs text-slate-400">Loading Preview...</div>
-                             <iframe 
-                               src={project.liveUrl} 
-                               style={{
-                                 width: '1440px',
-                                 height: '810px',
-                                 transform: `scale(${iframeScale})`,
-                                 transformOrigin: '0 0'
-                               }}
-                               className="absolute top-0 left-0 border-none pointer-events-auto bg-white z-10"
-                               title={`${project.title} Preview`}
-                               sandbox="allow-scripts allow-same-origin allow-popups"
-                             />
-                           </>
-                         )}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-
-                <ImageWithLoader
-                  src={project.images?.[0] || project.image}
-                  alt={project.title}
-                  className={`w-full h-full object-cover filter transition-all duration-700 ${isHovered ? 'scale-110 blur-md opacity-30 grayscale' : 'grayscale contrast-125 brightness-110 group-hover:grayscale-0'}`}
-                />
-                <div className={`absolute inset-0 bg-neon-navy/10 mix-blend-overlay pointer-events-none transition-opacity duration-500 ${isHovered ? 'opacity-0' : 'group-hover:opacity-0'}`} />
-              </>
-            )}
-            
-            {/* Scanline overlay */}
-            {!isHovered && (
-              <motion.div 
-                animate={{ top: ['-10%', '110%'] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                className="absolute left-0 w-full h-8 bg-gradient-to-b from-transparent via-neon-navy/30 to-transparent z-20 pointer-events-none"
-              />
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Content Side */}
-      <div className={`lg:col-span-5 ${isEven ? 'lg:order-2' : 'lg:order-1'}`}>
-        <div className={`flex flex-col ${isEven ? 'lg:items-start lg:text-left' : 'lg:items-end lg:text-right'} gap-6`}>
-          <div className="space-y-2">
-            <span className="font-mono text-xs md:text-[10px] text-neon-olive tracking-widest uppercase block font-bold">
-              // Project_ID: {String(index + 1).padStart(2, '0')}
-            </span>
-            <h3 className="text-3xl md:text-4xl font-display font-bold text-slate-900 tracking-tight uppercase group-hover:text-neon-navy transition-colors">
-              {project.title}
-            </h3>
-          </div>
-
-          <div className={`p-6 bg-white/90 border border-black/5 backdrop-blur-md relative ${isEven ? 'lg:-ml-12' : 'lg:-mr-12'} z-10 w-full lg:w-[120%] shadow-sm`}>
-            <div className="absolute top-0 left-0 w-1 h-full bg-neon-olive"></div>
-            <p className="text-sm text-slate-600 font-mono leading-relaxed">
-              {project.description}
+    <section id="projects" className="py-20 md:py-28 border-t border-zinc-200/80 bg-white">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+          <div className="max-w-2xl space-y-2">
+            <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Selected Works</p>
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-zinc-950">
+              Handcrafted web applications, SaaS platforms & architectures.
+            </h2>
+            <p className="text-sm text-zinc-600">
+              Each project demonstrates real-world technical execution, responsive UI craft, and scalable backend integrations.
             </p>
           </div>
 
-          <div className={`flex flex-wrap gap-2 ${isEven ? 'justify-start' : 'lg:justify-end'}`}>
-            {project.technologies.map((tech, i) => (
-              <span key={i} className="font-mono text-xs md:text-[10px] px-2.5 md:px-2 py-1.5 md:py-1 border border-black/10 text-slate-600 uppercase tracking-wider bg-slate-50 font-bold">
-                {tech}
-              </span>
+          {/* Category Filter Pills */}
+          <div className="flex flex-wrap items-center gap-1.5 p-1 bg-zinc-100 rounded-xl border border-zinc-200/60 self-start">
+            {categories.map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => setSelectedCategory(cat.id)}
+                className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
+                  selectedCategory === cat.id
+                    ? 'bg-white text-zinc-950 shadow-xs'
+                    : 'text-zinc-600 hover:text-zinc-950 hover:bg-zinc-200/50'
+                }`}
+              >
+                {cat.label}
+              </button>
             ))}
-          </div>
-
-          <div className={`flex flex-col sm:flex-row flex-wrap gap-3 md:gap-4 pt-4 w-full md:w-auto ${isEven ? 'justify-start' : 'lg:justify-end'}`}>
-            <a 
-              href={project.liveUrl} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="font-mono text-sm md:text-xs text-white bg-neon-navy px-6 py-2.5 md:py-2 uppercase font-bold hover:shadow-[0_0_15px_rgba(30,58,138,0.4)] transition-all flex items-center justify-center gap-2 w-full sm:w-auto"
-            >
-              <Monitor className="w-4 h-4 md:w-3 md:h-3" /> Execute
-            </a>
-            <a 
-              href={project.githubUrl} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="font-mono text-sm md:text-xs text-slate-700 border border-black/20 bg-white px-6 py-2.5 md:py-2 uppercase font-bold hover:border-neon-navy hover:text-neon-navy transition-colors flex items-center justify-center gap-2 shadow-sm w-full sm:w-auto"
-            >
-              <Code className="w-4 h-4 md:w-3 md:h-3" /> Source
-            </a>
-            <button 
-              onClick={() => openModal(project)}
-              className="font-mono text-sm md:text-xs text-neon-olive border border-neon-olive/50 bg-white px-4 py-2.5 md:py-2 uppercase font-bold hover:bg-neon-olive/10 transition-colors flex items-center justify-center gap-2 shadow-sm w-full sm:w-auto"
-            >
-              <Info className="w-4 h-4 md:w-3 md:h-3" /> Logs
-            </button>
           </div>
         </div>
-      </div>
-    </motion.div>
-  );
-};
 
-const Projects = () => {
-  const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
-  const [selectedProject, setSelectedProject] = useState(null);
-  const [showAllProjects, setShowAllProjects] = useState(false);
-  const [isShowcaseOpen, setIsShowcaseOpen] = useState(false);
-  const [openedFromShowcase, setOpenedFromShowcase] = useState(false);
-
-  const lenis = useLenis();
-
-  useEffect(() => {
-    if (selectedProject || isShowcaseOpen) {
-      lenis?.stop();
-      document.body.style.overflow = 'hidden';
-      document.body.classList.add('modal-open');
-    } else {
-      lenis?.start();
-      document.body.style.overflow = 'auto';
-      document.body.classList.remove('modal-open');
-    }
-    return () => { 
-      lenis?.start();
-      document.body.style.overflow = 'auto'; 
-      document.body.classList.remove('modal-open');
-    };
-  }, [selectedProject, isShowcaseOpen, lenis]);
-
-  const openModal = (project) => {
-    setOpenedFromShowcase(false);
-    setSelectedProject(project);
-  };
-
-  const closeModal = () => {
-    setSelectedProject(null);
-    if (openedFromShowcase) {
-      setIsShowcaseOpen(true);
-    }
-  };
-
-  return (
-    <section id="projects" ref={sectionRef} className="relative bg-background text-slate-900 py-32 overflow-hidden border-t border-black/5">
-      <div className="absolute inset-0 bg-grid opacity-10 pointer-events-none mix-blend-overlay"></div>
-
-      <div className="relative z-30 max-w-7xl mx-auto w-full px-4 md:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.6 }}
-        >
-          {/* Section Headline */}
-          <div className="mb-24 border-b border-black/10 pb-6 relative">
-            <div className="flex flex-col gap-2">
-              <span className="font-mono text-xs text-neon-olive tracking-widest uppercase font-bold">
-                // SECTION: PRJ
-              </span>
-              <h2 className="text-3xl md:text-5xl font-display font-bold text-slate-900 uppercase tracking-tight flex items-center gap-4">
-                <span className="text-neon-olive">{'>'}</span> System.Projects
-              </h2>
-            </div>
-          </div>
-
-          {/* Projects List */}
-          <div className="space-y-32">
-            {projects.map((project, index) => (
-              <div key={project.id} className={index >= 4 && !showAllProjects ? 'hidden' : 'block'}>
-                <ProjectCard 
-                  project={project} 
-                  index={index} 
-                  openModal={openModal} 
-                />
-              </div>
-            ))}
-          </div>
-          
-          {/* Launch 3D Vault / Load More */}
-          <div className="mt-20 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button
-              onClick={() => setIsShowcaseOpen(true)}
-              className="relative group overflow-hidden font-mono text-sm uppercase font-bold px-8 py-4 bg-neon-navy text-white shadow-[0_0_25px_rgba(30,58,138,0.25)] hover:shadow-[0_0_35px_rgba(30,58,138,0.5)] transition-all flex items-center gap-3 border border-blue-400/30"
+        {/* Projects Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredProjects.map((project) => (
+            <div
+              key={project.id}
+              className="group flex flex-col bg-white border border-zinc-200/90 rounded-2xl overflow-hidden hover:border-zinc-300 hover:shadow-elevated transition-all duration-300"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-700 to-indigo-700 opacity-0 group-hover:opacity-100 transition-opacity" />
-              {/* Tech Corners */}
-              <div className="absolute top-0 left-0 w-2.5 h-2.5 border-t-2 border-l-2 border-lime-400"></div>
-              <div className="absolute top-0 right-0 w-2.5 h-2.5 border-t-2 border-r-2 border-lime-400"></div>
-              <div className="absolute bottom-0 left-0 w-2.5 h-2.5 border-b-2 border-l-2 border-lime-400"></div>
-              <div className="absolute bottom-0 right-0 w-2.5 h-2.5 border-b-2 border-r-2 border-lime-400"></div>
-              
-              <span className="relative z-10 flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-lime-400 animate-pulse"></span>
-                LAUNCH 3D PROJECT VAULT [{String(projects.length).padStart(2, '0')}]
-              </span>
-            </button>
-
-            {projects.length > 4 && !showAllProjects && (
-              <button
-                onClick={() => setShowAllProjects(true)}
-                className="font-mono text-xs text-slate-700 hover:text-slate-950 border border-black/15 bg-white/80 px-6 py-3.5 uppercase font-bold hover:border-black/30 hover:bg-white transition-all shadow-sm"
+              {/* Project Image Preview */}
+              <div 
+                onClick={() => setSelectedProject(project)}
+                className="relative aspect-[16/10] overflow-hidden bg-zinc-100 cursor-pointer border-b border-zinc-100"
               >
-                Show All Below ↓
-              </button>
-            )}
-          </div>
-        </motion.div>
+                <img
+                  src={project.images[0]}
+                  alt={project.title}
+                  className="w-full h-full object-cover object-top group-hover:scale-103 transition-transform duration-500"
+                  onError={(e) => {
+                    e.target.src = "https://placehold.co/800x500/f4f4f5/71717a?text=" + encodeURIComponent(project.title);
+                  }}
+                />
+
+                {/* Badges Overlay */}
+                <div className="absolute top-3 left-3 flex items-center gap-1.5">
+                  {project.featured && (
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-zinc-900/90 backdrop-blur-xs text-white">
+                      <Sparkles className="w-3 h-3 text-amber-300" />
+                      Featured
+                    </span>
+                  )}
+                </div>
+
+                {/* Quick inspect prompt on hover */}
+                <div className="absolute inset-0 bg-black/30 backdrop-blur-xs opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                  <span className="px-3 py-1.5 rounded-lg bg-white/95 text-zinc-900 text-xs font-medium shadow-sm inline-flex items-center gap-1.5">
+                    <Info className="w-3.5 h-3.5" />
+                    View Case Study
+                  </span>
+                </div>
+              </div>
+
+              {/* Card Body */}
+              <div className="p-5 sm:p-6 flex flex-col flex-1 justify-between gap-4">
+                
+                <div className="space-y-2">
+                  <h3 
+                    onClick={() => setSelectedProject(project)}
+                    className="text-lg font-bold text-zinc-950 tracking-tight cursor-pointer hover:text-zinc-600 transition-colors flex items-center justify-between"
+                  >
+                    <span>{project.title}</span>
+                    <ArrowUpRight className="w-4 h-4 text-zinc-400 group-hover:text-zinc-950 transition-colors shrink-0" />
+                  </h3>
+
+                  <p className="text-xs sm:text-sm text-zinc-600 line-clamp-3 leading-relaxed">
+                    {project.description}
+                  </p>
+                </div>
+
+                {/* Tech Stack Pills */}
+                <div className="pt-2 border-t border-zinc-100">
+                  <div className="flex flex-wrap gap-1.5 mb-4">
+                    {project.technologies.slice(0, 4).map((tech, idx) => (
+                      <span
+                        key={idx}
+                        className="px-2 py-0.5 text-[11px] font-medium rounded-md bg-zinc-100 text-zinc-700 border border-zinc-200/60"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                    {project.technologies.length > 4 && (
+                      <span className="px-1.5 py-0.5 text-[11px] font-medium text-zinc-400">
+                        +{project.technologies.length - 4}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Actions Links */}
+                  <div className="flex items-center justify-between pt-2 border-t border-zinc-100/80">
+                    <div className="flex items-center gap-2">
+                      {project.liveUrl && (
+                        <a
+                          href={project.liveUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-xs font-semibold text-zinc-900 hover:text-zinc-600 transition-colors"
+                        >
+                          Live Demo
+                          <ExternalLink className="w-3 h-3" />
+                        </a>
+                      )}
+                      {project.githubUrl && (
+                        <a
+                          href={project.githubUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-xs font-semibold text-zinc-500 hover:text-zinc-950 transition-colors ml-2"
+                        >
+                          <Github className="w-3 h-3" />
+                          Code
+                        </a>
+                      )}
+                    </div>
+
+                    <button
+                      onClick={() => setSelectedProject(project)}
+                      className="text-xs font-medium text-zinc-500 hover:text-zinc-900 transition-colors"
+                    >
+                      Details →
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          ))}
+        </div>
+
       </div>
 
-      {/* Project Detail Modal Portal */}
-      {typeof window !== 'undefined' && createPortal(
-        <AnimatePresence>
-          {selectedProject && (
-            <div className="fixed inset-0 z-[100000] flex items-center justify-center p-0 md:p-4 sm:p-6">
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                onClick={closeModal}
-                className="fixed inset-0 bg-white/80 backdrop-blur-md z-0"
-              />
-              
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.3 }}
-                data-lenis-prevent
-                className="relative w-full h-full md:h-auto max-w-4xl md:max-h-[90vh] bg-white border-0 md:border border-neon-navy/30 flex flex-col z-10 shadow-[0_0_50px_rgba(0,0,0,0.1)]"
-              >
-                {/* Modal Header */}
-                <div className="flex items-center justify-between p-4 border-b border-black/10 bg-slate-50">
-                  <div className="flex items-center gap-2 font-mono text-xs text-neon-navy uppercase font-bold">
-                    {openedFromShowcase && (
-                      <button 
-                        onClick={closeModal}
-                        className="flex items-center gap-1.5 px-2.5 py-1 bg-neon-navy text-white hover:bg-blue-800 rounded text-[11px] font-bold transition-all mr-1 shadow-sm"
-                      >
-                        <ArrowLeft className="w-3.5 h-3.5" />
-                        <span>BACK TO 3D VAULT</span>
-                      </button>
-                    )}
-                    <Terminal className="w-4 h-4 text-neon-navy" />
-                    <span>project_viewer.exe - {selectedProject.title}</span>
-                  </div>
-                  <button 
-                    onClick={closeModal}
-                    className="p-2.5 md:p-1 -mr-2 md:-mr-0 hover:bg-neon-navy/20 text-slate-500 hover:text-slate-900 transition-colors rounded"
-                    title={openedFromShowcase ? "Back to 3D Vault" : "Close"}
-                  >
-                    <X className="w-6 h-6 md:w-5 md:h-5" />
-                  </button>
-                </div>
-
-                {/* Modal Content - Scrollable */}
-                <div className="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-8 font-mono">
-                  
-                  {/* Image/Preview */}
-                  <div className="w-full aspect-video border border-black/10 bg-slate-100 relative overflow-hidden p-1">
-                     <ImageWithLoader 
-                        src={(selectedProject.images && selectedProject.images[0]) || selectedProject.image} 
-                        alt={selectedProject.title}
-                        className="w-full h-full object-cover filter grayscale contrast-125 brightness-110"
-                      />
-                      <div className="absolute inset-0 bg-neon-navy/10 mix-blend-overlay"></div>
-                  </div>
-
-                  {/* Description */}
-                  <div className="space-y-2 border-l-2 border-neon-navy pl-4">
-                    <h3 className="text-sm md:text-xs text-neon-navy uppercase tracking-widest font-bold">System_Overview</h3>
-                    <p className="text-slate-600 text-base md:text-sm leading-relaxed">
-                      {selectedProject.description}
-                    </p>
-                  </div>
-  
-                  {/* Tech Stack */}
-                  <div className="space-y-3">
-                    <h3 className="text-sm md:text-xs text-neon-olive uppercase tracking-widest font-bold">Dependencies</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {selectedProject.technologies.map((tech, i) => (
-                        <span key={i} className="px-2.5 md:px-2 py-1.5 md:py-1 bg-slate-50 border border-black/10 text-xs md:text-[10px] text-slate-700 uppercase font-bold">
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-  
-                  <div className="grid md:grid-cols-2 gap-6 pt-4 border-t border-black/10">
-                    {/* Challenges */}
-                    <div className="space-y-2">
-                      <h3 className="text-sm md:text-xs text-red-500 uppercase tracking-widest font-bold">Errors_Encountered</h3>
-                      <p className="text-slate-500 text-sm md:text-xs leading-relaxed italic">
-                        "{selectedProject.challenges}"
-                      </p>
-                    </div>
-  
-                    {/* Future Plans */}
-                    <div className="space-y-2">
-                      <h3 className="text-sm md:text-xs text-emerald-500 uppercase tracking-widest font-bold">Future_Patches</h3>
-                      <p className="text-slate-500 text-sm md:text-xs leading-relaxed">
-                        {selectedProject.futurePlans}
-                      </p>
-                    </div>
-                  </div>
-  
-                  {/* Actions */}
-                  <div className="flex flex-col sm:flex-row gap-3 md:gap-4 pt-6 border-t border-black/10 pb-4 md:pb-0">
-                    <a 
-                      href={selectedProject.liveUrl} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="flex-1 text-center bg-neon-navy text-white text-sm md:text-xs font-bold uppercase py-3 md:py-3 hover:shadow-[0_0_15px_rgba(30,58,138,0.4)] transition-all"
-                    >
-                      Init Deployment
-                    </a>
-                    <a 
-                      href={selectedProject.githubUrl} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="flex-1 text-center border border-black/20 bg-slate-50 text-slate-800 text-sm md:text-xs font-bold uppercase py-3 md:py-3 hover:border-neon-navy hover:text-neon-navy transition-colors"
-                    >
-                      View Source
-                    </a>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-          )}
-        </AnimatePresence>,
-        document.body
-      )}
-      {/* 3D Infinite Coverflow Modal */}
+      {/* Project Case Details Modal */}
       <ProjectsShowcaseModal
-        isOpen={isShowcaseOpen}
-        onClose={() => setIsShowcaseOpen(false)}
-        projects={projects}
-        onOpenDetails={(project) => {
-          setOpenedFromShowcase(true);
-          setIsShowcaseOpen(false);
-          setSelectedProject(project);
-        }}
+        isOpen={!!selectedProject}
+        onClose={() => setSelectedProject(null)}
+        project={selectedProject}
       />
     </section>
   );
