@@ -2,8 +2,9 @@ import { motion, useInView, AnimatePresence, useScroll, useTransform, useSpring,
 import { useRef, useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useLenis } from 'lenis/react';
-import { Github, X, Info, Terminal, Monitor, Code } from 'lucide-react';
+import { Github, X, Info, Terminal, Monitor, Code, ArrowLeft } from 'lucide-react';
 import ImageWithLoader from '@/components/ui/ImageWithLoader';
+import ProjectsShowcaseModal from './ProjectsShowcaseModal';
 import { projects } from '@/data/portfolio';
 
 const ProjectCard = ({ project, index, openModal, scrollYProgress }) => {
@@ -235,11 +236,13 @@ const Projects = () => {
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
   const [selectedProject, setSelectedProject] = useState(null);
   const [showAllProjects, setShowAllProjects] = useState(false);
+  const [isShowcaseOpen, setIsShowcaseOpen] = useState(false);
+  const [openedFromShowcase, setOpenedFromShowcase] = useState(false);
 
   const lenis = useLenis();
 
   useEffect(() => {
-    if (selectedProject) {
+    if (selectedProject || isShowcaseOpen) {
       lenis?.stop();
       document.body.style.overflow = 'hidden';
       document.body.classList.add('modal-open');
@@ -253,10 +256,19 @@ const Projects = () => {
       document.body.style.overflow = 'auto'; 
       document.body.classList.remove('modal-open');
     };
-  }, [selectedProject, lenis]);
+  }, [selectedProject, isShowcaseOpen, lenis]);
 
-  const openModal = (project) => setSelectedProject(project);
-  const closeModal = () => setSelectedProject(null);
+  const openModal = (project) => {
+    setOpenedFromShowcase(false);
+    setSelectedProject(project);
+  };
+
+  const closeModal = () => {
+    setSelectedProject(null);
+    if (openedFromShowcase) {
+      setIsShowcaseOpen(true);
+    }
+  };
 
   return (
     <section id="projects" ref={sectionRef} className="relative bg-background text-slate-900 py-32 overflow-hidden border-t border-black/5">
@@ -293,17 +305,34 @@ const Projects = () => {
             ))}
           </div>
           
-          {/* Load More Button */}
-          {projects.length > 4 && !showAllProjects && (
-            <div className="mt-16 flex justify-center">
+          {/* Launch 3D Vault / Load More */}
+          <div className="mt-20 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <button
+              onClick={() => setIsShowcaseOpen(true)}
+              className="relative group overflow-hidden font-mono text-sm uppercase font-bold px-8 py-4 bg-neon-navy text-white shadow-[0_0_25px_rgba(30,58,138,0.25)] hover:shadow-[0_0_35px_rgba(30,58,138,0.5)] transition-all flex items-center gap-3 border border-blue-400/30"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-700 to-indigo-700 opacity-0 group-hover:opacity-100 transition-opacity" />
+              {/* Tech Corners */}
+              <div className="absolute top-0 left-0 w-2.5 h-2.5 border-t-2 border-l-2 border-lime-400"></div>
+              <div className="absolute top-0 right-0 w-2.5 h-2.5 border-t-2 border-r-2 border-lime-400"></div>
+              <div className="absolute bottom-0 left-0 w-2.5 h-2.5 border-b-2 border-l-2 border-lime-400"></div>
+              <div className="absolute bottom-0 right-0 w-2.5 h-2.5 border-b-2 border-r-2 border-lime-400"></div>
+              
+              <span className="relative z-10 flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-lime-400 animate-pulse"></span>
+                LAUNCH 3D PROJECT VAULT [{String(projects.length).padStart(2, '0')}]
+              </span>
+            </button>
+
+            {projects.length > 4 && !showAllProjects && (
               <button
                 onClick={() => setShowAllProjects(true)}
-                className="font-mono text-sm text-slate-800 border-2 border-slate-800 bg-transparent px-8 py-3 uppercase font-bold hover:bg-slate-800 hover:text-white active:bg-slate-800 active:text-white transition-colors"
+                className="font-mono text-xs text-slate-700 hover:text-slate-950 border border-black/15 bg-white/80 px-6 py-3.5 uppercase font-bold hover:border-black/30 hover:bg-white transition-all shadow-sm"
               >
-                Load More Projects
+                Show All Below ↓
               </button>
-            </div>
-          )}
+            )}
+          </div>
         </motion.div>
       </div>
 
@@ -331,12 +360,22 @@ const Projects = () => {
                 {/* Modal Header */}
                 <div className="flex items-center justify-between p-4 border-b border-black/10 bg-slate-50">
                   <div className="flex items-center gap-2 font-mono text-xs text-neon-navy uppercase font-bold">
-                    <Terminal className="w-4 h-4" />
+                    {openedFromShowcase && (
+                      <button 
+                        onClick={closeModal}
+                        className="flex items-center gap-1.5 px-2.5 py-1 bg-neon-navy text-white hover:bg-blue-800 rounded text-[11px] font-bold transition-all mr-1 shadow-sm"
+                      >
+                        <ArrowLeft className="w-3.5 h-3.5" />
+                        <span>BACK TO 3D VAULT</span>
+                      </button>
+                    )}
+                    <Terminal className="w-4 h-4 text-neon-navy" />
                     <span>project_viewer.exe - {selectedProject.title}</span>
                   </div>
                   <button 
                     onClick={closeModal}
                     className="p-2.5 md:p-1 -mr-2 md:-mr-0 hover:bg-neon-navy/20 text-slate-500 hover:text-slate-900 transition-colors rounded"
+                    title={openedFromShowcase ? "Back to 3D Vault" : "Close"}
                   >
                     <X className="w-6 h-6 md:w-5 md:h-5" />
                   </button>
@@ -419,6 +458,17 @@ const Projects = () => {
         </AnimatePresence>,
         document.body
       )}
+      {/* 3D Infinite Coverflow Modal */}
+      <ProjectsShowcaseModal
+        isOpen={isShowcaseOpen}
+        onClose={() => setIsShowcaseOpen(false)}
+        projects={projects}
+        onOpenDetails={(project) => {
+          setOpenedFromShowcase(true);
+          setIsShowcaseOpen(false);
+          setSelectedProject(project);
+        }}
+      />
     </section>
   );
 };

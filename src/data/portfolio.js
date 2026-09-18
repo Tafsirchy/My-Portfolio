@@ -138,6 +138,21 @@ export const experience = [
 
 export const projects = [
   {
+    id: 9,
+    title: "Smart24 Corporate E-Commerce",
+    description: "A comprehensive B2B and B2C corporate e-commerce platform built for scale, performance, and seamless user experience. Features retail and bulk operations, quotation requests (RFQ), tiered memberships, dynamic flash sales, Stripe checkout, and advanced administrative dashboards.",
+    images: [
+      "/assets/S24.png"
+    ],
+    technologies: ["Next.js", "NestJS", "Prisma", "PostgreSQL", "Tailwind CSS", "Stripe", "Redis", "Zustand"],
+    liveUrl: "https://smart24.com",
+    githubUrl: "https://github.com/Tafsirchy/Corporate-Ecommerce-Smart24-",
+    challenges: "Architecting a high-concurrency Turborepo monorepo uniting Next.js 16 and NestJS 11, implementing high-throughput bulk ordering (RFQ) alongside retail checkout, and handling Redis-cached dynamic pricing with tiered membership logic.",
+    futurePlans: "Multi-language and localization support, advanced AI-driven product recommendations, and integration with third-party logistics (3PL) providers for real-time shipping rates.",
+    featured: true,
+    disableIframe: true,
+  },
+  {
     id: 7,
     title: "Bristiii",
     description: "A UI masterpiece and premium full-stack art gallery platform built with Next.js 16. It features a minimalist museum-grade aesthetic with immersive GSAP animations, interactive generative art components like 'The Breathing Canopy', and a secure e-commerce flow for art acquisition.",
