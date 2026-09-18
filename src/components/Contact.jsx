@@ -1,21 +1,11 @@
-import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
-import { useRef, useState } from 'react';
-import { Mail, Phone, MapPin, Github, Linkedin, Twitter, Facebook, Send, MessageSquare, Terminal } from 'lucide-react';
+import { useState } from 'react';
+import { Mail, Phone, MapPin, Send, Copy, Check, Github, Linkedin, Twitter, ArrowUpRight } from 'lucide-react';
 import { SiWhatsapp } from 'react-icons/si';
 import { personalInfo, socialLinks } from '@/data/portfolio';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Button } from '@/components/ui/button';
 import emailjs from '@emailjs/browser';
 import SuccessModal from './SuccessModal';
-import ScrambleText from './ScrambleText';
-import Radar from './Radar';
 
 const Contact = () => {
-  const sectionRef = useRef(null);
-  
-  const [hoveredCard, setHoveredCard] = useState(null);
-  
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -25,12 +15,19 @@ const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+  const [copiedEmail, setCopiedEmail] = useState(false);
+
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText(personalInfo.email);
+    setCopiedEmail(true);
+    setTimeout(() => setCopiedEmail(false), 2000);
+  };
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
+    setFormData(prev => ({
+      ...prev,
       [e.target.name]: e.target.value,
-    });
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -47,7 +44,7 @@ const Contact = () => {
           from_email: formData.email,
           subject: formData.subject,
           message: formData.message,
-          to_name: 'Tafsir',
+          to_name: 'Tafsir Chowdhury',
         },
         import.meta.env.VITE_EMAILJS_PUBLIC_KEY
       );
@@ -57,224 +54,258 @@ const Contact = () => {
       setIsSuccessModalOpen(true);
     } catch (error) {
       console.error('Email send failed:', error);
-      setErrorMsg('Transmission failed. Please check your uplink (internet connection) or try direct email.');
+      setErrorMsg('Unable to send message via form right now. Please email directly at ' + personalInfo.email);
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const iconMap = { Github, Linkedin, Twitter, Facebook };
-
   return (
-    <section ref={sectionRef} id="contact" className="relative py-32 bg-background text-slate-900 overflow-hidden border-t border-black/5">
-      <div className="absolute inset-0 bg-grid opacity-10 pointer-events-none mix-blend-overlay"></div>
-
-      <div className="relative z-20 max-w-7xl mx-auto w-full px-4 md:px-8">
-        {/* Section Headline */}
-        <div className="mb-20 border-b border-black/10 pb-6 relative">
-          <div className="flex flex-col gap-2">
-            <span className="font-mono text-xs text-neon-olive tracking-widest uppercase font-bold">
-              // SECTION: CNT
-            </span>
-            <h2 className="text-3xl md:text-5xl font-display font-bold text-slate-900 uppercase tracking-tight flex items-center gap-4">
-              <span className="text-neon-olive">{'>'}</span> System.Connect
-            </h2>
-          </div>
+    <section id="contact" className="py-20 md:py-28 border-t border-zinc-200/80 bg-white">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* Section Header */}
+        <div className="max-w-2xl mb-14 space-y-2">
+          <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Contact</p>
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-zinc-950">
+            Let's start a conversation.
+          </h2>
+          <p className="text-sm text-zinc-600 leading-relaxed">
+            Interested in hiring me for a full-time role, contracting me for a high-priority project, or partnering with BOONEC? Reach out below.
+          </p>
         </div>
 
-        {/* Contact Grid */}
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           
-          {/* Left Column: Info */}
-          <motion.div 
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="space-y-12"
-          >
-            <div className="space-y-6">
-              <h3 className="font-mono text-xs font-bold tracking-[0.3em] text-neon-navy uppercase flex items-center gap-2">
-                <Terminal className="w-4 h-4" /> Active_Channels
-              </h3>
-              
-              <div className="grid gap-4">
-                {/* Email */}
-                <div 
-                  className="group relative bg-white border border-black/10 p-6 flex items-center gap-6 hover:border-neon-navy transition-colors shadow-sm"
-                  onMouseEnter={() => setHoveredCard('email')}
-                  onMouseLeave={() => setHoveredCard(null)}
-                >
-                  <div className="absolute left-0 top-0 bottom-0 w-1 bg-neon-navy opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                  <Mail className="h-6 w-6 text-slate-500 group-hover:text-neon-navy transition-colors" />
-                  <div className="flex-1">
-                    <p className="font-mono text-xs md:text-[10px] text-slate-500 uppercase tracking-widest mb-1 font-bold">Direct_Message</p>
-                    <a href={`mailto:${personalInfo.email}`} className="font-mono text-slate-900 font-bold text-sm hover:text-neon-navy transition-colors">
-                      <ScrambleText text={personalInfo.email} forceHover={hoveredCard === 'email'} />
-                    </a>
+          {/* Left Column: Direct Info & Quick Copy */}
+          <div className="lg:col-span-5 space-y-6">
+            
+            {/* Email Card with 1-click copy */}
+            <div className="p-5 rounded-2xl bg-zinc-50 border border-zinc-200/90 space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2.5 text-zinc-900 font-semibold text-sm">
+                  <div className="w-8 h-8 rounded-lg bg-white border border-zinc-200 flex items-center justify-center">
+                    <Mail className="w-4 h-4 text-zinc-700" />
                   </div>
+                  <span>Direct Email</span>
                 </div>
-
-                {/* WhatsApp/Phone */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <a 
-                    href={`tel:${personalInfo.phone}`} 
-                    className="block group"
-                    onMouseEnter={() => setHoveredCard('phone')}
-                    onMouseLeave={() => setHoveredCard(null)}
-                  >
-                    <div className="relative bg-white border border-black/10 p-6 hover:border-neon-olive transition-colors h-full shadow-sm">
-                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-neon-olive opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                      <Phone className="h-5 w-5 text-slate-500 group-hover:text-neon-olive transition-colors mb-4" />
-                      <p className="font-mono text-xs md:text-[10px] text-slate-500 uppercase tracking-widest mb-1 font-bold">Voice_Comm</p>
-                      <p className="font-mono text-sm text-slate-900 font-bold"><ScrambleText text={personalInfo.phone} forceHover={hoveredCard === 'phone'} /></p>
-                    </div>
-                  </a>
-
-                  <a 
-                    href={`https://wa.me/${personalInfo.whatsapp.replace(/[^0-9]/g, '')}`} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="block group"
-                    onMouseEnter={() => setHoveredCard('whatsapp')}
-                    onMouseLeave={() => setHoveredCard(null)}
-                  >
-                    <div className="relative bg-white border border-black/10 p-6 hover:border-neon-navy transition-colors h-full shadow-sm">
-                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-neon-navy opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                      <SiWhatsapp className="h-5 w-5 text-slate-500 group-hover:text-neon-navy transition-colors mb-4" />
-                      <p className="font-mono text-xs md:text-[10px] text-slate-500 uppercase tracking-widest mb-1 font-bold">Live_Chat</p>
-                      <p className="font-mono text-sm text-slate-900 font-bold"><ScrambleText text={personalInfo.whatsapp} forceHover={hoveredCard === 'whatsapp'} /></p>
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* Social Footprint */}
-            <div className="space-y-6">
-               <h3 className="font-mono text-xs font-bold tracking-[0.3em] text-neon-olive uppercase flex items-center gap-2">
-                <Terminal className="w-4 h-4" /> Social_Topology
-              </h3>
-              <Radar socialLinks={socialLinks} iconMap={iconMap} />
-            </div>
-          </motion.div>
-
-          {/* Right Column: Contact Form */}
-          <motion.div 
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <div className="bg-slate-900 border border-neon-navy/30 p-8 md:p-10 relative shadow-[0_0_30px_rgba(15,23,42,0.5)]">
-              {/* HUD Corners */}
-              <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-neon-olive"></div>
-              <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-neon-olive"></div>
-              <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-neon-olive"></div>
-              <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-neon-olive"></div>
-
-              <div className="mb-8 border-b border-white/10 pb-4">
-                 <h3 className="font-mono text-base md:text-sm text-white uppercase tracking-widest font-bold flex items-center gap-2">
-                  <Terminal className="w-5 h-5 md:w-4 md:h-4 text-neon-olive" /> Init_Transmission
-                 </h3>
-              </div>
-              
-              <form onSubmit={handleSubmit} className="space-y-6 font-mono">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="text-sm md:text-xs text-neon-olive tracking-widest font-bold flex items-center gap-2">
-                      <span>{'>'}</span> Enter_Identity:
-                    </label>
-                    <Input
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                      placeholder="[ TYPE HERE ]"
-                      className="bg-transparent border-0 border-b border-white/20 text-white placeholder:text-slate-600 focus:border-neon-olive h-10 rounded-none uppercase text-base md:text-xs font-bold shadow-none px-0 focus-visible:ring-0"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-sm md:text-xs text-neon-olive tracking-widest font-bold flex items-center gap-2">
-                      <span>{'>'}</span> Email_Endpoint:
-                    </label>
-                    <Input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      placeholder="[ TYPE HERE ]"
-                      className="bg-transparent border-0 border-b border-white/20 text-white placeholder:text-slate-600 focus:border-neon-olive h-10 rounded-none uppercase text-base md:text-xs font-bold shadow-none px-0 focus-visible:ring-0"
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-sm md:text-xs text-neon-olive tracking-widest font-bold flex items-center gap-2">
-                    <span>{'>'}</span> Subject_Matter:
-                  </label>
-                  <Input
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    required
-                    placeholder="[ TYPE HERE ]"
-                    className="bg-transparent border-0 border-b border-white/20 text-white placeholder:text-slate-600 focus:border-neon-olive h-10 rounded-none uppercase text-base md:text-xs font-bold shadow-none px-0 focus-visible:ring-0"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-sm md:text-xs text-neon-olive tracking-widest font-bold flex items-center gap-2">
-                    <span>{'>'}</span> Payload:
-                  </label>
-                  <Textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                    placeholder="[ TYPE HERE ]"
-                    rows={5}
-                    className="bg-transparent border-0 border-b border-white/20 text-white placeholder:text-slate-600 focus:border-neon-olive rounded-none resize-none uppercase text-base md:text-xs px-0 py-2 font-bold shadow-none focus-visible:ring-0"
-                  />
-                </div>
-
-                {errorMsg && (
-                  <motion.div 
-                    initial={{ opacity: 0, y: -10 }} 
-                    animate={{ opacity: 1, y: 0 }} 
-                    className="text-red-500 font-mono text-xs uppercase tracking-widest border border-red-500/30 bg-red-500/10 p-3 flex items-center gap-2"
-                  >
-                    <span className="text-red-500 font-bold">!</span> {errorMsg}
-                  </motion.div>
-                )}
 
                 <button
-                  type="submit"
-                  className="w-full bg-neon-olive/10 border border-neon-olive text-neon-olive font-bold h-14 uppercase tracking-[0.2em] hover:bg-neon-olive hover:text-slate-900 transition-colors flex items-center justify-center gap-3 text-xs mt-8 group"
-                  disabled={isSubmitting}
+                  onClick={handleCopyEmail}
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-md bg-white border border-zinc-200 text-zinc-700 hover:text-zinc-950 hover:bg-zinc-100 transition-colors"
                 >
-                  {isSubmitting ? (
+                  {copiedEmail ? (
                     <>
-                      <div className="w-4 h-4 border-2 border-neon-olive border-t-transparent rounded-full animate-spin"></div>
-                      [ ENCRYPTING_DATA... ]
+                      <Check className="w-3.5 h-3.5 text-emerald-600" />
+                      <span className="text-emerald-700">Copied!</span>
                     </>
                   ) : (
                     <>
-                      <Send className="h-4 w-4 group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform" />
-                      {'>'} TRANSMIT_PAYLOAD
+                      <Copy className="w-3.5 h-3.5 text-zinc-400" />
+                      <span>Copy</span>
                     </>
                   )}
                 </button>
-              </form>
+              </div>
+
+              <a
+                href={`mailto:${personalInfo.email}`}
+                className="text-base font-semibold text-zinc-900 hover:text-zinc-600 block transition-colors"
+              >
+                {personalInfo.email}
+              </a>
+              <p className="text-xs text-zinc-500">
+                Typically responds within 24 hours.
+              </p>
             </div>
-          </motion.div>
+
+            {/* WhatsApp & Phone Card */}
+            <div className="p-5 rounded-2xl bg-zinc-50 border border-zinc-200/90 space-y-2">
+              <div className="flex items-center gap-2.5 text-zinc-900 font-semibold text-sm">
+                <div className="w-8 h-8 rounded-lg bg-white border border-zinc-200 flex items-center justify-center">
+                  <SiWhatsapp className="w-4 h-4 text-emerald-600" />
+                </div>
+                <span>WhatsApp / Direct Line</span>
+              </div>
+
+              <a
+                href={`https://wa.me/${personalInfo.phone.replace(/[^0-9]/g, '')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-base font-semibold text-zinc-900 hover:text-emerald-700 inline-flex items-center gap-1.5 transition-colors"
+              >
+                {personalInfo.phone}
+                <ArrowUpRight className="w-4 h-4 text-zinc-400" />
+              </a>
+              <p className="text-xs text-zinc-500">
+                Available for urgent inquiries & technical discussions.
+              </p>
+            </div>
+
+            {/* Location & Availability Card */}
+            <div className="p-5 rounded-2xl bg-zinc-50 border border-zinc-200/90 space-y-2">
+              <div className="flex items-center gap-2.5 text-zinc-900 font-semibold text-sm">
+                <div className="w-8 h-8 rounded-lg bg-white border border-zinc-200 flex items-center justify-center">
+                  <MapPin className="w-4 h-4 text-zinc-700" />
+                </div>
+                <span>Location & Timezone</span>
+              </div>
+              <p className="text-sm font-semibold text-zinc-800">
+                {personalInfo.location} · UTC+6
+              </p>
+              <p className="text-xs text-zinc-500">
+                Open to remote worldwide contracts, full-time positions & international relocation.
+              </p>
+            </div>
+
+            {/* Social Links */}
+            <div className="pt-2">
+              <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500 mb-3">
+                Professional Networks
+              </p>
+              <div className="flex items-center gap-2">
+                <a
+                  href="https://github.com/Tafsirchy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-xs font-medium text-zinc-800 transition-colors"
+                >
+                  <Github className="w-4 h-4" />
+                  GitHub
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/tafsirchy/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-xs font-medium text-zinc-800 transition-colors"
+                >
+                  <Linkedin className="w-4 h-4" />
+                  LinkedIn
+                </a>
+                <a
+                  href="https://x.com/chy_tafsir"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-xs font-medium text-zinc-800 transition-colors"
+                >
+                  <Twitter className="w-4 h-4" />
+                  Twitter
+                </a>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Right Column: Contact Form */}
+          <div className="lg:col-span-7 bg-zinc-50/70 border border-zinc-200/90 rounded-2xl p-6 sm:p-8 shadow-xs">
+            <h3 className="text-xl font-bold text-zinc-950 mb-1">
+              Send a Direct Message
+            </h3>
+            <p className="text-xs sm:text-sm text-zinc-500 mb-6">
+              Fill in your details below and I'll receive it instantly in my primary inbox.
+            </p>
+
+            {errorMsg && (
+              <div className="mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-xs text-red-700">
+                {errorMsg}
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-xs font-semibold text-zinc-700" htmlFor="name">
+                    Your Name
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    required
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="e.g. Alex Morgan"
+                    className="w-full px-3.5 py-2 text-sm bg-white border border-zinc-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-900 transition-all"
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-xs font-semibold text-zinc-700" htmlFor="email">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="alex@company.com"
+                    className="w-full px-3.5 py-2 text-sm bg-white border border-zinc-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-900 transition-all"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-zinc-700" htmlFor="subject">
+                  Subject
+                </label>
+                <input
+                  type="text"
+                  id="subject"
+                  name="subject"
+                  required
+                  value={formData.subject}
+                  onChange={handleChange}
+                  placeholder="Project inquiry / Full-stack opportunity"
+                  className="w-full px-3.5 py-2 text-sm bg-white border border-zinc-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-900 transition-all"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-zinc-700" htmlFor="message">
+                  Message
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  required
+                  rows={5}
+                  value={formData.message}
+                  onChange={handleChange}
+                  placeholder="Tell me about your team, project timeline, or questions..."
+                  className="w-full px-3.5 py-2 text-sm bg-white border border-zinc-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-900 transition-all resize-none"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full py-3 px-5 text-sm font-semibold text-white bg-zinc-900 hover:bg-zinc-800 disabled:bg-zinc-400 rounded-xl transition-all shadow-xs flex items-center justify-center gap-2"
+              >
+                {isSubmitting ? (
+                  <>
+                    <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    <span>Sending message...</span>
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-4 h-4" />
+                    <span>Send Message</span>
+                  </>
+                )}
+              </button>
+            </form>
+
+          </div>
+
         </div>
+
       </div>
-      
-      <SuccessModal 
-        isOpen={isSuccessModalOpen} 
-        onClose={() => setIsSuccessModalOpen(false)} 
+
+      <SuccessModal
+        isOpen={isSuccessModalOpen}
+        onClose={() => setIsSuccessModalOpen(false)}
       />
     </section>
   );
