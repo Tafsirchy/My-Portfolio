@@ -5,16 +5,15 @@ const SmoothScroll = ({ children }) => {
     <ReactLenis 
       root 
       options={{ 
-        lerp: 0.05,              // Smoother interpolation (lower = smoother but slower response)
-        duration: 1.2,           // Animation duration in seconds
-        smoothWheel: true,       // Smooth wheel scrolling
-        smoothTouch: false,      // Disable on touch for better mobile performance
-        orientation: 'vertical', // Vertical scrolling only
+        lerp: 0.12,              // Snappy, natural and responsive velocity
+        duration: 0.9,           // Natural duration without lag
+        smoothWheel: true,       // Crisp wheel scrolling
+        smoothTouch: false,      // Disabled on mobile for 60fps native feel
+        orientation: 'vertical',
         gestureOrientation: 'vertical',
-        wheelMultiplier: 1,      // Scroll speed multiplier for mouse wheel
-        touchMultiplier: 2,      // Scroll speed multiplier for touch
-        infinite: false,         // No infinite scroll
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Custom easing
+        wheelMultiplier: 1,
+        touchMultiplier: 1.5,
+        infinite: false,
       }}
     >
       {children}
