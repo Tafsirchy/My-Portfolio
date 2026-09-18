@@ -1,5 +1,4 @@
-import { motion } from 'framer-motion';
-import { ArrowUp, Terminal } from 'lucide-react';
+import { ArrowUp, Github, Linkedin, Twitter, Mail } from 'lucide-react';
 import { personalInfo } from '@/data/portfolio';
 
 const Footer = () => {
@@ -13,46 +12,81 @@ const Footer = () => {
   };
 
   return (
-    <footer className="relative bg-background text-slate-900 py-12 border-t border-black/5 font-mono">
-      <div className="absolute inset-0 bg-grid opacity-10 pointer-events-none mix-blend-overlay"></div>
-      
-      <div className="relative max-w-7xl mx-auto w-full px-4 md:px-8 flex flex-col items-center justify-center text-center space-y-6">
+    <footer className="py-12 border-t border-zinc-200/80 bg-white">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         
-        {/* System Name */}
-        <div className="flex flex-col items-center gap-2">
-          <div className="flex items-center gap-2 text-neon-navy">
-             <Terminal className="w-5 h-5" />
-             <span className="font-bold tracking-widest uppercase text-lg">System.Core</span>
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+          
+          {/* Brand & Tagline */}
+          <div className="flex flex-col items-center md:items-start text-center md:text-left">
+            <span className="text-base font-bold text-zinc-950 tracking-tight">
+              {personalInfo.name}
+            </span>
+            <p className="text-xs text-zinc-500 mt-0.5">
+              Full-Stack Web Developer & Founder of BOONEC
+            </p>
           </div>
-          <span className="text-xs md:text-sm text-slate-500 tracking-[0.3em] uppercase font-bold">
-            User: {personalInfo.name.toUpperCase()}
-          </span>
+
+          {/* Quick Nav Links */}
+          <nav className="flex flex-wrap items-center justify-center gap-6 text-xs text-zinc-600 font-medium">
+            <a href="#about" className="hover:text-zinc-950 transition-colors">About</a>
+            <a href="#experience" className="hover:text-zinc-950 transition-colors">Experience</a>
+            <a href="#projects" className="hover:text-zinc-950 transition-colors">Projects</a>
+            <a href="#skills" className="hover:text-zinc-950 transition-colors">Skills</a>
+            <a href="#education" className="hover:text-zinc-950 transition-colors">Education</a>
+            <a href="#contact" className="hover:text-zinc-950 transition-colors">Contact</a>
+          </nav>
+
+          {/* Back to Top */}
+          <button
+            onClick={scrollToTop}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-zinc-600 hover:text-zinc-950 bg-zinc-100 hover:bg-zinc-200 transition-colors"
+          >
+            <span>Back to top</span>
+            <ArrowUp className="w-3.5 h-3.5" />
+          </button>
+
         </div>
 
         {/* Divider */}
-        <div className="w-full max-w-xs h-px bg-gradient-to-r from-transparent via-black/10 to-transparent"></div>
+        <div className="w-full h-px bg-zinc-100" />
 
-        {/* Info */}
-        <div className="space-y-2 pb-[env(safe-area-inset-bottom)]">
-          <p className="text-xs text-slate-500 tracking-widest uppercase font-bold">
-            © {currentYear} // All_Systems_Nominal
+        {/* Copyright & Socials */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-400">
+          <p>
+            © {currentYear} Tafsir Chowdhury. Designed with minimalism & clarity.
           </p>
-          <a
-            href={`mailto:${personalInfo.email}`}
-            className="text-xs text-neon-olive hover:text-slate-900 active:text-slate-900 transition-colors tracking-widest block uppercase font-bold min-h-[44px] flex items-center justify-center"
-          >
-            {personalInfo.email}
-          </a>
-        </div>
 
-        {/* Back to Top */}
-        <button
-          onClick={scrollToTop}
-          className="mt-4 px-6 py-3 min-h-[44px] border border-black/10 hover:border-neon-navy active:border-neon-navy text-slate-500 hover:text-neon-navy active:text-neon-navy bg-slate-50 transition-all duration-300 flex items-center gap-3 group uppercase text-xs tracking-widest font-bold shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-navy"
-        >
-          <span>Initiate_Reboot</span>
-          <ArrowUp className="h-4 w-4 group-hover:-translate-y-1 transition-transform" />
-        </button>
+          <div className="flex items-center gap-4 text-zinc-500">
+            <a
+              href="https://github.com/Tafsirchy"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-zinc-900 transition-colors"
+              aria-label="GitHub"
+            >
+              GitHub
+            </a>
+            <span>·</span>
+            <a
+              href="https://www.linkedin.com/in/tafsirchy/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-zinc-900 transition-colors"
+              aria-label="LinkedIn"
+            >
+              LinkedIn
+            </a>
+            <span>·</span>
+            <a
+              href={`mailto:${personalInfo.email}`}
+              className="hover:text-zinc-900 transition-colors"
+              aria-label="Email"
+            >
+              Email
+            </a>
+          </div>
+        </div>
 
       </div>
     </footer>
