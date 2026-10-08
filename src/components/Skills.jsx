@@ -77,7 +77,7 @@ const skillCategories = [
 
 const Skills = () => {
   return (
-    <section id="skills" className="py-20 md:py-28 border-t border-zinc-200/80 bg-zinc-50/50">
+    <section id="skills" className="py-20 md:py-28 border-t border-zinc-300 bg-transparent">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
@@ -99,7 +99,7 @@ const Skills = () => {
             return (
               <div
                 key={idx}
-                className="p-6 bg-white border border-zinc-200/90 rounded-2xl shadow-xs hover:border-zinc-300 hover:shadow-subtle transition-all flex flex-col justify-between"
+                className="p-6 bg-transparent border border-zinc-300 rounded-2xl shadow-xs hover:border-zinc-300 hover:shadow-subtle transition-all flex flex-col justify-between"
               >
                 <div className="space-y-4">
                   {/* Category Header */}
@@ -118,13 +118,13 @@ const Skills = () => {
                   </div>
 
                   {/* Skills Grid */}
-                  <div className="grid grid-cols-2 gap-2 pt-2 border-t border-zinc-100">
+                  <div className="grid grid-cols-2 gap-2 pt-2 border-t border-zinc-300">
                     {category.skills.map((skill, sIdx) => {
                       const SkillIcon = skill.icon;
                       return (
                         <div
                           key={sIdx}
-                          className="flex items-center gap-2 p-2 rounded-lg bg-zinc-50 hover:bg-zinc-100/80 border border-zinc-200/50 transition-colors"
+                          className="flex items-center gap-2 p-2 rounded-lg bg-transparent hover:bg-zinc-100/80 border border-zinc-300 transition-colors"
                         >
                           <SkillIcon className="w-4 h-4 text-zinc-600 shrink-0" />
                           <span className="text-xs font-medium text-zinc-800 truncate">

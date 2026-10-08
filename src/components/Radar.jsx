@@ -34,7 +34,7 @@ const Radar = ({ socialLinks, iconMap }) => {
                   type: "spring", stiffness: 300, damping: 20,
                   delay: 0.5 + (idx * 0.15)
                 }}
-                className="w-12 h-12 bg-white/80 backdrop-blur-sm border border-black/10 flex items-center justify-center text-slate-500 hover:border-neon-navy hover:text-neon-navy transition-colors group shadow-sm z-10"
+                className="w-12 h-12 bg-[#F9F6F0]/80 backdrop-blur-sm border border-black/10 flex items-center justify-center text-slate-500 hover:border-neon-navy hover:text-neon-navy transition-colors group shadow-sm z-10"
               >
                  <Icon className="h-5 w-5 group-hover:scale-110 transition-transform" />
               </motion.a>
@@ -112,7 +112,7 @@ const Radar = ({ socialLinks, iconMap }) => {
                   type: "spring", stiffness: 300, damping: 20,
                   delay: 0.5 + (globalIdx * 0.15) 
                 }}
-                className="w-12 h-12 bg-white/80 backdrop-blur-sm border border-black/10 flex items-center justify-center text-slate-500 hover:border-neon-navy hover:text-neon-navy transition-colors group shadow-sm z-10"
+                className="w-12 h-12 bg-[#F9F6F0]/80 backdrop-blur-sm border border-black/10 flex items-center justify-center text-slate-500 hover:border-neon-navy hover:text-neon-navy transition-colors group shadow-sm z-10"
               >
                  <Icon className="h-5 w-5 group-hover:scale-110 transition-transform" />
               </motion.a>

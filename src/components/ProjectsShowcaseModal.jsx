@@ -28,10 +28,10 @@ export default function ProjectsShowcaseModal({ isOpen, onClose, project }) {
       <div className="absolute inset-0" onClick={onClose} />
 
       {/* Modal Card */}
-      <div className="relative w-full max-w-3xl max-h-[90vh] bg-white rounded-2xl border border-zinc-200 shadow-2xl overflow-hidden flex flex-col z-10 animate-in zoom-in-95 duration-200">
+      <div className="relative w-full max-w-3xl max-h-[90vh] bg-transparent rounded-2xl border border-zinc-300 shadow-2xl overflow-hidden flex flex-col z-10 animate-in zoom-in-95 duration-200">
         
         {/* Header bar */}
-        <div className="px-6 py-4 border-b border-zinc-100 flex items-center justify-between bg-zinc-50/80">
+        <div className="px-6 py-4 border-b border-zinc-300 flex items-center justify-between bg-transparent">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
             <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
@@ -52,7 +52,7 @@ export default function ProjectsShowcaseModal({ isOpen, onClose, project }) {
           
           {/* Project Banner / Image */}
           {project.images && project.images.length > 0 && (
-            <div className="rounded-xl overflow-hidden border border-zinc-200 bg-zinc-100 aspect-video relative">
+            <div className="rounded-xl overflow-hidden border border-zinc-300 bg-zinc-100 aspect-video relative">
               <img
                 src={project.images[0]}
                 alt={project.title}
@@ -89,7 +89,7 @@ export default function ProjectsShowcaseModal({ isOpen, onClose, project }) {
                     href={project.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-zinc-700 bg-zinc-100 hover:bg-zinc-200 transition-colors border border-zinc-200"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-zinc-700 bg-zinc-100 hover:bg-zinc-200 transition-colors border border-zinc-300"
                   >
                     <Github className="w-3.5 h-3.5" />
                     Source Code
@@ -104,7 +104,7 @@ export default function ProjectsShowcaseModal({ isOpen, onClose, project }) {
           </div>
 
           {/* Tech Stack */}
-          <div className="space-y-2 pt-2 border-t border-zinc-100">
+          <div className="space-y-2 pt-2 border-t border-zinc-300">
             <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-zinc-500">
               <Layers className="w-3.5 h-3.5" />
               <span>Technologies & Architecture</span>
@@ -113,7 +113,7 @@ export default function ProjectsShowcaseModal({ isOpen, onClose, project }) {
               {project.technologies.map((tech, idx) => (
                 <span
                   key={idx}
-                  className="px-2.5 py-1 rounded-md text-xs font-medium bg-zinc-100 text-zinc-800 border border-zinc-200/60"
+                  className="px-2.5 py-1 rounded-md text-xs font-medium bg-zinc-100 text-zinc-800 border border-zinc-300"
                 >
                   {tech}
                 </span>
@@ -123,7 +123,7 @@ export default function ProjectsShowcaseModal({ isOpen, onClose, project }) {
 
           {/* Engineering Challenges Solved */}
           {project.challenges && (
-            <div className="p-4 sm:p-5 rounded-xl bg-zinc-50 border border-zinc-200 space-y-2">
+            <div className="p-4 sm:p-5 rounded-xl bg-transparent border border-zinc-300 space-y-2">
               <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-zinc-800">
                 <Target className="w-4 h-4 text-zinc-900" />
                 <span>Core Engineering Challenges Overcome</span>
@@ -136,7 +136,7 @@ export default function ProjectsShowcaseModal({ isOpen, onClose, project }) {
 
           {/* Future Roadmap / Enhancements */}
           {project.futurePlans && (
-            <div className="p-4 sm:p-5 rounded-xl bg-zinc-50 border border-zinc-200 space-y-2">
+            <div className="p-4 sm:p-5 rounded-xl bg-transparent border border-zinc-300 space-y-2">
               <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-zinc-800">
                 <Compass className="w-4 h-4 text-zinc-900" />
                 <span>Planned Roadmap & Scalability</span>
@@ -166,10 +166,10 @@ export default function ProjectsShowcaseModal({ isOpen, onClose, project }) {
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-3.5 border-t border-zinc-100 bg-zinc-50/80 flex items-center justify-end">
+        <div className="px-6 py-3.5 border-t border-zinc-300 bg-transparent flex items-center justify-end">
           <button
             onClick={onClose}
-            className="px-4 py-1.5 text-xs font-medium text-zinc-700 bg-white hover:bg-zinc-100 border border-zinc-200 rounded-lg transition-colors"
+            className="px-4 py-1.5 text-xs font-medium text-zinc-700 bg-transparent hover:bg-zinc-100 border border-zinc-300 rounded-lg transition-colors"
           >
             Close Details
           </button>

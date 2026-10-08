@@ -61,7 +61,7 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-20 md:py-28 border-t border-zinc-200/80 bg-white">
+    <section id="contact" className="py-20 md:py-28 border-t border-zinc-300 bg-transparent">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
@@ -81,10 +81,10 @@ const Contact = () => {
           <div className="lg:col-span-5 space-y-6">
             
             {/* Email Card with 1-click copy */}
-            <div className="p-5 rounded-2xl bg-zinc-50 border border-zinc-200/90 space-y-3">
+            <div className="p-5 rounded-2xl bg-transparent border border-zinc-300 space-y-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2.5 text-zinc-900 font-semibold text-sm">
-                  <div className="w-8 h-8 rounded-lg bg-white border border-zinc-200 flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-lg bg-transparent border border-zinc-300 flex items-center justify-center">
                     <Mail className="w-4 h-4 text-zinc-700" />
                   </div>
                   <span>Direct Email</span>
@@ -92,7 +92,7 @@ const Contact = () => {
 
                 <button
                   onClick={handleCopyEmail}
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-md bg-white border border-zinc-200 text-zinc-700 hover:text-zinc-950 hover:bg-zinc-100 transition-colors"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-md bg-transparent border border-zinc-300 text-zinc-700 hover:text-zinc-950 hover:bg-zinc-100 transition-colors"
                 >
                   {copiedEmail ? (
                     <>
@@ -120,9 +120,9 @@ const Contact = () => {
             </div>
 
             {/* WhatsApp & Phone Card */}
-            <div className="p-5 rounded-2xl bg-zinc-50 border border-zinc-200/90 space-y-2">
+            <div className="p-5 rounded-2xl bg-transparent border border-zinc-300 space-y-2">
               <div className="flex items-center gap-2.5 text-zinc-900 font-semibold text-sm">
-                <div className="w-8 h-8 rounded-lg bg-white border border-zinc-200 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-lg bg-transparent border border-zinc-300 flex items-center justify-center">
                   <SiWhatsapp className="w-4 h-4 text-emerald-600" />
                 </div>
                 <span>WhatsApp / Direct Line</span>
@@ -143,9 +143,9 @@ const Contact = () => {
             </div>
 
             {/* Location & Availability Card */}
-            <div className="p-5 rounded-2xl bg-zinc-50 border border-zinc-200/90 space-y-2">
+            <div className="p-5 rounded-2xl bg-transparent border border-zinc-300 space-y-2">
               <div className="flex items-center gap-2.5 text-zinc-900 font-semibold text-sm">
-                <div className="w-8 h-8 rounded-lg bg-white border border-zinc-200 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-lg bg-transparent border border-zinc-300 flex items-center justify-center">
                   <MapPin className="w-4 h-4 text-zinc-700" />
                 </div>
                 <span>Location & Timezone</span>
@@ -197,7 +197,7 @@ const Contact = () => {
           </div>
 
           {/* Right Column: Contact Form */}
-          <div className="lg:col-span-7 bg-zinc-50/70 border border-zinc-200/90 rounded-2xl p-6 sm:p-8 shadow-xs">
+          <div className="lg:col-span-7 bg-transparent border border-zinc-300 rounded-2xl p-6 sm:p-8 shadow-xs">
             <h3 className="text-xl font-bold text-zinc-950 mb-1">
               Send a Direct Message
             </h3>
@@ -225,7 +225,7 @@ const Contact = () => {
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="e.g. Alex Morgan"
-                    className="w-full px-3.5 py-2 text-sm bg-white border border-zinc-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-900 transition-all"
+                    className="w-full px-3.5 py-2 text-sm bg-transparent border border-zinc-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-900 transition-all"
                   />
                 </div>
 
@@ -241,7 +241,7 @@ const Contact = () => {
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="alex@company.com"
-                    className="w-full px-3.5 py-2 text-sm bg-white border border-zinc-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-900 transition-all"
+                    className="w-full px-3.5 py-2 text-sm bg-transparent border border-zinc-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-900 transition-all"
                   />
                 </div>
               </div>
@@ -258,7 +258,7 @@ const Contact = () => {
                   value={formData.subject}
                   onChange={handleChange}
                   placeholder="Project inquiry / Full-stack opportunity"
-                  className="w-full px-3.5 py-2 text-sm bg-white border border-zinc-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-900 transition-all"
+                  className="w-full px-3.5 py-2 text-sm bg-transparent border border-zinc-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-900 transition-all"
                 />
               </div>
 
@@ -274,7 +274,7 @@ const Contact = () => {
                   value={formData.message}
                   onChange={handleChange}
                   placeholder="Tell me about your team, project timeline, or questions..."
-                  className="w-full px-3.5 py-2 text-sm bg-white border border-zinc-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-900 transition-all resize-none"
+                  className="w-full px-3.5 py-2 text-sm bg-transparent border border-zinc-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-900 transition-all resize-none"
                 />
               </div>
 

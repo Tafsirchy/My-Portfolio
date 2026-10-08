@@ -25,10 +25,10 @@ const Navbar = () => {
 
   const navLinks = [
     { label: 'About', href: '#about' },
-    { label: 'Experience', href: '#experience' },
-    { label: 'Projects', href: '#projects' },
     { label: 'Skills', href: '#skills' },
+    { label: 'Projects', href: '#projects' },
     { label: 'Education', href: '#education' },
+    { label: 'Experience', href: '#experience' },
     { label: 'Contact', href: '#contact' },
   ];
 
@@ -50,8 +50,8 @@ const Navbar = () => {
     <header
       className={`sticky top-0 z-50 w-full transition-all duration-300 ${
         isScrolled
-          ? 'bg-white/90 backdrop-blur-md border-b border-zinc-200/80 shadow-xs'
-          : 'bg-white/60 backdrop-blur-xs border-b border-transparent'
+          ? 'bg-[#F9F6F0]/90 backdrop-blur-md border-b border-zinc-300 shadow-xs'
+          : 'bg-[#F9F6F0]/60 backdrop-blur-xs border-b border-transparent'
       }`}
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
@@ -137,7 +137,7 @@ const Navbar = () => {
 
       {/* Mobile Drawer Menu */}
       {isMobileMenuOpen && (
-        <div className="sm:hidden fixed inset-x-0 top-16 bg-white border-b border-zinc-200 shadow-xl px-4 pt-4 pb-6 flex flex-col gap-3 animate-in fade-in slide-in-from-top-2 duration-200">
+        <div className="sm:hidden fixed inset-x-0 top-16 bg-transparent border-b border-zinc-300 shadow-xl px-4 pt-4 pb-6 flex flex-col gap-3 animate-in fade-in slide-in-from-top-2 duration-200">
           <div className="flex items-center gap-2 px-3 py-2 bg-emerald-50 rounded-md text-emerald-800 text-xs font-medium mb-1">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
             Currently available for full-time roles & high-impact projects
@@ -156,7 +156,7 @@ const Navbar = () => {
             ))}
           </div>
 
-          <div className="pt-3 border-t border-zinc-100 flex flex-col gap-2">
+          <div className="pt-3 border-t border-zinc-300 flex flex-col gap-2">
             <a
               href={personalInfo.resume}
               target="_blank"

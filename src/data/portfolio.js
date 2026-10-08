@@ -145,7 +145,7 @@ export const projects = [
       "/assets/S24.png"
     ],
     technologies: ["Next.js", "NestJS", "Prisma", "PostgreSQL", "Tailwind CSS", "Stripe", "Redis", "Zustand"],
-    liveUrl: "https://smart24.com",
+    liveUrl: "https://smart24.live",
     githubUrl: "https://github.com/Tafsirchy/Corporate-Ecommerce-Smart24-",
     challenges: "Architecting a high-concurrency Turborepo monorepo uniting Next.js 16 and NestJS 11, implementing high-throughput bulk ordering (RFQ) alongside retail checkout, and handling Redis-cached dynamic pricing with tiered membership logic.",
     futurePlans: "Multi-language and localization support, advanced AI-driven product recommendations, and integration with third-party logistics (3PL) providers for real-time shipping rates.",

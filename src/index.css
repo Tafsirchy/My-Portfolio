@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Reenie+Beanie&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -19,8 +21,8 @@
 
   body {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background-color: #fafafa;
-    color: #09090b;
+    background-color: #F9F6F0;
+    color: #18181b;
     min-height: 100vh;
     overflow-x: hidden;
     line-height: 1.6;

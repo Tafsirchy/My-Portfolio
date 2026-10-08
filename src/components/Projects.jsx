@@ -44,7 +44,7 @@ const Projects = () => {
   }, [selectedCategory]);
 
   return (
-    <section id="projects" className="py-20 md:py-28 border-t border-zinc-200/80 bg-white">
+    <section id="projects" className="py-20 md:py-28 border-t border-zinc-300 bg-transparent">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
@@ -60,14 +60,14 @@ const Projects = () => {
           </div>
 
           {/* Category Filter Pills */}
-          <div className="flex flex-wrap items-center gap-1.5 p-1 bg-zinc-100 rounded-xl border border-zinc-200/60 self-start">
+          <div className="flex flex-wrap items-center gap-1.5 p-1 bg-zinc-100 rounded-xl border border-zinc-300 self-start">
             {categories.map((cat) => (
               <button
                 key={cat.id}
                 onClick={() => setSelectedCategory(cat.id)}
                 className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
                   selectedCategory === cat.id
-                    ? 'bg-white text-zinc-950 shadow-xs'
+                    ? 'bg-transparent text-zinc-950 shadow-xs'
                     : 'text-zinc-600 hover:text-zinc-950 hover:bg-zinc-200/50'
                 }`}
               >
@@ -82,12 +82,12 @@ const Projects = () => {
           {filteredProjects.map((project) => (
             <div
               key={project.id}
-              className="group flex flex-col bg-white border border-zinc-200/90 rounded-2xl overflow-hidden hover:border-zinc-300 hover:shadow-elevated transition-all duration-300"
+              className="group flex flex-col bg-transparent border border-zinc-300 rounded-2xl overflow-hidden hover:border-zinc-300 hover:shadow-elevated transition-all duration-300"
             >
               {/* Project Image Preview */}
               <div 
                 onClick={() => setSelectedProject(project)}
-                className="relative aspect-[16/10] overflow-hidden bg-zinc-100 cursor-pointer border-b border-zinc-100"
+                className="relative aspect-[16/10] overflow-hidden bg-zinc-100 cursor-pointer border-b border-zinc-300"
               >
                 <img
                   src={project.images[0]}
@@ -110,7 +110,7 @@ const Projects = () => {
 
                 {/* Quick inspect prompt on hover */}
                 <div className="absolute inset-0 bg-black/30 backdrop-blur-xs opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <span className="px-3 py-1.5 rounded-lg bg-white/95 text-zinc-900 text-xs font-medium shadow-sm inline-flex items-center gap-1.5">
+                  <span className="px-3 py-1.5 rounded-lg bg-[#F9F6F0]/95 text-zinc-900 text-xs font-medium shadow-sm inline-flex items-center gap-1.5">
                     <Info className="w-3.5 h-3.5" />
                     View Case Study
                   </span>
@@ -135,12 +135,12 @@ const Projects = () => {
                 </div>
 
                 {/* Tech Stack Pills */}
-                <div className="pt-2 border-t border-zinc-100">
+                <div className="pt-2 border-t border-zinc-300">
                   <div className="flex flex-wrap gap-1.5 mb-4">
                     {project.technologies.slice(0, 4).map((tech, idx) => (
                       <span
                         key={idx}
-                        className="px-2 py-0.5 text-[11px] font-medium rounded-md bg-zinc-100 text-zinc-700 border border-zinc-200/60"
+                        className="px-2 py-0.5 text-[11px] font-medium rounded-md bg-zinc-100 text-zinc-700 border border-zinc-300"
                       >
                         {tech}
                       </span>
@@ -153,7 +153,7 @@ const Projects = () => {
                   </div>
 
                   {/* Actions Links */}
-                  <div className="flex items-center justify-between pt-2 border-t border-zinc-100/80">
+                  <div className="flex items-center justify-between pt-2 border-t border-zinc-300/80">
                     <div className="flex items-center gap-2">
                       {project.liveUrl && (
                         <a

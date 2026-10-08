@@ -5,8 +5,8 @@ const Education = () => {
   if (!education || education.length === 0) return null;
 
   return (
-    <section id="education" className="py-20 md:py-28 border-t border-zinc-200/80 bg-white">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="education" className="py-20 md:py-28 border-t border-zinc-300 bg-transparent">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="max-w-2xl mb-14 space-y-2">
@@ -24,7 +24,7 @@ const Education = () => {
           {education.map((item) => (
             <div
               key={item.id}
-              className="p-7 rounded-2xl bg-zinc-50/50 border border-zinc-200/90 hover:border-zinc-300 hover:bg-zinc-50 transition-all flex flex-col justify-between"
+              className="p-7 rounded-2xl bg-transparent border border-zinc-300 hover:border-zinc-300 hover:bg-transparent transition-all flex flex-col justify-between"
             >
               <div className="space-y-4">
                 
@@ -38,7 +38,7 @@ const Education = () => {
                     )}
                   </div>
 
-                  <span className="inline-flex items-center gap-1.5 text-xs text-zinc-500 font-medium bg-white px-3 py-1 rounded-md border border-zinc-200/80">
+                  <span className="inline-flex items-center gap-1.5 text-xs text-zinc-500 font-medium bg-transparent px-3 py-1 rounded-md border border-zinc-300">
                     <Calendar className="w-3.5 h-3.5 text-zinc-400" />
                     {item.duration}
                   </span>
@@ -60,13 +60,13 @@ const Education = () => {
                 </div>
 
                 {/* Description */}
-                <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed pt-2 border-t border-zinc-200/60">
+                <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed pt-2 border-t border-zinc-300">
                   {item.description}
                 </p>
               </div>
 
               {/* Coursework / Skills Highlight */}
-              <div className="pt-4 mt-4 border-t border-zinc-200/60 flex items-center gap-2 text-xs text-zinc-500 font-medium">
+              <div className="pt-4 mt-4 border-t border-zinc-300 flex items-center gap-2 text-xs text-zinc-500 font-medium">
                 <CheckCircle2 className="w-3.5 h-3.5 text-zinc-900" />
                 <span>
                   {item.degree.toLowerCase().includes('bachelor')

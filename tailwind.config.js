@@ -10,6 +10,8 @@ export default {
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
         display: ['Space Grotesk', 'Inter', 'sans-serif'],
         mono: ['JetBrains Mono', 'Space Mono', 'monospace'],
+        jakarta: ['Plus Jakarta Sans', 'sans-serif'],
+        script: ['Reenie Beanie', 'cursive'],
       },
       colors: {
         canvas: '#fafafa',

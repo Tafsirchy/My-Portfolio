@@ -11,15 +11,15 @@ import Footer from '@/components/Footer';
 
 const Home = () => {
   return (
-    <div className="min-h-screen bg-canvas text-zinc-900 font-sans selection:bg-zinc-900 selection:text-white">
+    <div className="min-h-screen bg-[#F9F6F0] text-zinc-900 font-sans selection:bg-zinc-900 selection:text-[#F9F6F0]">
       <Navbar />
       <main id="main-content">
         <Hero />
         <About />
-        <Experience />
-        <Projects />
         <Skills />
+        <Projects />
         <Education />
+        <Experience />
         <AgencyBanner />
         <Contact />
       </main>

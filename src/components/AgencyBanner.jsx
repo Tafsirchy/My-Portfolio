@@ -2,7 +2,7 @@ import { ArrowUpRight, Sparkles, Shield, Rocket, Users } from 'lucide-react';
 
 const AgencyBanner = () => {
   return (
-    <section className="py-20 border-t border-zinc-200/80 bg-white">
+    <section className="py-20 border-t border-zinc-300 bg-transparent">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Editorial Spotlight Card */}
@@ -56,7 +56,7 @@ const AgencyBanner = () => {
                   href="https://boonec.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-zinc-950 bg-white hover:bg-zinc-100 rounded-xl transition-all shadow-sm"
+                  className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-zinc-950 bg-transparent hover:bg-zinc-100 rounded-xl transition-all shadow-sm"
                 >
                   Visit BOONEC.com
                   <ArrowUpRight className="w-4 h-4" />
@@ -75,7 +75,7 @@ const AgencyBanner = () => {
             {/* Right Graphic / Logo */}
             <div className="lg:col-span-4 flex justify-center">
               <div className="relative p-6 rounded-2xl bg-zinc-900/90 border border-zinc-800/80 shadow-xl flex flex-col items-center text-center max-w-xs w-full">
-                <div className="w-20 h-20 rounded-2xl bg-white p-3 flex items-center justify-center mb-4 shadow-md">
+                <div className="w-20 h-20 rounded-2xl bg-transparent p-3 flex items-center justify-center mb-4 shadow-md">
                   <img
                     src="/assets/BOONEC_logo_modern.png"
                     alt="BOONEC Logo"

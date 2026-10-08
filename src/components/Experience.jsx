@@ -12,8 +12,8 @@ const Experience = () => {
   });
 
   return (
-    <section id="experience" className="py-20 md:py-28 border-t border-zinc-200/80 bg-zinc-50/50">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="experience" className="py-20 md:py-28 border-t border-zinc-300 bg-transparent">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="max-w-2xl mb-14 space-y-2">
@@ -27,7 +27,7 @@ const Experience = () => {
         </div>
 
         {/* Timeline Container */}
-        <div className="relative border-l border-zinc-200 ml-3 sm:ml-4 space-y-10 sm:space-y-12">
+        <div className="relative border-l border-zinc-300 ml-3 sm:ml-4 space-y-10 sm:space-y-12">
           {sortedExperience.map((exp, index) => {
             const isCurrent = exp.duration.toLowerCase().includes('present');
 
@@ -35,7 +35,7 @@ const Experience = () => {
               <div key={exp.id} className="relative pl-6 sm:pl-8 group">
                 {/* Node marker on the line */}
                 <span
-                  className={`absolute -left-[9px] top-1.5 w-4 h-4 rounded-full border-2 bg-white transition-colors ${
+                  className={`absolute -left-[9px] top-1.5 w-4 h-4 rounded-full border-2 bg-transparent transition-colors ${
                     isCurrent
                       ? 'border-emerald-600 ring-4 ring-emerald-100'
                       : 'border-zinc-400 group-hover:border-zinc-900'
@@ -43,10 +43,10 @@ const Experience = () => {
                 />
 
                 {/* Experience Card */}
-                <div className="bg-white border border-zinc-200/90 rounded-xl p-6 sm:p-7 shadow-xs hover:shadow-subtle hover:border-zinc-300 transition-all">
+                <div className="bg-transparent border border-zinc-300 rounded-xl p-6 sm:p-7 shadow-xs hover:shadow-subtle hover:border-zinc-300 transition-all">
                   
                   {/* Top Meta Row */}
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3 pb-3 border-b border-zinc-100">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3 pb-3 border-b border-zinc-300">
                     <div>
                       <div className="flex items-center gap-2 flex-wrap">
                         <h3 className="text-lg sm:text-xl font-bold text-zinc-950 tracking-tight">
@@ -64,7 +64,7 @@ const Experience = () => {
                       </p>
                     </div>
 
-                    <div className="inline-flex items-center gap-1.5 text-xs text-zinc-500 font-medium bg-zinc-50 px-2.5 py-1 rounded-md border border-zinc-200/60 self-start sm:self-auto">
+                    <div className="inline-flex items-center gap-1.5 text-xs text-zinc-500 font-medium bg-transparent px-2.5 py-1 rounded-md border border-zinc-300 self-start sm:self-auto">
                       <Calendar className="w-3.5 h-3.5 text-zinc-400" />
                       <span>{exp.duration}</span>
                     </div>
@@ -94,7 +94,7 @@ const Experience = () => {
 
                   {/* Company link if BOONEC */}
                   {exp.company === 'BOONEC' && (
-                    <div className="pt-2 border-t border-zinc-100 flex items-center justify-between">
+                    <div className="pt-2 border-t border-zinc-300 flex items-center justify-between">
                       <span className="text-xs text-zinc-500">Agency & Venture</span>
                       <a
                         href="https://boonec.com"

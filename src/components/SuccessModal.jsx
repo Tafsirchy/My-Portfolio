@@ -20,7 +20,7 @@ const SuccessModal = ({ isOpen, onClose }) => {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in duration-200">
       <div className="absolute inset-0" onClick={onClose} />
       
-      <div className="relative w-full max-w-md bg-white rounded-2xl border border-zinc-200 shadow-2xl p-6 sm:p-8 flex flex-col items-center text-center space-y-4 z-10 animate-in zoom-in-95 duration-200">
+      <div className="relative w-full max-w-md bg-transparent rounded-2xl border border-zinc-300 shadow-2xl p-6 sm:p-8 flex flex-col items-center text-center space-y-4 z-10 animate-in zoom-in-95 duration-200">
         
         {/* Success Icon */}
         <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shadow-xs">
