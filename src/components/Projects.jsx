@@ -1,18 +1,40 @@
 import { useState, useMemo } from 'react';
-import { ExternalLink, Github, ArrowUpRight, Sparkles, Code2, Layers, Info } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ExternalLink, Github, ArrowUpRight, Sparkles } from 'lucide-react';
 import { projects } from '@/data/portfolio';
 import ProjectsShowcaseModal from './ProjectsShowcaseModal';
 
 const categories = [
   { id: 'all', label: 'All Projects' },
   { id: 'next', label: 'Next.js & React' },
-  { id: 'ecommerce', label: 'E-Commerce & SaaS' },
+  { id: 'ecommerce', label: 'E-Commerce' },
   { id: 'fullstack', label: 'Full-Stack MERN' },
 ];
 
 const Projects = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedProject, setSelectedProject] = useState(null);
+  const [showAll, setShowAll] = useState(false);
+
+  const elegantEase = [0.16, 1, 0.3, 1];
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.15, delayChildren: 0.1 },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 40, filter: 'blur(8px)' },
+    visible: {
+      opacity: 1,
+      y: 0,
+      filter: 'blur(0px)',
+      transition: { duration: 1.2, ease: elegantEase },
+    },
+  };
 
   const filteredProjects = useMemo(() => {
     if (selectedCategory === 'all') return projects;
@@ -43,160 +65,167 @@ const Projects = () => {
     return projects;
   }, [selectedCategory]);
 
+  const visibleProjects = showAll ? filteredProjects : filteredProjects.slice(0, 4);
+
   return (
-    <section id="projects" className="py-20 md:py-28 border-t border-zinc-300 bg-transparent">
+    <section id="projects" className="py-24 md:py-32 border-t border-zinc-300 bg-[#F9F6F0] overflow-hidden">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-          <div className="max-w-2xl space-y-2">
-            <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Selected Works</p>
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-zinc-950">
-              Handcrafted web applications, SaaS platforms & architectures.
-            </h2>
-            <p className="text-sm text-zinc-600">
-              Each project demonstrates real-world technical execution, responsive UI craft, and scalable backend integrations.
-            </p>
-          </div>
+        <motion.div 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={itemVariants}
+          className="flex flex-col items-center text-center mb-16 md:mb-24"
+        >
+          <h2 className="text-5xl md:text-7xl font-serif tracking-tight text-zinc-900 uppercase leading-none mb-6">
+            Selected Works
+          </h2>
+          <div className="w-12 h-[1px] bg-zinc-900 mb-6 transform transition-transform duration-1000 ease-out hover:scale-x-150"></div>
+          <p className="text-sm text-zinc-600 leading-relaxed font-sans max-w-lg">
+            A curated showcase of digital products, combining strategic design with flawless technical execution.
+          </p>
+        </motion.div>
 
-          {/* Category Filter Pills */}
-          <div className="flex flex-wrap items-center gap-1.5 p-1 bg-zinc-100 rounded-xl border border-zinc-300 self-start">
-            {categories.map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => setSelectedCategory(cat.id)}
-                className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
-                  selectedCategory === cat.id
-                    ? 'bg-transparent text-zinc-950 shadow-xs'
-                    : 'text-zinc-600 hover:text-zinc-950 hover:bg-zinc-200/50'
-                }`}
-              >
-                {cat.label}
-              </button>
-            ))}
-          </div>
-        </div>
+        {/* Minimalist Filters */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, ease: elegantEase }}
+          className="flex flex-wrap justify-center gap-8 mb-16 md:mb-24"
+        >
+          {categories.map((cat) => (
+            <button
+              key={cat.id}
+              onClick={() => setSelectedCategory(cat.id)}
+              className={`relative text-xs sm:text-sm font-semibold uppercase tracking-widest transition-colors duration-500 pb-2 ${
+                selectedCategory === cat.id ? 'text-zinc-900' : 'text-zinc-400 hover:text-zinc-600'
+              }`}
+            >
+              {cat.label}
+              {selectedCategory === cat.id && (
+                <motion.div 
+                  layoutId="activeFilter"
+                  className="absolute bottom-0 left-0 right-0 h-[2px] bg-zinc-900"
+                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                />
+              )}
+            </button>
+          ))}
+        </motion.div>
 
         {/* Projects Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project) => (
-            <div
+        <motion.div 
+          key={`${selectedCategory}-${showAll}`}
+          initial="hidden"
+          animate="visible"
+          variants={containerVariants}
+          className="grid md:grid-cols-2 gap-x-12 gap-y-20 lg:gap-y-24"
+        >
+          {visibleProjects.map((project) => (
+            <motion.div
               key={project.id}
-              className="group flex flex-col bg-transparent border border-zinc-300 rounded-2xl overflow-hidden hover:border-zinc-300 hover:shadow-elevated transition-all duration-300"
+              variants={itemVariants}
+              className="group flex flex-col cursor-pointer"
+              onClick={() => setSelectedProject(project)}
             >
-              {/* Project Image Preview */}
-              <div 
-                onClick={() => setSelectedProject(project)}
-                className="relative aspect-[16/10] overflow-hidden bg-zinc-100 cursor-pointer border-b border-zinc-300"
-              >
+              {/* Image Container */}
+              <div className="relative aspect-[4/3] sm:aspect-[16/10] overflow-hidden mb-6 bg-zinc-100">
                 <img
                   src={project.images[0]}
                   alt={project.title}
-                  className="w-full h-full object-cover object-top group-hover:scale-103 transition-transform duration-500"
+                  className="w-full h-full object-cover object-top filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 ease-out"
                   onError={(e) => {
                     e.target.src = "https://placehold.co/800x500/f4f4f5/71717a?text=" + encodeURIComponent(project.title);
                   }}
                 />
-
-                {/* Badges Overlay */}
-                <div className="absolute top-3 left-3 flex items-center gap-1.5">
-                  {project.featured && (
-                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-zinc-900/90 backdrop-blur-xs text-white">
-                      <Sparkles className="w-3 h-3 text-amber-300" />
-                      Featured
-                    </span>
-                  )}
-                </div>
-
-                {/* Quick inspect prompt on hover */}
-                <div className="absolute inset-0 bg-black/30 backdrop-blur-xs opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <span className="px-3 py-1.5 rounded-lg bg-[#F9F6F0]/95 text-zinc-900 text-xs font-medium shadow-sm inline-flex items-center gap-1.5">
-                    <Info className="w-3.5 h-3.5" />
-                    View Case Study
+                
+                {/* Overlay on hover */}
+                <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+                
+                {/* Centered Hover Prompt */}
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-700 transform translate-y-4 group-hover:translate-y-0 pointer-events-none">
+                  <span className="px-6 py-3 bg-[#F9F6F0] text-zinc-900 text-xs font-semibold uppercase tracking-widest rounded-full shadow-xl">
+                    View Project
                   </span>
                 </div>
               </div>
 
-              {/* Card Body */}
-              <div className="p-5 sm:p-6 flex flex-col flex-1 justify-between gap-4">
-                
-                <div className="space-y-2">
-                  <h3 
-                    onClick={() => setSelectedProject(project)}
-                    className="text-lg font-bold text-zinc-950 tracking-tight cursor-pointer hover:text-zinc-600 transition-colors flex items-center justify-between"
-                  >
-                    <span>{project.title}</span>
-                    <ArrowUpRight className="w-4 h-4 text-zinc-400 group-hover:text-zinc-950 transition-colors shrink-0" />
+              {/* Text Content */}
+              <div className="flex flex-col gap-3 px-2">
+                <div className="flex justify-between items-start gap-4">
+                  <h3 className="text-2xl font-serif text-zinc-900 leading-tight group-hover:text-zinc-600 transition-colors duration-500">
+                    {project.title}
                   </h3>
-
-                  <p className="text-xs sm:text-sm text-zinc-600 line-clamp-3 leading-relaxed">
-                    {project.description}
-                  </p>
+                  <ArrowUpRight className="w-5 h-5 text-zinc-300 group-hover:text-zinc-900 transition-all duration-500 transform group-hover:translate-x-1 group-hover:-translate-y-1 shrink-0" />
                 </div>
+                
+                <p className="text-sm text-zinc-500 leading-relaxed line-clamp-2">
+                  {project.description}
+                </p>
 
-                {/* Tech Stack Pills */}
-                <div className="pt-2 border-t border-zinc-300">
-                  <div className="flex flex-wrap gap-1.5 mb-4">
-                    {project.technologies.slice(0, 4).map((tech, idx) => (
-                      <span
-                        key={idx}
-                        className="px-2 py-0.5 text-[11px] font-medium rounded-md bg-zinc-100 text-zinc-700 border border-zinc-300"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                    {project.technologies.length > 4 && (
-                      <span className="px-1.5 py-0.5 text-[11px] font-medium text-zinc-400">
-                        +{project.technologies.length - 4}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Actions Links */}
-                  <div className="flex items-center justify-between pt-2 border-t border-zinc-300/80">
-                    <div className="flex items-center gap-2">
-                      {project.liveUrl && (
-                        <a
-                          href={project.liveUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 text-xs font-semibold text-zinc-900 hover:text-zinc-600 transition-colors"
-                        >
-                          Live Demo
-                          <ExternalLink className="w-3 h-3" />
-                        </a>
-                      )}
-                      {project.githubUrl && (
-                        <a
-                          href={project.githubUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 text-xs font-semibold text-zinc-500 hover:text-zinc-950 transition-colors ml-2"
-                        >
-                          <Github className="w-3 h-3" />
-                          Code
-                        </a>
-                      )}
-                    </div>
-
-                    <button
-                      onClick={() => setSelectedProject(project)}
-                      className="text-xs font-medium text-zinc-500 hover:text-zinc-900 transition-colors"
+                {/* Typography-driven Tech Stack */}
+                <div className="flex flex-wrap gap-x-4 gap-y-2 mt-3">
+                  {project.technologies.slice(0, 4).map((tech, idx) => (
+                    <span
+                      key={idx}
+                      className="text-[10px] font-bold uppercase tracking-widest text-zinc-400"
                     >
-                      Details →
-                    </button>
-                  </div>
+                      {tech}
+                    </span>
+                  ))}
+                  {project.technologies.length > 4 && (
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-300">
+                      +{project.technologies.length - 4}
+                    </span>
+                  )}
                 </div>
-
               </div>
-
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
+        {/* See More Button — shown only before expand */}
+        {!showAll && filteredProjects.length > 4 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: elegantEase }}
+            className="flex justify-center mt-20"
+          >
+            <button
+              onClick={() => setShowAll(true)}
+              className="group flex items-center gap-4 text-xs font-bold uppercase tracking-[0.2em] text-zinc-500 hover:text-zinc-900 transition-colors duration-500"
+            >
+              <span className="w-8 h-[1px] bg-current transition-all duration-500 group-hover:w-12" />
+              See More · {filteredProjects.length - 4} more projects
+              <span className="w-8 h-[1px] bg-current transition-all duration-500 group-hover:w-12" />
+            </button>
+          </motion.div>
+        )}
+
+        {/* See Less — only appears at very bottom after projects are expanded */}
+        {showAll && filteredProjects.length > 4 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6, ease: elegantEase }}
+            className="flex justify-center mt-20"
+          >
+            <button
+              onClick={() => setShowAll(false)}
+              className="group flex items-center gap-4 text-xs font-bold uppercase tracking-[0.2em] text-zinc-400 hover:text-zinc-700 transition-colors duration-500"
+            >
+              <span className="w-8 h-[1px] bg-current transition-all duration-500 group-hover:w-12" />
+              See Less
+              <span className="w-8 h-[1px] bg-current transition-all duration-500 group-hover:w-12" />
+            </button>
+          </motion.div>
+        )}
       </div>
 
-      {/* Project Case Details Modal */}
       <ProjectsShowcaseModal
         isOpen={!!selectedProject}
         onClose={() => setSelectedProject(null)}

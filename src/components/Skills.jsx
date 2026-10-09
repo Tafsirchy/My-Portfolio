@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { 
   SiMongodb, SiExpress, SiReact, SiNodedotjs,
   SiJavascript, SiTypescript, SiHtml5, SiCss3, SiTailwindcss, SiNextdotjs,
@@ -5,140 +6,158 @@ import {
   SiGit, SiGithub, SiFigma, SiVercel, SiNetlify, SiPostman, SiNestjs,
   SiC, SiCplusplus, SiPython
 } from 'react-icons/si';
-import { Layers, Server, Database, Wrench, Code2 } from 'lucide-react';
 
 const skillCategories = [
   {
     title: 'Core Languages',
-    icon: Code2,
     description: 'Foundational programming and scripting languages.',
     skills: [
-      { name: 'JavaScript (ES6+)', icon: SiJavascript, color: '#f7df1e' },
-      { name: 'TypeScript', icon: SiTypescript, color: '#3178c6' },
-      { name: 'HTML5', icon: SiHtml5, color: '#e34f26' },
-      { name: 'CSS3', icon: SiCss3, color: '#1572b6' },
-      { name: 'C / C++', icon: SiCplusplus, color: '#00599c' },
-      { name: 'Python', icon: SiPython, color: '#3776ab' },
+      { name: 'JavaScript (ES6+)', icon: SiJavascript },
+      { name: 'TypeScript', icon: SiTypescript },
+      { name: 'HTML5', icon: SiHtml5 },
+      { name: 'CSS3', icon: SiCss3 },
+      { name: 'C / C++', icon: SiCplusplus },
+      { name: 'Python', icon: SiPython },
     ],
   },
   {
     title: 'Frontend Engineering',
-    icon: Layers,
     description: 'Modern frameworks, styling architectures, and state engines.',
     skills: [
-      { name: 'React 19', icon: SiReact, color: '#61dafb' },
-      { name: 'Next.js 16 (App Router)', icon: SiNextdotjs, color: '#000000' },
-      { name: 'Tailwind CSS', icon: SiTailwindcss, color: '#06b6d4' },
-      { name: 'Component Systems', icon: SiReact, color: '#61dafb' },
-      { name: 'Zustand State Management', icon: SiJavascript, color: '#854d0e' },
-      { name: 'Responsive Web Design', icon: SiCss3, color: '#1572b6' },
+      { name: 'React 19', icon: SiReact },
+      { name: 'Next.js 16', icon: SiNextdotjs },
+      { name: 'Tailwind CSS', icon: SiTailwindcss },
+      { name: 'Figma', icon: SiFigma },
     ],
   },
   {
     title: 'Backend & APIs',
-    icon: Server,
     description: 'Server architecture, RESTful services, and authorization.',
     skills: [
-      { name: 'Node.js', icon: SiNodedotjs, color: '#339933' },
-      { name: 'Express.js', icon: SiExpress, color: '#000000' },
-      { name: 'NestJS', icon: SiNestjs, color: '#ea2845' },
-      { name: 'RESTful API Design', icon: SiNodedotjs, color: '#339933' },
-      { name: 'JWT & OAuth Authentication', icon: SiJsonwebtokens, color: '#000000' },
-      { name: 'Stripe Payment Gateway', icon: SiJavascript, color: '#6366f1' },
+      { name: 'Node.js', icon: SiNodedotjs },
+      { name: 'Express.js', icon: SiExpress },
+      { name: 'NestJS', icon: SiNestjs },
+      { name: 'RESTful API', icon: SiNodedotjs },
+      { name: 'JWT & OAuth', icon: SiJsonwebtokens },
     ],
   },
   {
     title: 'Databases & Storage',
-    icon: Database,
     description: 'Relational & document stores, caching, and ORMs.',
     skills: [
-      { name: 'MongoDB', icon: SiMongodb, color: '#47a248' },
-      { name: 'PostgreSQL', icon: SiPostgresql, color: '#4169e1' },
-      { name: 'MySQL', icon: SiMysql, color: '#4479a1' },
-      { name: 'Prisma ORM', icon: SiPrisma, color: '#2d3748' },
-      { name: 'Redis (Caching)', icon: SiRedis, color: '#dc382d' },
-      { name: 'Firebase', icon: SiFirebase, color: '#ffca28' },
+      { name: 'MongoDB', icon: SiMongodb },
+      { name: 'PostgreSQL', icon: SiPostgresql },
+      { name: 'MySQL', icon: SiMysql },
+      { name: 'Prisma ORM', icon: SiPrisma },
+      { name: 'Redis', icon: SiRedis },
+      { name: 'Firebase', icon: SiFirebase },
     ],
   },
   {
-    title: 'DevOps, Tools & Workflow',
-    icon: Wrench,
+    title: 'DevOps & Tooling',
     description: 'Version control, cloud deployment, and developer tooling.',
     skills: [
-      { name: 'Git & GitHub', icon: SiGithub, color: '#181717' },
-      { name: 'Vercel Deployment', icon: SiVercel, color: '#000000' },
-      { name: 'Netlify', icon: SiNetlify, color: '#00c7b7' },
-      { name: 'Postman (API Testing)', icon: SiPostman, color: '#ff6c37' },
-      { name: 'Figma to Code', icon: SiFigma, color: '#f24e1e' },
-      { name: 'Linux & Monorepos', icon: SiGit, color: '#f05032' },
+      { name: 'Git & GitHub', icon: SiGithub },
+      { name: 'Vercel', icon: SiVercel },
+      { name: 'Netlify', icon: SiNetlify },
+      { name: 'Postman', icon: SiPostman },
+      { name: 'Linux', icon: SiGit },
     ],
   },
 ];
 
 const Skills = () => {
+  const elegantEase = [0.16, 1, 0.3, 1];
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1, delayChildren: 0.2 },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20, filter: 'blur(5px)' },
+    visible: {
+      opacity: 1,
+      y: 0,
+      filter: 'blur(0px)',
+      transition: { duration: 1.2, ease: elegantEase },
+    },
+  };
+
   return (
-    <section id="skills" className="py-20 md:py-28 border-t border-zinc-300 bg-transparent">
+    <section id="skills" className="py-8 md:py-12 bg-transparent text-zinc-900 border-t border-zinc-300 overflow-hidden">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header */}
-        <div className="max-w-2xl mb-14 space-y-2">
-          <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Technical Skills</p>
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-zinc-950">
-            Engineered with a versatile, production-proven stack.
-          </h2>
-          <p className="text-sm text-zinc-600">
-            A comprehensive overview of the programming languages, frameworks, databases, and tooling I use daily.
-          </p>
-        </div>
+        <div className="flex flex-col gap-8 md:gap-12 items-center w-full">
+          
+          {/* Top: Centered Title */}
+          <div className="w-full flex flex-col items-center text-center">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={itemVariants}
+              className="flex flex-col items-center"
+            >
+              <h2 className="text-5xl md:text-7xl font-serif tracking-tight text-zinc-900 uppercase leading-none mb-4">
+                Expertise
+              </h2>
+              <div className="w-12 h-[1px] bg-zinc-900 mb-4 transform transition-transform duration-1000 ease-out hover:scale-x-150"></div>
+              <p className="text-sm text-zinc-600 leading-relaxed font-sans max-w-lg">
+                A curated stack of tools and frameworks, focused on delivering scalable, high-performance, and meticulously crafted digital experiences.
+              </p>
+            </motion.div>
+          </div>
 
-        {/* Categories Matrix */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {skillCategories.map((category, idx) => {
-            const Icon = category.icon;
-
-            return (
-              <div
-                key={idx}
-                className="p-6 bg-transparent border border-zinc-300 rounded-2xl shadow-xs hover:border-zinc-300 hover:shadow-subtle transition-all flex flex-col justify-between"
-              >
-                <div className="space-y-4">
+          {/* Bottom: Categories */}
+          <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 md:gap-y-12">
+            {skillCategories.map((category, idx) => {
+              return (
+                <motion.div 
+                  key={idx}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: "-100px" }}
+                  variants={containerVariants}
+                  className="w-full flex flex-col"
+                >
                   {/* Category Header */}
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-zinc-100 text-zinc-900 flex items-center justify-center">
-                      <Icon className="w-4 h-4" />
+                  <motion.div variants={itemVariants} className="flex flex-col border-b border-zinc-900 pb-3 mb-2 gap-1">
+                    <div className="flex items-baseline gap-4">
+                      <span className="text-xs font-bold font-sans text-zinc-400">0{idx + 1}</span>
+                      <h3 className="text-2xl font-serif text-zinc-900">{category.title}</h3>
                     </div>
-                    <div>
-                      <h3 className="text-sm font-bold text-zinc-950">
-                        {category.title}
-                      </h3>
-                      <p className="text-[11px] text-zinc-500">
-                        {category.description}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Skills Grid */}
-                  <div className="grid grid-cols-2 gap-2 pt-2 border-t border-zinc-300">
+                    <p className="text-xs text-zinc-500 font-sans">
+                      {category.description}
+                    </p>
+                  </motion.div>
+                  
+                  {/* Skills List (Typography Driven) */}
+                  <div className="flex flex-col w-full">
                     {category.skills.map((skill, sIdx) => {
                       const SkillIcon = skill.icon;
                       return (
-                        <div
+                        <motion.div 
                           key={sIdx}
-                          className="flex items-center gap-2 p-2 rounded-lg bg-transparent hover:bg-zinc-100/80 border border-zinc-300 transition-colors"
+                          variants={itemVariants}
+                          className="group flex items-center justify-between py-3 border-b border-zinc-200 hover:border-zinc-900 transition-colors duration-500 cursor-default"
                         >
-                          <SkillIcon className="w-4 h-4 text-zinc-600 shrink-0" />
-                          <span className="text-xs font-medium text-zinc-800 truncate">
+                          <span className="text-lg md:text-xl font-sans text-zinc-500 group-hover:text-zinc-900 group-hover:translate-x-2 transition-all duration-500">
                             {skill.name}
                           </span>
-                        </div>
+                          <SkillIcon className="w-5 h-5 text-zinc-300 group-hover:text-zinc-900 transition-all duration-500 transform group-hover:scale-110" />
+                        </motion.div>
                       );
                     })}
                   </div>
-                </div>
+                </motion.div>
+              );
+            })}
+          </div>
 
-              </div>
-            );
-          })}
         </div>
 
       </div>
