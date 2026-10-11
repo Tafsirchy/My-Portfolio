@@ -77,10 +77,29 @@ export const education = [
   {
     id: 2,
     institution: "Programming Hero",
-    degree: "MERN Stack Development Certification",
+    degree: "Complete Web Development Certification",
     duration: "2025",
     description: "Comprehensive certification covering modern web technologies, including React, Node.js, Next.js, MongoDB, and Firebase, along with hands-on experience in deploying applications using Vercel, Netlify, Firebase Hosting, Surge, and cloud platforms.",
     fileName: "MERN_Stack"
+  },
+  {
+    id: 3,
+    institution: "National Skills Development Authority (NSDA) — Prime Minister's Office, Bangladesh",
+    degree: "National Skills Certificate — Web Application Development with Python, Level-4",
+    duration: "2024",
+    description: "Government-recognized National Skills Certificate under the Bangladesh National Qualification Framework (BNQF), awarded for successfully completing 360 hours of Web Application Development with Python (Level-4) by the National Skills Development Authority under the Prime Minister's Office.",
+    level: "BNQF Level 4",
+    hours: "360 Hours",
+    fileName: "NSDA_Certificate"
+  },
+  {
+    id: 4,
+    institution: "SABiT International",
+    degree: "Certificate of Appreciation — Life Transformation",
+    duration: "2024",
+    description: "Certificate of Appreciation awarded by SABiT International for successfully completing the Life Transformation course (Batch #1). Recognized for personal growth, self-development, and transformative mindset building.",
+    issuer: "Sabit Rayhan, Chairman — SABiT International",
+    fileName: "SABiT_Certificate"
   },
 ];
 
