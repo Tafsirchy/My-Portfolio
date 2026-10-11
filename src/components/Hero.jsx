@@ -20,21 +20,21 @@ const Hero = () => {
   return (
     <section id="home" className="relative w-full min-h-[90vh] bg-transparent text-zinc-900 overflow-hidden font-sans pt-12 md:pt-16 pb-20">
       
-      {/* Background oversized portrait */}
+      {/* Background oversized portrait with GPU acceleration */}
       <motion.div 
         style={{ y: bgY }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.2 }}
-        transition={{ duration: 2, ease: "easeOut" }}
-        className="absolute bottom-10 md:bottom-18 left-16 right-0 mx-auto w-full h-[70vh] md:h-[95vh] z-0 pointer-events-none flex justify-center origin-bottom translate-x-20 md:translate-x-48"
+        transition={{ duration: 1.5, ease: "easeOut" }}
+        className="absolute bottom-10 md:bottom-18 left-16 right-0 mx-auto w-full h-[70vh] md:h-[95vh] z-0 pointer-events-none flex justify-center origin-bottom translate-x-20 md:translate-x-48 transform-gpu will-change-transform"
       >
         <img 
           src="/assets/About.png" 
           alt="" 
-          className={`w-auto h-full object-contain object-bottom blur-[1px] transition-all duration-700 pointer-events-none ${isHovered ? 'grayscale-0' : 'grayscale'}`}
+          className={`w-auto h-full object-contain object-bottom transition-[filter] duration-500 pointer-events-none ${isHovered ? 'grayscale-0' : 'grayscale'}`}
           onError={(e) => { e.target.src = "/assets/About.png"; }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#F9F6F0] via-transparent to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-[#FFFFFF] via-transparent to-transparent"></div>
       </motion.div>
 
       {/* Main Container aligned with Navbar */}
@@ -56,59 +56,65 @@ const Hero = () => {
           <span className="text-[10px] sm:text-xs uppercase tracking-[0.25em] text-zinc-500 font-medium font-sans">Web Developer</span>
         </motion.div>
 
-        {/* Giant Typography Layer */}
-        <div className="relative flex flex-col w-full">
-          
+        {/* Giant Typography Layer 1: Tafsirul Islam (Behind Portrait, z-10) */}
+        <motion.div 
+          style={{ y: yText }} 
+          className="relative z-10 flex flex-col w-full transform-gpu will-change-transform"
+        >
           <div className="flex flex-col md:flex-row justify-center items-start md:items-center gap-6 md:gap-16 lg:gap-24 w-full relative">
             <motion.h1 
-              style={{ y: yText }}
               initial={{ opacity: 0, y: 40, filter: 'blur(12px)' }}
               animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
               transition={{ delay: 0.3, duration: 1.4, ease: elegantEase }}
-              className="text-[80px] sm:text-[110px] md:text-[140px] lg:text-[180px] font-bold text-zinc-900 tracking-tighter leading-none z-10"
+              className="text-[80px] sm:text-[110px] md:text-[140px] lg:text-[180px] font-bold text-zinc-900 tracking-tighter leading-none"
             >
               Tafsirul
             </motion.h1>
             
             <motion.h1 
-              style={{ y: yText, WebkitTextStroke: '2px #18181b' }}
+              style={{ WebkitTextStroke: '2px #18181b' }}
               initial={{ opacity: 0, y: 40, filter: 'blur(12px)' }}
               animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
               transition={{ delay: 0.4, duration: 1.4, ease: elegantEase }}
-              className="text-[80px] sm:text-[110px] md:text-[140px] lg:text-[180px] font-bold text-transparent tracking-tighter leading-none z-10 hidden md:block"
+              className="text-[80px] sm:text-[110px] md:text-[140px] lg:text-[180px] font-bold text-transparent tracking-tighter leading-none hidden md:block"
             >
               Islam
             </motion.h1>
           </div>
-          
-          <motion.h1 
-            style={{ y: yText }}
-            initial={{ opacity: 0, y: 40, filter: 'blur(12px)' }}
-            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-            transition={{ delay: 0.5, duration: 1.4, ease: elegantEase }}
-            className="text-[65px] sm:text-[85px] md:text-[110px] lg:text-[140px] font-light text-zinc-600 tracking-tight leading-none mt-0 md:-mt-8 z-30"
-          >
-            Chowdhury
-          </motion.h1>
-        </div>
+        </motion.div>
 
-        {/* Foreground Portrait */}
+        {/* Foreground Portrait with GPU acceleration (z-20) */}
         <motion.div 
           style={{ y: fgY }}
           initial={{ opacity: 0, scale: 0.9, filter: 'blur(15px)' }}
           animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
           transition={{ delay: 0.4, duration: 1.8, ease: elegantEase }}
-          className="absolute bottom-0 left-0 right-0 mx-auto w-full h-[60vh] md:h-[80vh] z-20 pointer-events-none flex justify-center"
+          className="absolute bottom-0 left-0 right-0 mx-auto w-full h-[60vh] md:h-[80vh] z-20 pointer-events-none flex justify-center transform-gpu will-change-transform"
         >
           <img 
             src="/assets/HeroProfile.png" 
             alt="Tafsirul Islam Chowdhury" 
-            className={`w-auto h-full object-contain object-bottom contrast-[1.05] transition-all duration-700 cursor-pointer pointer-events-auto ${isHovered ? 'grayscale-0 delay-200' : 'grayscale delay-0'}`}
+            className={`w-auto h-full object-contain object-bottom contrast-[1.05] transition-[filter] duration-500 cursor-pointer pointer-events-auto ${isHovered ? 'grayscale-0' : 'grayscale'}`}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             style={{ maskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)' }}
             onError={(e) => { e.target.src = "/assets/About.png"; }}
           />
+        </motion.div>
+
+        {/* Giant Typography Layer 2: Chowdhury (In Front of Portrait, z-30) */}
+        <motion.div 
+          style={{ y: yText }} 
+          className="relative z-30 flex flex-col w-full transform-gpu will-change-transform pointer-events-none"
+        >
+          <motion.h1 
+            initial={{ opacity: 0, y: 40, filter: 'blur(12px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            transition={{ delay: 0.5, duration: 1.4, ease: elegantEase }}
+            className="text-[65px] sm:text-[85px] md:text-[110px] lg:text-[140px] font-light text-zinc-600 tracking-tight leading-none mt-0 md:-mt-8"
+          >
+            Chowdhury
+          </motion.h1>
         </motion.div>
 
         {/* Bottom Content Row: Intro (Left) & CTA (Right) */}
@@ -140,7 +146,7 @@ const Hero = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   href="#projects" 
-                  className="group flex items-center justify-center gap-2 px-6 py-3 border border-zinc-900 bg-zinc-900 text-[#F9F6F0] text-xs font-semibold uppercase tracking-widest transition-colors hover:bg-[#18181b]/90 hover:text-[#F9F6F0]"
+                  className="group flex items-center justify-center gap-2 px-6 py-3 border border-zinc-900 bg-zinc-900 text-[#FFFFFF] text-xs font-semibold uppercase tracking-widest transition-colors hover:bg-[#18181b]/90 hover:text-[#FFFFFF]"
                 >
                   View My Work <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
                 </motion.a>
@@ -193,7 +199,7 @@ const Hero = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               href="#projects" 
-              className="group flex items-center justify-center gap-2 px-6 py-3 border border-zinc-900 bg-zinc-900 text-[#F9F6F0] text-xs font-semibold uppercase tracking-widest transition-colors hover:bg-[#18181b]/90 hover:text-[#F9F6F0]"
+              className="group flex items-center justify-center gap-2 px-6 py-3 border border-zinc-900 bg-zinc-900 text-[#FFFFFF] text-xs font-semibold uppercase tracking-widest transition-colors hover:bg-[#18181b]/90 hover:text-[#FFFFFF]"
             >
               View My Work <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
             </motion.a>
