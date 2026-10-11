@@ -1,83 +1,258 @@
-import { GraduationCap, Award, Calendar, CheckCircle2, BookOpen } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { education } from '@/data/portfolio';
+
+const elegantEase = [0.16, 1, 0.3, 1];
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.18, delayChildren: 0.1 },
+  },
+};
+
+const rowVariants = {
+  hidden: { opacity: 0, y: 40, filter: 'blur(6px)' },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: { duration: 1.1, ease: elegantEase },
+  },
+};
+
+// Determine entry type and metadata
+const getEntryMeta = (item) => {
+  const d = item.degree.toLowerCase();
+  if (d.includes('bachelor')) {
+    return {
+      label: 'Degree',
+      courses: ['Data Structures & Algorithms', 'Software Engineering', 'Database Systems', 'OOP', 'Computer Networks'],
+      isActive: true,
+    };
+  }
+  if (d.includes('complete web') || d.includes('mern')) {
+    return {
+      label: 'Certification',
+      courses: ['React & Next.js', 'Node.js & Express', 'MongoDB & Firebase', 'Cloud Deployment', 'REST APIs'],
+      isActive: false,
+    };
+  }
+  if (d.includes('national skills') || d.includes('python')) {
+    return {
+      label: 'Gov. Certificate',
+      courses: ['Python Web Apps', 'BNQF Level 4', '360 Hours', 'Government Recognized', 'NSDA Bangladesh'],
+      isActive: false,
+    };
+  }
+  if (d.includes('appreciation') || d.includes('life')) {
+    return {
+      label: 'Certificate',
+      courses: ['Life Transformation', 'Personal Growth', 'Batch #1', 'SABiT International'],
+      isActive: false,
+    };
+  }
+  return { label: 'Credential', courses: [], isActive: false };
+};
 
 const Education = () => {
   if (!education || education.length === 0) return null;
 
+  // Split: 1 degree + certifications
+  const degree = education.filter((e) => e.degree.toLowerCase().includes('bachelor'));
+  const certs = education.filter((e) => !e.degree.toLowerCase().includes('bachelor'));
+
   return (
-    <section id="education" className="py-20 md:py-28 border-t border-zinc-300 bg-transparent">
+    <section id="education" className="py-12 md:py-16 bg-[#FFFFFF] border-t border-zinc-300 overflow-hidden">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Section Header */}
-        <div className="max-w-2xl mb-14 space-y-2">
-          <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Education & Credentials</p>
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-zinc-950">
-            Academic foundation & professional certifications.
+
+        {/* ── Section Header ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 1, ease: elegantEase }}
+          className="mb-8 border-b border-zinc-300 pb-4 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4"
+        >
+          <h2 className="text-6xl sm:text-7xl md:text-8xl font-serif tracking-tight text-zinc-900 uppercase leading-none">
+            Education
           </h2>
-          <p className="text-sm text-zinc-600">
-            Formal computer science education combined with hands-on full-stack development certifications.
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-zinc-400 sm:pb-2">
+            Academic & Credentials
           </p>
-        </div>
+        </motion.div>
 
-        {/* Education Grid */}
-        <div className="grid md:grid-cols-2 gap-8">
-          {education.map((item) => (
-            <div
-              key={item.id}
-              className="p-7 rounded-2xl bg-transparent border border-zinc-300 hover:border-zinc-300 hover:bg-transparent transition-all flex flex-col justify-between"
-            >
-              <div className="space-y-4">
-                
-                {/* Header Icon + Date */}
-                <div className="flex items-center justify-between">
-                  <div className="w-10 h-10 rounded-xl bg-zinc-900 text-white flex items-center justify-center shadow-xs">
-                    {item.degree.toLowerCase().includes('bachelor') ? (
-                      <GraduationCap className="w-5 h-5" />
-                    ) : (
-                      <Award className="w-5 h-5" />
-                    )}
-                  </div>
-
-                  <span className="inline-flex items-center gap-1.5 text-xs text-zinc-500 font-medium bg-transparent px-3 py-1 rounded-md border border-zinc-300">
-                    <Calendar className="w-3.5 h-3.5 text-zinc-400" />
-                    {item.duration}
+        {/* ── Degree Row (full width, featured) ── */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-60px' }}
+        >
+          {degree.map((item, index) => {
+            const meta = getEntryMeta(item);
+            return (
+              <motion.div
+                key={item.id}
+                variants={rowVariants}
+                className="group grid grid-cols-12 gap-4 sm:gap-8 py-6 sm:py-8 items-start border-b border-zinc-300 hover:bg-zinc-100/60 transition-colors duration-500 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8"
+              >
+                {/* Index */}
+                <div className="col-span-2 sm:col-span-1">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 group-hover:text-zinc-700 transition-colors duration-500">
+                    {String(index + 1).padStart(2, '0')}
                   </span>
                 </div>
 
-                {/* Degree and Institution */}
-                <div>
-                  <h3 className="text-lg font-bold text-zinc-950 tracking-tight">
+                {/* Main */}
+                <div className="col-span-10 sm:col-span-7 space-y-4">
+                  <div>
+                    <span className="inline-block text-[9px] font-bold uppercase tracking-[0.25em] text-zinc-500 border border-zinc-300 px-2.5 py-1 mb-3">
+                      {meta.label}
+                    </span>
+                    <h3 className="text-xl sm:text-2xl font-serif text-zinc-900 leading-snug tracking-tight">
+                      {item.degree}
+                    </h3>
+                    <p className="text-sm font-semibold text-zinc-600 mt-1 font-sans">{item.institution}</p>
+                  </div>
+                  <p className="text-sm text-zinc-500 leading-relaxed font-sans max-w-xl">{item.description}</p>
+                  <div className="flex flex-wrap gap-2 pt-1">
+                    {meta.courses.map((c) => (
+                      <span key={c} className="text-[10px] font-medium uppercase tracking-wider text-zinc-600 bg-zinc-200/70 px-2.5 py-1">
+                        {c}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Right Meta */}
+                <div className="col-span-12 sm:col-span-4 flex sm:flex-col sm:items-end gap-4 sm:gap-3 pt-2 sm:pt-0">
+                  <span className="text-xs font-bold uppercase tracking-[0.15em] text-zinc-900 font-sans">{item.duration}</span>
+                  {item.gpa && (
+                    <div className="flex items-center gap-2 border border-zinc-900 px-3 py-1.5">
+                      <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-500">GPA</span>
+                      <span className="text-sm font-bold text-zinc-900 font-serif">{item.gpa}</span>
+                    </div>
+                  )}
+                  <div className="flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-400">In Progress</span>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
+
+          {/* ── Certifications sub-header ── */}
+          <motion.div
+            variants={rowVariants}
+            className="pt-8 pb-3 border-b border-zinc-300"
+          >
+            <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-400">
+              Certifications & Awards — {certs.length} credentials
+            </p>
+          </motion.div>
+
+          {/* ── Certification Rows ── */}
+          {certs.map((item, index) => {
+            const meta = getEntryMeta(item);
+            const isGov = item.level || item.hours;
+            const isAppreciation = item.issuer;
+
+            return (
+              <motion.div
+                key={item.id}
+                variants={rowVariants}
+                className="group grid grid-cols-12 gap-4 sm:gap-8 py-6 sm:py-8 items-start border-b border-zinc-200 hover:bg-zinc-100/60 transition-colors duration-500 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8"
+              >
+                {/* Index */}
+                <div className="col-span-2 sm:col-span-1">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-300 group-hover:text-zinc-500 transition-colors duration-500">
+                    {String(degree.length + index + 1).padStart(2, '0')}
+                  </span>
+                </div>
+
+                {/* Main */}
+                <div className="col-span-10 sm:col-span-8 space-y-3">
+                  <div className="flex flex-wrap items-center gap-2 mb-1">
+                    <span className="inline-block text-[9px] font-bold uppercase tracking-[0.25em] text-zinc-500 border border-zinc-300 px-2.5 py-1">
+                      {meta.label}
+                    </span>
+                    {isGov && (
+                      <span className="inline-block text-[9px] font-bold uppercase tracking-[0.2em] text-emerald-700 border border-emerald-300 bg-emerald-50 px-2.5 py-1">
+                        🏛 Government Recognized
+                      </span>
+                    )}
+                    {isAppreciation && (
+                      <span className="inline-block text-[9px] font-bold uppercase tracking-[0.2em] text-amber-700 border border-amber-300 bg-amber-50 px-2.5 py-1">
+                        ★ Personal Development
+                      </span>
+                    )}
+                  </div>
+
+                  <h3 className="text-lg sm:text-xl font-serif text-zinc-900 leading-snug tracking-tight">
                     {item.degree}
                   </h3>
-                  <p className="text-sm font-semibold text-zinc-700 mt-1">
-                    {item.institution}
-                  </p>
-                  {item.gpa && (
-                    <p className="text-xs text-emerald-700 font-medium mt-1">
-                      CGPA: {item.gpa}
+                  <p className="text-sm font-semibold text-zinc-600 font-sans">{item.institution}</p>
+                  <p className="text-sm text-zinc-500 leading-relaxed font-sans max-w-xl">{item.description}</p>
+
+                  {/* Extra meta fields */}
+                  <div className="flex flex-wrap gap-2 pt-1">
+                    {meta.courses.map((c) => (
+                      <span key={c} className="text-[10px] font-medium uppercase tracking-wider text-zinc-600 bg-zinc-200/70 px-2.5 py-1">
+                        {c}
+                      </span>
+                    ))}
+                  </div>
+
+                  {item.issuer && (
+                    <p className="text-[10px] font-medium text-zinc-400 italic pt-1">
+                      Issued by: {item.issuer}
                     </p>
                   )}
                 </div>
 
-                {/* Description */}
-                <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed pt-2 border-t border-zinc-300">
-                  {item.description}
-                </p>
-              </div>
+                {/* Right Meta */}
+                <div className="col-span-12 sm:col-span-3 flex sm:flex-col sm:items-end gap-3 pt-1 sm:pt-0">
+                  <span className="text-xs font-bold uppercase tracking-[0.15em] text-zinc-900 font-sans">{item.duration}</span>
 
-              {/* Coursework / Skills Highlight */}
-              <div className="pt-4 mt-4 border-t border-zinc-300 flex items-center gap-2 text-xs text-zinc-500 font-medium">
-                <CheckCircle2 className="w-3.5 h-3.5 text-zinc-900" />
-                <span>
-                  {item.degree.toLowerCase().includes('bachelor')
-                    ? 'Data Structures · Software Engineering · Database Systems'
-                    : 'Full-Stack MERN · Cloud Architecture · Next.js 15+'}
-                </span>
-              </div>
+                  {item.hours && (
+                    <div className="flex items-center gap-2 border border-zinc-300 px-3 py-1.5">
+                      <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-400">Hours</span>
+                      <span className="text-sm font-bold text-zinc-900 font-serif">{item.hours}</span>
+                    </div>
+                  )}
 
+                  <div className="flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-zinc-400" />
+                    <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-400">Completed</span>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
+        </motion.div>
+
+        {/* ── Bottom Credibility Bar ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, ease: elegantEase, delay: 0.3 }}
+          className="mt-8 pt-6 border-t border-zinc-300 grid grid-cols-2 sm:grid-cols-4 gap-6"
+        >
+          {[
+            { label: 'University', value: 'IUBAT' },
+            { label: 'Current GPA', value: '3.5 / 4.0' },
+            { label: 'Certifications', value: `${certs.length} Earned` },
+            { label: 'Gov. Recognition', value: 'NSDA · BNQF' },
+          ].map(({ label, value }) => (
+            <div key={label}>
+              <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-400 mb-1">{label}</p>
+              <p className="text-sm font-bold text-zinc-900 font-serif">{value}</p>
             </div>
           ))}
-        </div>
+        </motion.div>
 
       </div>
     </section>
