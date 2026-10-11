@@ -28,31 +28,27 @@ const getEntryMeta = (item) => {
     return {
       label: 'Degree',
       courses: ['Data Structures & Algorithms', 'Software Engineering', 'Database Systems', 'OOP', 'Computer Networks'],
-      isActive: true,
     };
   }
   if (d.includes('complete web') || d.includes('mern')) {
     return {
       label: 'Certification',
       courses: ['React & Next.js', 'Node.js & Express', 'MongoDB & Firebase', 'Cloud Deployment', 'REST APIs'],
-      isActive: false,
     };
   }
   if (d.includes('national skills') || d.includes('python')) {
     return {
       label: 'Gov. Certificate',
       courses: ['Python Web Apps', 'BNQF Level 4', '360 Hours', 'Government Recognized', 'NSDA Bangladesh'],
-      isActive: false,
     };
   }
   if (d.includes('appreciation') || d.includes('life')) {
     return {
       label: 'Certificate',
       courses: ['Life Transformation', 'Personal Growth', 'Batch #1', 'SABiT International'],
-      isActive: false,
     };
   }
-  return { label: 'Credential', courses: [], isActive: false };
+  return { label: 'Credential', courses: [] };
 };
 
 const Education = () => {
