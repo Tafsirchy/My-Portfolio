@@ -68,7 +68,7 @@ const Projects = () => {
   const visibleProjects = showAll ? filteredProjects : filteredProjects.slice(0, 4);
 
   return (
-    <section id="projects" className="py-24 md:py-32 border-t border-zinc-300 bg-[#F9F6F0] overflow-hidden">
+    <section id="projects" className="py-12 md:py-16 border-t border-zinc-300 bg-[#FFFFFF] overflow-hidden">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
@@ -77,7 +77,7 @@ const Projects = () => {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={itemVariants}
-          className="flex flex-col items-center text-center mb-16 md:mb-24"
+          className="flex flex-col items-center text-center mb-12 md:mb-16"
         >
           <h2 className="text-5xl md:text-7xl font-serif tracking-tight text-zinc-900 uppercase leading-none mb-6">
             Selected Works
@@ -94,7 +94,7 @@ const Projects = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1, ease: elegantEase }}
-          className="flex flex-wrap justify-center gap-8 mb-16 md:mb-24"
+          className="flex flex-wrap justify-center gap-8 mb-10 md:mb-16"
         >
           {categories.map((cat) => (
             <button
@@ -122,7 +122,7 @@ const Projects = () => {
           initial="hidden"
           animate="visible"
           variants={containerVariants}
-          className="grid md:grid-cols-2 gap-x-12 gap-y-20 lg:gap-y-24"
+          className="grid md:grid-cols-2 gap-x-12 gap-y-12 lg:gap-y-16"
         >
           {visibleProjects.map((project) => (
             <motion.div
@@ -147,7 +147,7 @@ const Projects = () => {
                 
                 {/* Centered Hover Prompt */}
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-700 transform translate-y-4 group-hover:translate-y-0 pointer-events-none">
-                  <span className="px-6 py-3 bg-[#F9F6F0] text-zinc-900 text-xs font-semibold uppercase tracking-widest rounded-full shadow-xl">
+                  <span className="px-6 py-3 bg-[#FFFFFF] text-zinc-900 text-xs font-semibold uppercase tracking-widest rounded-full shadow-xl">
                     View Project
                   </span>
                 </div>
@@ -193,7 +193,7 @@ const Projects = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: elegantEase }}
-            className="flex justify-center mt-20"
+            className="flex justify-center mt-12"
           >
             <button
               onClick={() => setShowAll(true)}
@@ -212,7 +212,7 @@ const Projects = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6, ease: elegantEase }}
-            className="flex justify-center mt-20"
+            className="flex justify-center mt-12"
           >
             <button
               onClick={() => setShowAll(false)}
