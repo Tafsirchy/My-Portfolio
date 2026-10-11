@@ -1,5 +1,4 @@
 import { ArrowUp, ArrowUpRight } from 'lucide-react';
-import { personalInfo } from '@/data/portfolio';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
