@@ -9,24 +9,22 @@ A modern, terminal-inspired, and highly interactive personal portfolio website d
 
 ---
 
-## 👽 The Aesthetic
-This portfolio is built with a unique **cyberpunk/terminal** aesthetic. It features:
-- Dark slate backgrounds with neon navy and olive green accents.
-- Monospace typographies paired with clean sans-serif for readability.
-- Grid-pattern overlays, HUD-style corner borders, and interactive radar/scramble text animations.
+## 🎨 The Aesthetic
+This portfolio is built with a **minimalist editorial** aesthetic. It features:
+- A clean white/black canvas with restrained typography-led hierarchy.
+- Elegant serif display headings paired with Inter for body copy.
+- Subtle Framer Motion scroll reveals and hover interactions.
 
 ## 🛠️ Tech Stack & Dependencies
 - **Frontend Framework:** React 19 (via Vite)
-- **Styling:** Tailwind CSS + custom configurations
-- **Animations:** Framer Motion (page transitions, scroll reveals, scramble text)
+- **Styling:** Tailwind CSS
+- **Animations:** Framer Motion (scroll reveals, hover interactions)
 - **Icons:** Lucide React & React Icons
-- **Scrolling:** Lenis (smooth scrolling experience)
-- **Carousels:** Swiper
-- **Email Service:** @emailjs/browser (custom HTML template matched with the theme)
+- **Email Service:** @emailjs/browser (fully client-side contact form)
 
 ## 📦 Features
-1. **Interactive Hero Section:** Terminal-styled introductions.
-2. **Projects Showcase:** Detailed cards for full-stack applications with beautiful hover states and image carousels.
+1. **Hero Section:** Typographic introduction with a layered portrait composition.
+2. **Projects Showcase:** Detailed cards for full-stack applications with a filtered grid and a case-study modal (live preview + static image).
 3. **Experience Timeline:** Clean, animated representation of my professional journey.
 4. **Secure Communication (Contact):** fully functional email transmission powered by EmailJS without exposing backend APIs.
 
