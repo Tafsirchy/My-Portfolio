@@ -1,6 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
 import { X, Github, ArrowUpRight } from 'lucide-react';
-import { useLenis } from 'lenis/react';
 
 export default function ProjectsShowcaseModal({ isOpen, onClose, project }) {
   const [viewMode, setViewMode] = useState('browser');
@@ -8,30 +7,8 @@ export default function ProjectsShowcaseModal({ isOpen, onClose, project }) {
   const scrollRef = useRef(null);
   const [scale, setScale] = useState(1);
   const [showIframe, setShowIframe] = useState(false);
-  const lenis = useLenis();
 
-  // Stop Lenis smooth scroll when modal is open so wheel events don't bleed through
-  useEffect(() => {
-    if (!lenis) return;
-    if (isOpen) {
-      lenis.stop();
-    } else {
-      lenis.start();
-    }
-    return () => { lenis.start(); };
-  }, [isOpen, lenis]);
 
-  // Force native wheel scroll on the content panel, bypassing Lenis entirely
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const onWheel = (e) => {
-      e.stopPropagation();
-      el.scrollTop += e.deltaY;
-    };
-    el.addEventListener('wheel', onWheel, { passive: true });
-    return () => el.removeEventListener('wheel', onWheel);
-  }, [isOpen]);
 
   useEffect(() => {
     if (project) {
@@ -107,25 +84,25 @@ export default function ProjectsShowcaseModal({ isOpen, onClose, project }) {
       <div className="absolute inset-0" onClick={onClose} />
 
       {/* Modal Container */}
-      <div className="relative w-full max-w-6xl h-[95vh] max-h-[95vh] bg-[#F9F6F0] shadow-2xl flex flex-col md:flex-row z-10 animate-in slide-in-from-bottom-8 duration-500">
+      <div className="relative w-full max-w-6xl h-[95vh] max-h-[95vh] bg-[#FFFFFF] shadow-2xl flex flex-col md:flex-row z-10 animate-in slide-in-from-bottom-8 duration-500">
         
         {/* Left Column: Browser / Image View */}
         <div className="md:w-1/2 bg-zinc-200 border-b md:border-b-0 md:border-r border-zinc-300 relative flex flex-col h-[50vh] md:h-full">
           
           {/* Top Bar for View Toggles */}
-          <div className="flex items-center justify-between border-b border-zinc-300 bg-[#F9F6F0] px-4 py-4 z-20 w-full shrink-0">
+          <div className="flex items-center justify-between border-b border-zinc-300 bg-[#FFFFFF] px-4 py-4 z-20 w-full shrink-0">
             <div className="flex items-center bg-zinc-200/60 rounded-md p-1 shadow-inner">
               {project.liveUrl && (
                 <button
                   onClick={() => setViewMode('browser')}
-                  className={`px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded transition-all ${viewMode === 'browser' ? 'bg-zinc-900 text-[#F9F6F0] shadow-sm' : 'text-zinc-500 hover:text-zinc-900'}`}
+                  className={`px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded transition-all ${viewMode === 'browser' ? 'bg-zinc-900 text-[#FFFFFF] shadow-sm' : 'text-zinc-500 hover:text-zinc-900'}`}
                 >
                   Live Browser
                 </button>
               )}
               <button
                 onClick={() => setViewMode('image')}
-                className={`px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded transition-all ${viewMode === 'image' ? 'bg-zinc-900 text-[#F9F6F0] shadow-sm' : 'text-zinc-500 hover:text-zinc-900'}`}
+                className={`px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded transition-all ${viewMode === 'image' ? 'bg-zinc-900 text-[#FFFFFF] shadow-sm' : 'text-zinc-500 hover:text-zinc-900'}`}
               >
                 Static Image
               </button>
@@ -212,10 +189,10 @@ export default function ProjectsShowcaseModal({ isOpen, onClose, project }) {
         </div>
 
         {/* Right Column: Details & Links */}
-        <div className="md:w-1/2 flex flex-col h-[45vh] md:h-full bg-[#F9F6F0] overflow-hidden">
+        <div className="md:w-1/2 flex flex-col h-[45vh] md:h-full bg-[#FFFFFF] overflow-hidden">
           
           {/* Header Bar */}
-          <div className="shrink-0 px-8 py-6 border-b border-zinc-300 bg-[#F9F6F0] flex items-center justify-between z-10">
+          <div className="shrink-0 px-8 py-6 border-b border-zinc-300 bg-[#FFFFFF] flex items-center justify-between z-10">
             <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-900">
               Case Study
             </span>
@@ -254,7 +231,7 @@ export default function ProjectsShowcaseModal({ isOpen, onClose, project }) {
                   href={project.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-2 px-6 py-3 bg-zinc-900 text-[#F9F6F0] text-xs font-bold uppercase tracking-widest transition-colors hover:bg-zinc-800"
+                  className="group inline-flex items-center gap-2 px-6 py-3 bg-zinc-900 text-[#FFFFFF] text-xs font-bold uppercase tracking-widest transition-colors hover:bg-zinc-800"
                 >
                   Live Demo
                   <ArrowUpRight className="w-4 h-4 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
