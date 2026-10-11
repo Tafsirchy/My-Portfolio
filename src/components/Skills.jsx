@@ -4,7 +4,7 @@ import {
   SiJavascript, SiTypescript, SiHtml5, SiCss3, SiTailwindcss, SiNextdotjs,
   SiFirebase, SiJsonwebtokens, SiMysql, SiPostgresql, SiPrisma, SiRedis,
   SiGit, SiGithub, SiFigma, SiVercel, SiNetlify, SiPostman, SiNestjs,
-  SiC, SiCplusplus, SiPython
+  SiCplusplus, SiPython
 } from 'react-icons/si';
 
 const skillCategories = [
