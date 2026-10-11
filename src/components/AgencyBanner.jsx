@@ -1,103 +1,106 @@
-import { ArrowUpRight, Sparkles, Shield, Rocket, Users } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { ArrowUpRight } from 'lucide-react';
+
+const elegantEase = [0.16, 1, 0.3, 1];
 
 const AgencyBanner = () => {
   return (
-    <section className="py-20 border-t border-zinc-300 bg-transparent">
+    <section className="py-16 md:py-24 border-t border-zinc-300 bg-[#FFFFFF] overflow-hidden">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Editorial Spotlight Card */}
-        <div className="relative rounded-3xl bg-zinc-950 text-white overflow-hidden p-8 sm:p-12 lg:p-16 border border-zinc-800 shadow-2xl">
-          
-          {/* Subtle glow in the background */}
-          <div className="absolute top-0 right-0 w-96 h-96 bg-blue-600/15 rounded-full blur-3xl pointer-events-none -z-0"></div>
-          <div className="absolute bottom-0 left-0 w-80 h-80 bg-emerald-600/10 rounded-full blur-3xl pointer-events-none -z-0"></div>
 
-          <div className="relative z-10 grid lg:grid-cols-12 gap-10 items-center">
-            
-            {/* Left Narrative */}
-            <div className="lg:col-span-8 space-y-6">
-              
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-300 text-xs font-medium">
-                <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-                <span>Founded by Tafsir Chowdhury</span>
-              </div>
-
-              <div className="space-y-3">
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-tight">
-                  BOONEC — Modern Web, SaaS & Digital Solutions.
-                </h2>
-                <p className="text-base sm:text-lg text-zinc-400 font-normal leading-relaxed max-w-2xl">
-                  Beyond individual engineering, I operate BOONEC to engineer scalable full-stack applications, custom SaaS platforms, and refined digital products for ambitious businesses and startups.
-                </p>
-              </div>
-
-              {/* Pillars */}
-              <div className="grid sm:grid-cols-3 gap-4 pt-2">
-                <div className="p-4 rounded-xl bg-zinc-900/70 border border-zinc-800">
-                  <Rocket className="w-5 h-5 text-blue-400 mb-2" />
-                  <p className="text-xs font-semibold text-white">Full-Cycle Engineering</p>
-                  <p className="text-[11px] text-zinc-400 mt-1">From architectural planning to cloud deployment.</p>
-                </div>
-                <div className="p-4 rounded-xl bg-zinc-900/70 border border-zinc-800">
-                  <Shield className="w-5 h-5 text-emerald-400 mb-2" />
-                  <p className="text-xs font-semibold text-white">Production Grade</p>
-                  <p className="text-[11px] text-zinc-400 mt-1">Enterprise security, fast load times & test coverage.</p>
-                </div>
-                <div className="p-4 rounded-xl bg-zinc-900/70 border border-zinc-800">
-                  <Users className="w-5 h-5 text-amber-400 mb-2" />
-                  <p className="text-xs font-semibold text-white">Tailored Partnership</p>
-                  <p className="text-[11px] text-zinc-400 mt-1">Transparent communication & rapid delivery.</p>
-                </div>
-              </div>
-
-              {/* CTAs */}
-              <div className="flex flex-wrap items-center gap-3 pt-4">
-                <a
-                  href="https://boonec.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-zinc-950 bg-transparent hover:bg-zinc-100 rounded-xl transition-all shadow-sm"
-                >
-                  Visit BOONEC.com
-                  <ArrowUpRight className="w-4 h-4" />
-                </a>
-
-                <a
-                  href="#contact"
-                  className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-zinc-300 hover:text-white bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 rounded-xl transition-colors"
-                >
-                  Discuss a Project
-                </a>
-              </div>
-
-            </div>
-
-            {/* Right Graphic / Logo */}
-            <div className="lg:col-span-4 flex justify-center">
-              <div className="relative p-6 rounded-2xl bg-zinc-900/90 border border-zinc-800/80 shadow-xl flex flex-col items-center text-center max-w-xs w-full">
-                <div className="w-20 h-20 rounded-2xl bg-transparent p-3 flex items-center justify-center mb-4 shadow-md">
-                  <img
-                    src="/assets/BOONEC_logo_modern.png"
-                    alt="BOONEC Logo"
-                    className="w-full h-full object-contain"
-                    onError={(e) => {
-                      e.target.style.display = 'none';
-                    }}
-                  />
-                </div>
-                <h3 className="text-xl font-bold text-white tracking-tight">BOONEC</h3>
-                <p className="text-xs text-zinc-400 mt-1">Digital Engineering Studio</p>
-                <div className="w-full h-px bg-zinc-800 my-4" />
-                <p className="text-xs text-zinc-400 leading-relaxed">
-                  Partnering with founders and leaders worldwide to build the next generation of web products.
-                </p>
-              </div>
-            </div>
-
+        {/* ── Top Label ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, ease: elegantEase }}
+          className="flex flex-wrap items-center justify-between border-b border-zinc-300 pb-4 mb-10 sm:mb-16 gap-4"
+        >
+          <span className="text-[10px] font-black uppercase tracking-[0.35em] text-zinc-400">
+            Agency & Venture
+          </span>
+          <div className="flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-400">Active</span>
           </div>
+        </motion.div>
+
+        {/* ── Main Content Grid ── */}
+        <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+
+          {/* Left: Giant Logo & Headline */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 1.2, ease: elegantEase }}
+            className="lg:col-span-7"
+          >
+            <img
+              src="/assets/BOONEC_logo_modern.png"
+              alt="BOONEC Logo"
+              className="w-64 sm:w-80 lg:w-96 object-contain mb-8 mix-blend-multiply"
+            />
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-zinc-900 leading-[1.15] tracking-tight">
+              Engineering scalable platforms & refined digital products for ambitious brands.
+            </h2>
+          </motion.div>
+
+          {/* Right: Narrative, Stats & CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 1.2, ease: elegantEase, delay: 0.1 }}
+            className="lg:col-span-5 space-y-8 lg:pt-4"
+          >
+            <p className="text-sm text-zinc-600 leading-relaxed font-sans">
+              Beyond individual engineering, I operate BOONEC—a specialized digital engineering studio. We partner with founders and industry leaders worldwide to architect custom SaaS solutions, full-stack web applications, and enterprise-grade systems with museum-quality aesthetics.
+            </p>
+
+            <div className="grid grid-cols-2 gap-x-6 gap-y-8 pt-8 border-t border-zinc-300">
+              <div>
+                <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-400 mb-1">Focus</p>
+                <p className="text-sm font-bold text-zinc-900 font-serif">Full-Cycle Engineering</p>
+              </div>
+              <div>
+                <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-400 mb-1">Standard</p>
+                <p className="text-sm font-bold text-zinc-900 font-serif">Production Grade</p>
+              </div>
+              <div>
+                <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-400 mb-1">Capacity</p>
+                <p className="text-sm font-bold text-zinc-900 font-serif">Dedicated Teams</p>
+              </div>
+              <div>
+                <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-400 mb-1">Founder</p>
+                <p className="text-sm font-bold text-zinc-900 font-serif">Tafsir Chowdhury</p>
+              </div>
+            </div>
+
+            <div className="pt-8 flex flex-col sm:flex-row gap-4">
+              <a
+                href="https://boonec.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative inline-flex items-center justify-center gap-2 px-8 py-4 text-xs font-bold uppercase tracking-[0.15em] text-[#FFFFFF] bg-zinc-900 overflow-hidden w-full sm:w-auto transition-transform hover:scale-[1.02] active:scale-[0.98]"
+              >
+                <span className="absolute inset-0 w-full h-full bg-zinc-800 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
+                <span className="relative z-10 flex items-center gap-2">
+                  Visit boonec.com
+                  <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
+                </span>
+              </a>
+
+              <a
+                href="#contact"
+                className="group inline-flex items-center justify-center gap-2 px-8 py-4 text-xs font-bold uppercase tracking-[0.15em] text-zinc-900 border border-zinc-900 bg-transparent w-full sm:w-auto transition-colors hover:bg-zinc-900 hover:text-[#FFFFFF]"
+              >
+                Discuss a Project
+              </a>
+            </div>
+          </motion.div>
 
         </div>
-
       </div>
     </section>
   );
