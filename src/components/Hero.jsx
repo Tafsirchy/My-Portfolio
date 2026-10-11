@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import { ArrowUpRight, Github, Linkedin, Twitter, Mail } from 'lucide-react';
 import { SiWhatsapp } from 'react-icons/si';
