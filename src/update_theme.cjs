@@ -12,10 +12,10 @@ for (const file of files) {
   content = content.replace(/bg-white(?!\/)/g, 'bg-transparent');
   
   // Handle specific alpha bg-whites
-  content = content.replace(/bg-white\/90/g, 'bg-[#F9F6F0]/90');
-  content = content.replace(/bg-white\/95/g, 'bg-[#F9F6F0]/95');
-  content = content.replace(/bg-white\/80/g, 'bg-[#F9F6F0]/80');
-  content = content.replace(/bg-white\/60/g, 'bg-[#F9F6F0]/60');
+  content = content.replace(/bg-white\/90/g, 'bg-[#FFFFFF]/90');
+  content = content.replace(/bg-white\/95/g, 'bg-[#FFFFFF]/95');
+  content = content.replace(/bg-white\/80/g, 'bg-[#FFFFFF]/80');
+  content = content.replace(/bg-white\/60/g, 'bg-[#FFFFFF]/60');
   
   // Handle zinc-50 backgrounds
   content = content.replace(/bg-zinc-50\/50/g, 'bg-transparent');
