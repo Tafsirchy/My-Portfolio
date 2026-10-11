@@ -1,9 +1,12 @@
 import { useState } from 'react';
-import { Mail, Phone, MapPin, Send, Copy, Check, Github, Linkedin, Twitter, ArrowUpRight } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Mail, Phone, MapPin, Send, Copy, Check, ArrowUpRight, Github, Linkedin, Twitter } from 'lucide-react';
 import { SiWhatsapp } from 'react-icons/si';
-import { personalInfo, socialLinks } from '@/data/portfolio';
+import { personalInfo } from '@/data/portfolio';
 import emailjs from '@emailjs/browser';
 import SuccessModal from './SuccessModal';
+
+const elegantEase = [0.16, 1, 0.3, 1];
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -24,7 +27,7 @@ const Contact = () => {
   };
 
   const handleChange = (e) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
@@ -54,250 +57,296 @@ const Contact = () => {
       setIsSuccessModalOpen(true);
     } catch (error) {
       console.error('Email send failed:', error);
-      setErrorMsg('Unable to send message via form right now. Please email directly at ' + personalInfo.email);
+      setErrorMsg(
+        'Unable to transmit inquiry right now. Please dispatch directly via email to ' + personalInfo.email
+      );
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <section id="contact" className="py-20 md:py-28 border-t border-zinc-300 bg-transparent">
+    <section id="contact" className="py-12 md:py-16 bg-[#FFFFFF] border-t border-zinc-300 overflow-hidden">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header */}
-        <div className="max-w-2xl mb-14 space-y-2">
-          <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Contact</p>
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-zinc-950">
-            Let's start a conversation.
+        {/* ── Section Header ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 1, ease: elegantEase }}
+          className="mb-10 sm:mb-14 border-b border-zinc-300 pb-4 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4"
+        >
+          <h2 className="text-6xl sm:text-7xl md:text-8xl font-serif tracking-tight text-zinc-900 uppercase leading-none">
+            Contact
           </h2>
-          <p className="text-sm text-zinc-600 leading-relaxed">
-            Interested in hiring me for a full-time role, contracting me for a high-priority project, or partnering with BOONEC? Reach out below.
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-zinc-400 sm:pb-2">
+            Direct Inquiries & Engagements
           </p>
-        </div>
+        </motion.div>
 
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+        {/* ── Main Content Grid ── */}
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           
-          {/* Left Column: Direct Info & Quick Copy */}
-          <div className="lg:col-span-5 space-y-6">
-            
-            {/* Email Card with 1-click copy */}
-            <div className="p-5 rounded-2xl bg-transparent border border-zinc-300 space-y-3">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2.5 text-zinc-900 font-semibold text-sm">
-                  <div className="w-8 h-8 rounded-lg bg-transparent border border-zinc-300 flex items-center justify-center">
-                    <Mail className="w-4 h-4 text-zinc-700" />
-                  </div>
-                  <span>Direct Email</span>
-                </div>
+          {/* Left Column: Direct Dossier & Communication Ledger */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 1.1, ease: elegantEase }}
+            className="lg:col-span-5 space-y-6"
+          >
+            {/* Status Strip */}
+            <div className="border border-zinc-300 bg-zinc-100/70 px-4 py-2.5 flex items-center justify-between">
+              <span className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-500">
+                Current Status
+              </span>
+              <span className="inline-flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.2em] text-emerald-700">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                Available For Work
+              </span>
+            </div>
 
-                <button
-                  onClick={handleCopyEmail}
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-md bg-transparent border border-zinc-300 text-zinc-700 hover:text-zinc-950 hover:bg-zinc-100 transition-colors"
+            {/* Narrative Header */}
+            <div>
+              <h3 className="text-2xl sm:text-3xl font-serif text-zinc-900 leading-snug tracking-tight">
+                Let's architect something of enduring value.
+              </h3>
+              <p className="text-sm text-zinc-600 mt-2 font-sans leading-relaxed">
+                Open to senior engineering roles, high-stakes contracts, or strategic partnerships through BOONEC.
+              </p>
+            </div>
+
+            {/* Channels Ledger */}
+            <div className="border border-zinc-300 divide-y divide-zinc-200">
+              
+              {/* Direct Email */}
+              <div className="p-4 sm:p-5 group hover:bg-zinc-100/50 transition-colors">
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-[9px] font-bold uppercase tracking-[0.25em] text-zinc-400">
+                    01 // Direct Email
+                  </span>
+                  <button
+                    onClick={handleCopyEmail}
+                    className="inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-[0.2em] px-2 py-0.5 border border-zinc-300 hover:border-zinc-900 transition-colors"
+                  >
+                    {copiedEmail ? (
+                      <>
+                        <Check className="w-2.5 h-2.5 text-emerald-600" />
+                        <span className="text-emerald-700">Copied</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-2.5 h-2.5 text-zinc-400" />
+                        <span>Copy</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+                <a
+                  href={`mailto:${personalInfo.email}`}
+                  className="text-base font-serif font-bold text-zinc-900 hover:text-zinc-600 transition-colors block"
                 >
-                  {copiedEmail ? (
-                    <>
-                      <Check className="w-3.5 h-3.5 text-emerald-600" />
-                      <span className="text-emerald-700">Copied!</span>
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="w-3.5 h-3.5 text-zinc-400" />
-                      <span>Copy</span>
-                    </>
-                  )}
-                </button>
+                  {personalInfo.email}
+                </a>
+                <p className="text-[11px] text-zinc-500 font-sans mt-0.5">
+                  Typical response time: &lt; 24 hours
+                </p>
               </div>
 
-              <a
-                href={`mailto:${personalInfo.email}`}
-                className="text-base font-semibold text-zinc-900 hover:text-zinc-600 block transition-colors"
-              >
-                {personalInfo.email}
-              </a>
-              <p className="text-xs text-zinc-500">
-                Typically responds within 24 hours.
-              </p>
-            </div>
-
-            {/* WhatsApp & Phone Card */}
-            <div className="p-5 rounded-2xl bg-transparent border border-zinc-300 space-y-2">
-              <div className="flex items-center gap-2.5 text-zinc-900 font-semibold text-sm">
-                <div className="w-8 h-8 rounded-lg bg-transparent border border-zinc-300 flex items-center justify-center">
-                  <SiWhatsapp className="w-4 h-4 text-emerald-600" />
-                </div>
-                <span>WhatsApp / Direct Line</span>
+              {/* WhatsApp / Phone */}
+              <div className="p-4 sm:p-5 group hover:bg-zinc-100/50 transition-colors">
+                <span className="text-[9px] font-bold uppercase tracking-[0.25em] text-zinc-400 block mb-1.5">
+                  02 // WhatsApp & Urgent Line
+                </span>
+                <a
+                  href={`https://wa.me/${personalInfo.phone.replace(/[^0-9]/g, '')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-base font-serif font-bold text-zinc-900 hover:text-emerald-700 transition-colors"
+                >
+                  <SiWhatsapp className="w-3.5 h-3.5 text-emerald-600" />
+                  <span>{personalInfo.phone}</span>
+                  <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400" />
+                </a>
+                <p className="text-[11px] text-zinc-500 font-sans mt-0.5">
+                  Available for technical evaluations & scheduled syncs
+                </p>
               </div>
 
-              <a
-                href={`https://wa.me/${personalInfo.phone.replace(/[^0-9]/g, '')}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-base font-semibold text-zinc-900 hover:text-emerald-700 inline-flex items-center gap-1.5 transition-colors"
-              >
-                {personalInfo.phone}
-                <ArrowUpRight className="w-4 h-4 text-zinc-400" />
-              </a>
-              <p className="text-xs text-zinc-500">
-                Available for urgent inquiries & technical discussions.
-              </p>
-            </div>
-
-            {/* Location & Availability Card */}
-            <div className="p-5 rounded-2xl bg-transparent border border-zinc-300 space-y-2">
-              <div className="flex items-center gap-2.5 text-zinc-900 font-semibold text-sm">
-                <div className="w-8 h-8 rounded-lg bg-transparent border border-zinc-300 flex items-center justify-center">
-                  <MapPin className="w-4 h-4 text-zinc-700" />
-                </div>
-                <span>Location & Timezone</span>
+              {/* Location */}
+              <div className="p-4 sm:p-5 group hover:bg-zinc-100/50 transition-colors">
+                <span className="text-[9px] font-bold uppercase tracking-[0.25em] text-zinc-400 block mb-1.5">
+                  03 // Location & Timezone
+                </span>
+                <p className="text-sm font-bold text-zinc-900 font-sans">
+                  {personalInfo.location} · UTC+6 (BST)
+                </p>
+                <p className="text-[11px] text-zinc-500 font-sans mt-0.5">
+                  Global remote ready · Open to international relocation
+                </p>
               </div>
-              <p className="text-sm font-semibold text-zinc-800">
-                {personalInfo.location} · UTC+6
-              </p>
-              <p className="text-xs text-zinc-500">
-                Open to remote worldwide contracts, full-time positions & international relocation.
-              </p>
+
             </div>
 
-            {/* Social Links */}
-            <div className="pt-2">
-              <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500 mb-3">
-                Professional Networks
+            {/* Social Grid */}
+            <div>
+              <p className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-400 mb-2.5">
+                Official Channels
               </p>
-              <div className="flex items-center gap-2">
+              <div className="grid grid-cols-3 gap-2">
                 <a
                   href="https://github.com/Tafsirchy"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-xs font-medium text-zinc-800 transition-colors"
+                  className="flex items-center justify-between p-2.5 border border-zinc-300 hover:border-zinc-900 hover:bg-zinc-100 transition-all text-xs font-bold uppercase tracking-wider text-zinc-900 group"
                 >
-                  <Github className="w-4 h-4" />
-                  GitHub
+                  <span>GitHub</span>
+                  <ArrowUpRight className="w-3 h-3 text-zinc-400 group-hover:text-zinc-900 transition-colors" />
                 </a>
                 <a
                   href="https://www.linkedin.com/in/tafsirchy/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-xs font-medium text-zinc-800 transition-colors"
+                  className="flex items-center justify-between p-2.5 border border-zinc-300 hover:border-zinc-900 hover:bg-zinc-100 transition-all text-xs font-bold uppercase tracking-wider text-zinc-900 group"
                 >
-                  <Linkedin className="w-4 h-4" />
-                  LinkedIn
+                  <span>LinkedIn</span>
+                  <ArrowUpRight className="w-3 h-3 text-zinc-400 group-hover:text-zinc-900 transition-colors" />
                 </a>
                 <a
                   href="https://x.com/chy_tafsir"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-xs font-medium text-zinc-800 transition-colors"
+                  className="flex items-center justify-between p-2.5 border border-zinc-300 hover:border-zinc-900 hover:bg-zinc-100 transition-all text-xs font-bold uppercase tracking-wider text-zinc-900 group"
                 >
-                  <Twitter className="w-4 h-4" />
-                  Twitter
+                  <span>Twitter</span>
+                  <ArrowUpRight className="w-3 h-3 text-zinc-400 group-hover:text-zinc-900 transition-colors" />
                 </a>
               </div>
             </div>
+          </motion.div>
 
-          </div>
+          {/* Right Column: Direct Message Terminal */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 1.1, ease: elegantEase, delay: 0.15 }}
+            className="lg:col-span-7 border border-zinc-300 bg-[#FFFFFF]"
+          >
+            {/* Terminal Header */}
+            <div className="border-b border-zinc-300 px-6 py-3 flex items-center justify-between bg-zinc-100/70">
+              <span className="text-[9px] font-black uppercase tracking-[0.35em] text-zinc-500">
+                Direct Dispatch Terminal
+              </span>
+              <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-400">
+                Encrypted Form
+              </span>
+            </div>
 
-          {/* Right Column: Contact Form */}
-          <div className="lg:col-span-7 bg-transparent border border-zinc-300 rounded-2xl p-6 sm:p-8 shadow-xs">
-            <h3 className="text-xl font-bold text-zinc-950 mb-1">
-              Send a Direct Message
-            </h3>
-            <p className="text-xs sm:text-sm text-zinc-500 mb-6">
-              Fill in your details below and I'll receive it instantly in my primary inbox.
-            </p>
-
-            {errorMsg && (
-              <div className="mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-xs text-red-700">
-                {errorMsg}
+            <div className="p-6 sm:p-8 space-y-6">
+              <div>
+                <h3 className="text-xl sm:text-2xl font-serif text-zinc-900 leading-tight">
+                  Send a Detailed Inquiry
+                </h3>
+                <p className="text-xs text-zinc-500 font-sans mt-1">
+                  Deliver your requirements directly to my personal terminal inbox.
+                </p>
               </div>
-            )}
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid sm:grid-cols-2 gap-4">
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-zinc-700" htmlFor="name">
-                    Your Name
+              {errorMsg && (
+                <div className="p-3 border border-red-300 bg-red-50 text-xs text-red-800 font-sans">
+                  {errorMsg}
+                </div>
+              )}
+
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="space-y-1">
+                    <label className="text-[9px] font-bold uppercase tracking-[0.25em] text-zinc-500 block" htmlFor="name">
+                      Sender Name *
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      required
+                      value={formData.name}
+                      onChange={handleChange}
+                      placeholder="e.g. Alex Morgan"
+                      className="w-full px-3.5 py-2.5 text-sm bg-transparent border border-zinc-300 focus:border-zinc-900 focus:outline-none transition-colors rounded-none placeholder:text-zinc-400 font-sans"
+                    />
+                  </div>
+
+                  <div className="space-y-1">
+                    <label className="text-[9px] font-bold uppercase tracking-[0.25em] text-zinc-500 block" htmlFor="email">
+                      Return Email *
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      required
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder="alex@company.com"
+                      className="w-full px-3.5 py-2.5 text-sm bg-transparent border border-zinc-300 focus:border-zinc-900 focus:outline-none transition-colors rounded-none placeholder:text-zinc-400 font-sans"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-[9px] font-bold uppercase tracking-[0.25em] text-zinc-500 block" htmlFor="subject">
+                    Subject / Project Scope *
                   </label>
                   <input
                     type="text"
-                    id="name"
-                    name="name"
+                    id="subject"
+                    name="subject"
                     required
-                    value={formData.name}
+                    value={formData.subject}
                     onChange={handleChange}
-                    placeholder="e.g. Alex Morgan"
-                    className="w-full px-3.5 py-2 text-sm bg-transparent border border-zinc-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-900 transition-all"
+                    placeholder="e.g. Full-Stack Role / SaaS Platform Build"
+                    className="w-full px-3.5 py-2.5 text-sm bg-transparent border border-zinc-300 focus:border-zinc-900 focus:outline-none transition-colors rounded-none placeholder:text-zinc-400 font-sans"
                   />
                 </div>
 
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-zinc-700" htmlFor="email">
-                    Email Address
+                <div className="space-y-1">
+                  <label className="text-[9px] font-bold uppercase tracking-[0.25em] text-zinc-500 block" htmlFor="message">
+                    Project Details & Message *
                   </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
+                  <textarea
+                    id="message"
+                    name="message"
                     required
-                    value={formData.email}
+                    rows={5}
+                    value={formData.message}
                     onChange={handleChange}
-                    placeholder="alex@company.com"
-                    className="w-full px-3.5 py-2 text-sm bg-transparent border border-zinc-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-900 transition-all"
+                    placeholder="Brief overview of project goals, timeline, or position details..."
+                    className="w-full px-3.5 py-2.5 text-sm bg-transparent border border-zinc-300 focus:border-zinc-900 focus:outline-none transition-colors rounded-none placeholder:text-zinc-400 font-sans resize-none"
                   />
                 </div>
-              </div>
 
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-zinc-700" htmlFor="subject">
-                  Subject
-                </label>
-                <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  required
-                  value={formData.subject}
-                  onChange={handleChange}
-                  placeholder="Project inquiry / Full-stack opportunity"
-                  className="w-full px-3.5 py-2 text-sm bg-transparent border border-zinc-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-900 transition-all"
-                />
-              </div>
-
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-zinc-700" htmlFor="message">
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  required
-                  rows={5}
-                  value={formData.message}
-                  onChange={handleChange}
-                  placeholder="Tell me about your team, project timeline, or questions..."
-                  className="w-full px-3.5 py-2 text-sm bg-transparent border border-zinc-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-900 transition-all resize-none"
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full py-3 px-5 text-sm font-semibold text-white bg-zinc-900 hover:bg-zinc-800 disabled:bg-zinc-400 rounded-xl transition-all shadow-xs flex items-center justify-center gap-2"
-              >
-                {isSubmitting ? (
-                  <>
-                    <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    <span>Sending message...</span>
-                  </>
-                ) : (
-                  <>
-                    <Send className="w-4 h-4" />
-                    <span>Send Message</span>
-                  </>
-                )}
-              </button>
-            </form>
-
-          </div>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="group relative w-full py-4 px-6 text-xs font-bold uppercase tracking-[0.2em] text-[#FFFFFF] bg-zinc-900 hover:bg-zinc-800 disabled:bg-zinc-400 transition-colors flex items-center justify-center gap-2"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      <span>Transmitting...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>Transmit Message</span>
+                      <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                    </>
+                  )}
+                </button>
+              </form>
+            </div>
+          </motion.div>
 
         </div>
 
