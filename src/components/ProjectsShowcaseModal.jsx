@@ -117,7 +117,7 @@ export default function ProjectsShowcaseModal({ isOpen, onClose, project }) {
             </button>
           </div>
 
-          <div ref={containerRef} className={`flex-1 w-full overflow-x-hidden relative bg-zinc-100 ${viewMode === 'browser' ? 'overflow-y-hidden' : 'overflow-y-auto scrollbar-hide'}`}>
+          <div ref={containerRef} className={`flex-1 w-full overflow-x-hidden relative bg-zinc-100 ${viewMode === 'browser' ? 'overflow-y-hidden' : 'overflow-y-auto no-scrollbar'}`}>
             {viewMode === 'browser' ? (
               project.liveUrl ? (
                 project.liveUrl.includes('smart24.live') ? (
@@ -208,7 +208,7 @@ export default function ProjectsShowcaseModal({ isOpen, onClose, project }) {
           {/* Scrollable Content Area */}
           <div 
             ref={scrollRef}
-            className="flex-1 min-h-0 overflow-y-auto scrollbar-hide p-8 sm:p-10 lg:p-12 flex flex-col gap-12 pb-16"
+            className="flex-1 min-h-0 overflow-y-auto no-scrollbar p-8 sm:p-10 lg:p-12 flex flex-col gap-12 pb-16"
           >
             
             {/* Title and Bio */}
