@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import { projects } from '@/data/portfolio';
 import ProjectsShowcaseModal from './ProjectsShowcaseModal';
+import ResponsiveImage from './ResponsiveImage';
 
 const categories = [
   { id: 'all', label: 'All Projects' },
@@ -100,8 +101,8 @@ const Projects = () => {
             <button
               key={cat.id}
               onClick={() => setSelectedCategory(cat.id)}
-              className={`relative text-xs sm:text-sm font-semibold uppercase tracking-widest transition-colors duration-500 pb-2 ${
-                selectedCategory === cat.id ? 'text-zinc-900' : 'text-zinc-400 hover:text-zinc-600'
+              className={`relative inline-flex items-center min-h-[44px] pt-2 text-xs sm:text-sm font-semibold uppercase tracking-widest transition-colors duration-500 pb-2 ${
+                selectedCategory === cat.id ? 'text-zinc-900' : 'text-zinc-500 hover:text-zinc-600'
               }`}
             >
               {cat.label}
@@ -133,9 +134,14 @@ const Projects = () => {
             >
               {/* Image Container */}
               <div className="relative aspect-[4/3] sm:aspect-[16/10] overflow-hidden mb-6 bg-zinc-100">
-                <img
+                <ResponsiveImage
                   src={project.images[0]}
                   alt={project.title}
+                  width={800}
+                  height={600}
+                  sizes="(max-width: 640px) 100vw, 50vw"
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover object-top filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 ease-out"
                   onError={(e) => {
                     e.target.src = "https://placehold.co/800x500/f4f4f5/71717a?text=" + encodeURIComponent(project.title);
@@ -159,7 +165,7 @@ const Projects = () => {
                   <h3 className="text-2xl font-serif text-zinc-900 leading-tight group-hover:text-zinc-600 transition-colors duration-500">
                     {project.title}
                   </h3>
-                  <ArrowUpRight className="w-5 h-5 text-zinc-300 group-hover:text-zinc-900 transition-all duration-500 transform group-hover:translate-x-1 group-hover:-translate-y-1 shrink-0" />
+                  <ArrowUpRight className="w-5 h-5 text-zinc-400 group-hover:text-zinc-900 transition-all duration-500 transform group-hover:translate-x-1 group-hover:-translate-y-1 shrink-0" />
                 </div>
                 
                 <p className="text-sm text-zinc-500 leading-relaxed line-clamp-2">
@@ -171,13 +177,13 @@ const Projects = () => {
                   {project.technologies.slice(0, 4).map((tech, idx) => (
                     <span
                       key={idx}
-                      className="text-[10px] font-bold uppercase tracking-widest text-zinc-400"
+                      className="text-[10px] font-bold uppercase tracking-widest text-zinc-500"
                     >
                       {tech}
                     </span>
                   ))}
                   {project.technologies.length > 4 && (
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-300">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">
                       +{project.technologies.length - 4}
                     </span>
                   )}
@@ -197,7 +203,7 @@ const Projects = () => {
           >
             <button
               onClick={() => setShowAll(true)}
-              className="group flex items-center gap-4 text-xs font-bold uppercase tracking-[0.2em] text-zinc-500 hover:text-zinc-900 transition-colors duration-500"
+              className="group flex items-center gap-4 min-h-[44px] text-xs font-bold uppercase tracking-[0.2em] text-zinc-500 hover:text-zinc-900 transition-colors duration-500"
             >
               <span className="w-8 h-[1px] bg-current transition-all duration-500 group-hover:w-12" />
               See More · {filteredProjects.length - 4} more projects
@@ -216,7 +222,7 @@ const Projects = () => {
           >
             <button
               onClick={() => setShowAll(false)}
-              className="group flex items-center gap-4 text-xs font-bold uppercase tracking-[0.2em] text-zinc-400 hover:text-zinc-700 transition-colors duration-500"
+              className="group flex items-center gap-4 min-h-[44px] text-xs font-bold uppercase tracking-[0.2em] text-zinc-500 hover:text-zinc-700 transition-colors duration-500"
             >
               <span className="w-8 h-[1px] bg-current transition-all duration-500 group-hover:w-12" />
               See Less
@@ -226,11 +232,14 @@ const Projects = () => {
         )}
       </div>
 
-      <ProjectsShowcaseModal
-        isOpen={!!selectedProject}
-        onClose={() => setSelectedProject(null)}
-        project={selectedProject}
-      />
+      {selectedProject && (
+        <ProjectsShowcaseModal
+          key={selectedProject.id}
+          isOpen={!!selectedProject}
+          onClose={() => setSelectedProject(null)}
+          project={selectedProject}
+        />
+      )}
     </section>
   );
 };

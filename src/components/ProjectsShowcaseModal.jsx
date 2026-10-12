@@ -1,30 +1,20 @@
 import { useEffect, useState, useRef } from 'react';
 import { X, Github, ArrowUpRight } from 'lucide-react';
+import ResponsiveImage from './ResponsiveImage';
 
 export default function ProjectsShowcaseModal({ isOpen, onClose, project }) {
-  const [viewMode, setViewMode] = useState('browser');
+  const [viewMode, setViewMode] = useState(() => (project?.liveUrl ? 'browser' : 'image'));
   const containerRef = useRef(null);
   const scrollRef = useRef(null);
   const [scale, setScale] = useState(1);
   const [showIframe, setShowIframe] = useState(false);
 
-
-
-  useEffect(() => {
-    if (project) {
-      setViewMode(project.liveUrl ? 'browser' : 'image');
-    }
-  }, [project]);
-
   // Delay iframe mounting to prevent blocking the modal open animation
   useEffect(() => {
-    if (isOpen && viewMode === 'browser' && project?.liveUrl) {
-      setShowIframe(false);
-      const timer = setTimeout(() => setShowIframe(true), 500);
-      return () => clearTimeout(timer);
-    } else {
-      setShowIframe(false);
-    }
+    if (!isOpen || viewMode !== 'browser' || !project?.liveUrl) return;
+
+    const timer = setTimeout(() => setShowIframe(true), 500);
+    return () => clearTimeout(timer);
   }, [isOpen, viewMode, project]);
 
   useEffect(() => {
@@ -80,11 +70,11 @@ export default function ProjectsShowcaseModal({ isOpen, onClose, project }) {
   if (!isOpen || !project) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:p-8 bg-black/80 backdrop-blur-md animate-in fade-in duration-300">
+    <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-6 md:p-8 bg-black/80 backdrop-blur-md animate-fade-in">
       <div className="absolute inset-0" onClick={onClose} />
 
       {/* Modal Container */}
-      <div className="relative w-full max-w-6xl h-[95vh] max-h-[95vh] bg-[#FFFFFF] shadow-2xl flex flex-col md:flex-row z-10 animate-in slide-in-from-bottom-8 duration-500">
+      <div role="dialog" aria-modal="true" aria-labelledby="project-modal-title" className="relative w-full max-w-6xl h-[95vh] max-h-[95vh] bg-[#FFFFFF] shadow-2xl flex flex-col md:flex-row z-10 animate-slide-up">
         
         {/* Left Column: Browser / Image View */}
         <div className="md:w-1/2 bg-zinc-200 border-b md:border-b-0 md:border-r border-zinc-300 relative flex flex-col h-[50vh] md:h-full">
@@ -94,15 +84,15 @@ export default function ProjectsShowcaseModal({ isOpen, onClose, project }) {
             <div className="flex items-center bg-zinc-200/60 rounded-md p-1 shadow-inner">
               {project.liveUrl && (
                 <button
-                  onClick={() => setViewMode('browser')}
-                  className={`px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded transition-all ${viewMode === 'browser' ? 'bg-zinc-900 text-[#FFFFFF] shadow-sm' : 'text-zinc-500 hover:text-zinc-900'}`}
+                  onClick={() => { setShowIframe(false); setViewMode('browser'); }}
+                  className={`inline-flex items-center px-3 py-2 min-h-[36px] text-[10px] font-bold uppercase tracking-widest rounded transition-all ${viewMode === 'browser' ? 'bg-zinc-900 text-[#FFFFFF] shadow-sm' : 'text-zinc-500 hover:text-zinc-900'}`}
                 >
                   Live Browser
                 </button>
               )}
               <button
                 onClick={() => setViewMode('image')}
-                className={`px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded transition-all ${viewMode === 'image' ? 'bg-zinc-900 text-[#FFFFFF] shadow-sm' : 'text-zinc-500 hover:text-zinc-900'}`}
+                className={`inline-flex items-center px-3 py-2 min-h-[36px] text-[10px] font-bold uppercase tracking-widest rounded transition-all ${viewMode === 'image' ? 'bg-zinc-900 text-[#FFFFFF] shadow-sm' : 'text-zinc-500 hover:text-zinc-900'}`}
               >
                 Static Image
               </button>
@@ -111,7 +101,8 @@ export default function ProjectsShowcaseModal({ isOpen, onClose, project }) {
             {/* Mobile Close Button (moved to header) */}
             <button
               onClick={onClose}
-              className="md:hidden flex items-center justify-center p-1.5 text-zinc-500 hover:text-zinc-900 transition-colors bg-zinc-200/60 rounded-md"
+              aria-label="Close project details"
+              className="md:hidden flex items-center justify-center h-11 w-11 text-zinc-500 hover:text-zinc-900 transition-colors bg-zinc-200/60 rounded-md"
             >
               <X className="w-4 h-4" />
             </button>
@@ -132,9 +123,13 @@ export default function ProjectsShowcaseModal({ isOpen, onClose, project }) {
                     {/* Loading State & Blurred Image Background */}
                     <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-0 overflow-hidden bg-zinc-200">
                       {project.images && project.images.length > 0 && (
-                        <img 
+                        <ResponsiveImage 
                           src={project.images[0]} 
-                          alt="loading background" 
+                          alt="" 
+                          aria-hidden="true"
+                          sizes="100vw"
+                          loading="lazy"
+                          decoding="async"
                           className="absolute inset-0 w-full h-full object-cover opacity-20 blur-md scale-105" 
                         />
                       )}
@@ -168,14 +163,17 @@ export default function ProjectsShowcaseModal({ isOpen, onClose, project }) {
               ) : (
                 <div className="flex flex-col items-center justify-center h-full p-8 text-center bg-zinc-100">
                   <span className="text-sm font-semibold text-zinc-500 mb-2">Preview Unavailable</span>
-                  <p className="text-xs text-zinc-400">This project does not have a live URL.</p>
+                  <p className="text-xs text-zinc-500">This project does not have a live URL.</p>
                 </div>
               )
             ) : (
               project.images && project.images.length > 0 && (
-                <img
+                <ResponsiveImage
                   src={project.images[0]}
                   alt={project.title}
+                  sizes="(max-width: 768px) 100vw, 576px"
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-auto object-contain block mx-auto"
                   onError={(e) => {
                     e.target.src = "https://placehold.co/1200x1600/e4e4e7/71717a?text=" + encodeURIComponent(project.title);
@@ -198,6 +196,7 @@ export default function ProjectsShowcaseModal({ isOpen, onClose, project }) {
             </span>
             <button
               onClick={onClose}
+              aria-label="Close project details"
               className="hidden md:flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-zinc-500 hover:text-zinc-900 transition-colors"
             >
               <span>Close</span>
@@ -213,7 +212,7 @@ export default function ProjectsShowcaseModal({ isOpen, onClose, project }) {
             
             {/* Title and Bio */}
             <div className="space-y-6">
-              <h2 className="text-4xl sm:text-5xl font-serif tracking-tight text-zinc-900 leading-none">
+              <h2 id="project-modal-title" className="text-4xl sm:text-5xl font-serif tracking-tight text-zinc-900 leading-none">
                 {project.title}
               </h2>
               
@@ -252,7 +251,7 @@ export default function ProjectsShowcaseModal({ isOpen, onClose, project }) {
 
             {/* Tech Stack */}
             <div className="space-y-4">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
                 Technologies & Architecture
               </span>
               <div className="flex flex-wrap gap-x-4 gap-y-2">
@@ -272,7 +271,7 @@ export default function ProjectsShowcaseModal({ isOpen, onClose, project }) {
               <div className="space-y-10 pt-10 border-t border-zinc-300">
                 {project.challenges && (
                   <div className="space-y-4">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
                       Engineering Challenges
                     </span>
                     <p className="text-sm text-zinc-600 leading-relaxed font-sans">
@@ -283,7 +282,7 @@ export default function ProjectsShowcaseModal({ isOpen, onClose, project }) {
                 
                 {project.futurePlans && (
                   <div className="space-y-4">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
                       Planned Roadmap
                     </span>
                     <p className="text-sm text-zinc-600 leading-relaxed font-sans">

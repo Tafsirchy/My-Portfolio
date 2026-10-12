@@ -127,7 +127,7 @@ const Skills = () => {
                   {/* Category Header */}
                   <motion.div variants={itemVariants} className="flex flex-col border-b border-zinc-900 pb-3 mb-2 gap-1">
                     <div className="flex items-baseline gap-4">
-                      <span className="text-xs font-bold font-sans text-zinc-400">0{idx + 1}</span>
+                      <span className="text-xs font-bold font-sans text-zinc-500">0{idx + 1}</span>
                       <h3 className="text-2xl font-serif text-zinc-900">{category.title}</h3>
                     </div>
                     <p className="text-xs text-zinc-500 font-sans">

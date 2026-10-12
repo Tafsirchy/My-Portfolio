@@ -78,7 +78,7 @@ const Contact = () => {
           <h2 className="text-6xl sm:text-7xl md:text-8xl font-serif tracking-tight text-zinc-900 uppercase leading-none">
             Contact
           </h2>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-zinc-400 sm:pb-2">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-zinc-500 sm:pb-2">
             Direct Inquiries & Engagements
           </p>
         </motion.div>
@@ -121,12 +121,12 @@ const Contact = () => {
               {/* Direct Email */}
               <div className="p-4 sm:p-5 group hover:bg-zinc-100/50 transition-colors">
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-[9px] font-bold uppercase tracking-[0.25em] text-zinc-400">
+                  <span className="text-[9px] font-bold uppercase tracking-[0.25em] text-zinc-500">
                     01 // Direct Email
                   </span>
                   <button
                     onClick={handleCopyEmail}
-                    className="inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-[0.2em] px-2 py-0.5 border border-zinc-300 hover:border-zinc-900 transition-colors"
+                    className="inline-flex items-center gap-1 min-h-[40px] text-[10px] font-bold uppercase tracking-[0.2em] px-3 py-2 border border-zinc-300 hover:border-zinc-900 transition-colors"
                   >
                     {copiedEmail ? (
                       <>
@@ -135,7 +135,7 @@ const Contact = () => {
                       </>
                     ) : (
                       <>
-                        <Copy className="w-2.5 h-2.5 text-zinc-400" />
+                        <Copy className="w-2.5 h-2.5 text-zinc-500" />
                         <span>Copy</span>
                       </>
                     )}
@@ -143,7 +143,7 @@ const Contact = () => {
                 </div>
                 <a
                   href={`mailto:${personalInfo.email}`}
-                  className="text-base font-serif font-bold text-zinc-900 hover:text-zinc-600 transition-colors block"
+                  className="inline-flex items-center min-h-[44px] text-base font-serif font-bold text-zinc-900 hover:text-zinc-600 transition-colors"
                 >
                   {personalInfo.email}
                 </a>
@@ -154,18 +154,18 @@ const Contact = () => {
 
               {/* WhatsApp / Phone */}
               <div className="p-4 sm:p-5 group hover:bg-zinc-100/50 transition-colors">
-                <span className="text-[9px] font-bold uppercase tracking-[0.25em] text-zinc-400 block mb-1.5">
+                <span className="text-[9px] font-bold uppercase tracking-[0.25em] text-zinc-500 block mb-1.5">
                   02 // WhatsApp & Urgent Line
                 </span>
                 <a
                   href={`https://wa.me/${personalInfo.phone.replace(/[^0-9]/g, '')}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-base font-serif font-bold text-zinc-900 hover:text-emerald-700 transition-colors"
+                  className="inline-flex items-center gap-1.5 min-h-[44px] text-base font-serif font-bold text-zinc-900 hover:text-emerald-700 transition-colors"
                 >
                   <SiWhatsapp className="w-3.5 h-3.5 text-emerald-600" />
                   <span>{personalInfo.phone}</span>
-                  <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400" />
+                  <ArrowUpRight className="w-3.5 h-3.5 text-zinc-500" />
                 </a>
                 <p className="text-[11px] text-zinc-500 font-sans mt-0.5">
                   Available for technical evaluations & scheduled syncs
@@ -174,7 +174,7 @@ const Contact = () => {
 
               {/* Location */}
               <div className="p-4 sm:p-5 group hover:bg-zinc-100/50 transition-colors">
-                <span className="text-[9px] font-bold uppercase tracking-[0.25em] text-zinc-400 block mb-1.5">
+                <span className="text-[9px] font-bold uppercase tracking-[0.25em] text-zinc-500 block mb-1.5">
                   03 // Location & Timezone
                 </span>
                 <p className="text-sm font-bold text-zinc-900 font-sans">
@@ -189,7 +189,7 @@ const Contact = () => {
 
             {/* Social Grid */}
             <div>
-              <p className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-400 mb-2.5">
+              <p className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-500 mb-2.5">
                 Official Channels
               </p>
               <div className="grid grid-cols-3 gap-2">
@@ -197,28 +197,28 @@ const Contact = () => {
                   href="https://github.com/Tafsirchy"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-between p-2.5 border border-zinc-300 hover:border-zinc-900 hover:bg-zinc-100 transition-all text-xs font-bold uppercase tracking-wider text-zinc-900 group"
+                  className="flex items-center justify-between min-h-[44px] p-2.5 border border-zinc-300 hover:border-zinc-900 hover:bg-zinc-100 transition-all text-xs font-bold uppercase tracking-wider text-zinc-900 group"
                 >
                   <span>GitHub</span>
-                  <ArrowUpRight className="w-3 h-3 text-zinc-400 group-hover:text-zinc-900 transition-colors" />
+                  <ArrowUpRight className="w-3 h-3 text-zinc-500 group-hover:text-zinc-900 transition-colors" />
                 </a>
                 <a
                   href="https://www.linkedin.com/in/tafsirchy/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-between p-2.5 border border-zinc-300 hover:border-zinc-900 hover:bg-zinc-100 transition-all text-xs font-bold uppercase tracking-wider text-zinc-900 group"
+                  className="flex items-center justify-between min-h-[44px] p-2.5 border border-zinc-300 hover:border-zinc-900 hover:bg-zinc-100 transition-all text-xs font-bold uppercase tracking-wider text-zinc-900 group"
                 >
                   <span>LinkedIn</span>
-                  <ArrowUpRight className="w-3 h-3 text-zinc-400 group-hover:text-zinc-900 transition-colors" />
+                  <ArrowUpRight className="w-3 h-3 text-zinc-500 group-hover:text-zinc-900 transition-colors" />
                 </a>
                 <a
                   href="https://x.com/chy_tafsir"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-between p-2.5 border border-zinc-300 hover:border-zinc-900 hover:bg-zinc-100 transition-all text-xs font-bold uppercase tracking-wider text-zinc-900 group"
+                  className="flex items-center justify-between min-h-[44px] p-2.5 border border-zinc-300 hover:border-zinc-900 hover:bg-zinc-100 transition-all text-xs font-bold uppercase tracking-wider text-zinc-900 group"
                 >
                   <span>Twitter</span>
-                  <ArrowUpRight className="w-3 h-3 text-zinc-400 group-hover:text-zinc-900 transition-colors" />
+                  <ArrowUpRight className="w-3 h-3 text-zinc-500 group-hover:text-zinc-900 transition-colors" />
                 </a>
               </div>
             </div>
@@ -237,7 +237,7 @@ const Contact = () => {
               <span className="text-[9px] font-black uppercase tracking-[0.35em] text-zinc-500">
                 Direct Dispatch Terminal
               </span>
-              <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-400">
+              <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-500">
                 Encrypted Form
               </span>
             </div>
@@ -272,7 +272,7 @@ const Contact = () => {
                       value={formData.name}
                       onChange={handleChange}
                       placeholder="e.g. Alex Morgan"
-                      className="w-full px-3.5 py-2.5 text-sm bg-transparent border border-zinc-300 focus:border-zinc-900 focus:outline-none transition-colors rounded-none placeholder:text-zinc-400 font-sans"
+                      className="w-full px-3.5 py-3 min-h-[44px] text-base bg-transparent border border-zinc-300 focus:border-zinc-900 focus:outline-none transition-colors rounded-none placeholder:text-zinc-500 font-sans"
                     />
                   </div>
 
@@ -288,7 +288,7 @@ const Contact = () => {
                       value={formData.email}
                       onChange={handleChange}
                       placeholder="alex@company.com"
-                      className="w-full px-3.5 py-2.5 text-sm bg-transparent border border-zinc-300 focus:border-zinc-900 focus:outline-none transition-colors rounded-none placeholder:text-zinc-400 font-sans"
+                      className="w-full px-3.5 py-3 min-h-[44px] text-base bg-transparent border border-zinc-300 focus:border-zinc-900 focus:outline-none transition-colors rounded-none placeholder:text-zinc-500 font-sans"
                     />
                   </div>
                 </div>
@@ -305,7 +305,7 @@ const Contact = () => {
                     value={formData.subject}
                     onChange={handleChange}
                     placeholder="e.g. Full-Stack Role / SaaS Platform Build"
-                    className="w-full px-3.5 py-2.5 text-sm bg-transparent border border-zinc-300 focus:border-zinc-900 focus:outline-none transition-colors rounded-none placeholder:text-zinc-400 font-sans"
+                    className="w-full px-3.5 py-3 min-h-[44px] text-base bg-transparent border border-zinc-300 focus:border-zinc-900 focus:outline-none transition-colors rounded-none placeholder:text-zinc-500 font-sans"
                   />
                 </div>
 
@@ -321,7 +321,7 @@ const Contact = () => {
                     value={formData.message}
                     onChange={handleChange}
                     placeholder="Brief overview of project goals, timeline, or position details..."
-                    className="w-full px-3.5 py-2.5 text-sm bg-transparent border border-zinc-300 focus:border-zinc-900 focus:outline-none transition-colors rounded-none placeholder:text-zinc-400 font-sans resize-none"
+                    className="w-full px-3.5 py-3 min-h-[44px] text-base bg-transparent border border-zinc-300 focus:border-zinc-900 focus:outline-none transition-colors rounded-none placeholder:text-zinc-500 font-sans resize-none"
                   />
                 </div>
 

@@ -1,0 +1,362 @@
+{
+  "/assets/About.png": {
+    "w": 1254,
+    "h": 1254,
+    "variants": [
+      {
+        "w": 320,
+        "h": 320,
+        "url": "/assets/About-320.webp",
+        "kb": 16
+      },
+      {
+        "w": 480,
+        "h": 480,
+        "url": "/assets/About-480.webp",
+        "kb": 35
+      },
+      {
+        "w": 768,
+        "h": 768,
+        "url": "/assets/About-768.webp",
+        "kb": 85
+      },
+      {
+        "w": 1254,
+        "h": 1254,
+        "url": "/assets/About-1254.webp",
+        "kb": 189
+      }
+    ]
+  },
+  "/assets/BEKARY.png": {
+    "w": 1267,
+    "h": 718,
+    "variants": [
+      {
+        "w": 320,
+        "h": 181,
+        "url": "/assets/BEKARY-320.webp",
+        "kb": 7
+      },
+      {
+        "w": 480,
+        "h": 272,
+        "url": "/assets/BEKARY-480.webp",
+        "kb": 12
+      },
+      {
+        "w": 768,
+        "h": 435,
+        "url": "/assets/BEKARY-768.webp",
+        "kb": 25
+      },
+      {
+        "w": 1267,
+        "h": 718,
+        "url": "/assets/BEKARY-1267.webp",
+        "kb": 50
+      }
+    ]
+  },
+  "/assets/BOONEC_logo_modern.png": {
+    "w": 1234,
+    "h": 675,
+    "variants": [
+      {
+        "w": 320,
+        "h": 175,
+        "url": "/assets/BOONEC_logo_modern-320.webp",
+        "kb": 1
+      },
+      {
+        "w": 480,
+        "h": 263,
+        "url": "/assets/BOONEC_logo_modern-480.webp",
+        "kb": 2
+      },
+      {
+        "w": 768,
+        "h": 420,
+        "url": "/assets/BOONEC_logo_modern-768.webp",
+        "kb": 4
+      },
+      {
+        "w": 1234,
+        "h": 675,
+        "url": "/assets/BOONEC_logo_modern-1234.webp",
+        "kb": 6
+      }
+    ]
+  },
+  "/assets/BRISTIII.png": {
+    "w": 1264,
+    "h": 720,
+    "variants": [
+      {
+        "w": 320,
+        "h": 182,
+        "url": "/assets/BRISTIII-320.webp",
+        "kb": 4
+      },
+      {
+        "w": 480,
+        "h": 273,
+        "url": "/assets/BRISTIII-480.webp",
+        "kb": 8
+      },
+      {
+        "w": 768,
+        "h": 437,
+        "url": "/assets/BRISTIII-768.webp",
+        "kb": 17
+      },
+      {
+        "w": 1264,
+        "h": 720,
+        "url": "/assets/BRISTIII-1264.webp",
+        "kb": 32
+      }
+    ]
+  },
+  "/assets/GN1.png": {
+    "w": 1894,
+    "h": 847,
+    "variants": [
+      {
+        "w": 320,
+        "h": 143,
+        "url": "/assets/GN1-320.webp",
+        "kb": 4
+      },
+      {
+        "w": 480,
+        "h": 215,
+        "url": "/assets/GN1-480.webp",
+        "kb": 7
+      },
+      {
+        "w": 768,
+        "h": 343,
+        "url": "/assets/GN1-768.webp",
+        "kb": 13
+      },
+      {
+        "w": 1280,
+        "h": 572,
+        "url": "/assets/GN1-1280.webp",
+        "kb": 24
+      }
+    ]
+  },
+  "/assets/HT1.png": {
+    "w": 1894,
+    "h": 837,
+    "variants": [
+      {
+        "w": 320,
+        "h": 141,
+        "url": "/assets/HT1-320.webp",
+        "kb": 7
+      },
+      {
+        "w": 480,
+        "h": 212,
+        "url": "/assets/HT1-480.webp",
+        "kb": 14
+      },
+      {
+        "w": 768,
+        "h": 339,
+        "url": "/assets/HT1-768.webp",
+        "kb": 28
+      },
+      {
+        "w": 1280,
+        "h": 566,
+        "url": "/assets/HT1-1280.webp",
+        "kb": 57
+      }
+    ]
+  },
+  "/assets/HeroProfile.png": {
+    "w": 1536,
+    "h": 1024,
+    "variants": [
+      {
+        "w": 320,
+        "h": 213,
+        "url": "/assets/HeroProfile-320.webp",
+        "kb": 5
+      },
+      {
+        "w": 480,
+        "h": 320,
+        "url": "/assets/HeroProfile-480.webp",
+        "kb": 8
+      },
+      {
+        "w": 768,
+        "h": 512,
+        "url": "/assets/HeroProfile-768.webp",
+        "kb": 15
+      },
+      {
+        "w": 1280,
+        "h": 853,
+        "url": "/assets/HeroProfile-1280.webp",
+        "kb": 30
+      }
+    ]
+  },
+  "/assets/MotruBi1.png": {
+    "w": 1903,
+    "h": 856,
+    "variants": [
+      {
+        "w": 320,
+        "h": 144,
+        "url": "/assets/MotruBi1-320.webp",
+        "kb": 5
+      },
+      {
+        "w": 480,
+        "h": 216,
+        "url": "/assets/MotruBi1-480.webp",
+        "kb": 9
+      },
+      {
+        "w": 768,
+        "h": 345,
+        "url": "/assets/MotruBi1-768.webp",
+        "kb": 17
+      },
+      {
+        "w": 1280,
+        "h": 576,
+        "url": "/assets/MotruBi1-1280.webp",
+        "kb": 32
+      }
+    ]
+  },
+  "/assets/S24.png": {
+    "w": 1129,
+    "h": 627,
+    "variants": [
+      {
+        "w": 320,
+        "h": 178,
+        "url": "/assets/S24-320.webp",
+        "kb": 7
+      },
+      {
+        "w": 480,
+        "h": 267,
+        "url": "/assets/S24-480.webp",
+        "kb": 12
+      },
+      {
+        "w": 768,
+        "h": 427,
+        "url": "/assets/S24-768.webp",
+        "kb": 21
+      },
+      {
+        "w": 1129,
+        "h": 627,
+        "url": "/assets/S24-1129.webp",
+        "kb": 32
+      }
+    ]
+  },
+  "/assets/STLTD1.jpg": {
+    "w": 1920,
+    "h": 847,
+    "variants": [
+      {
+        "w": 320,
+        "h": 141,
+        "url": "/assets/STLTD1-320.webp",
+        "kb": 7
+      },
+      {
+        "w": 480,
+        "h": 212,
+        "url": "/assets/STLTD1-480.webp",
+        "kb": 14
+      },
+      {
+        "w": 768,
+        "h": 339,
+        "url": "/assets/STLTD1-768.webp",
+        "kb": 28
+      },
+      {
+        "w": 1280,
+        "h": 565,
+        "url": "/assets/STLTD1-1280.webp",
+        "kb": 55
+      }
+    ]
+  },
+  "/assets/SYICT1.jpg": {
+    "w": 1279,
+    "h": 673,
+    "variants": [
+      {
+        "w": 320,
+        "h": 168,
+        "url": "/assets/SYICT1-320.webp",
+        "kb": 6
+      },
+      {
+        "w": 480,
+        "h": 253,
+        "url": "/assets/SYICT1-480.webp",
+        "kb": 10
+      },
+      {
+        "w": 768,
+        "h": 404,
+        "url": "/assets/SYICT1-768.webp",
+        "kb": 18
+      },
+      {
+        "w": 1279,
+        "h": 673,
+        "url": "/assets/SYICT1-1279.webp",
+        "kb": 32
+      }
+    ]
+  },
+  "/assets/VF1.png": {
+    "w": 1896,
+    "h": 894,
+    "variants": [
+      {
+        "w": 320,
+        "h": 151,
+        "url": "/assets/VF1-320.webp",
+        "kb": 5
+      },
+      {
+        "w": 480,
+        "h": 226,
+        "url": "/assets/VF1-480.webp",
+        "kb": 8
+      },
+      {
+        "w": 768,
+        "h": 362,
+        "url": "/assets/VF1-768.webp",
+        "kb": 15
+      },
+      {
+        "w": 1280,
+        "h": 604,
+        "url": "/assets/VF1-1280.webp",
+        "kb": 27
+      }
+    ]
+  }
+}

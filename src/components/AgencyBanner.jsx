@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
+import ResponsiveImage from './ResponsiveImage';
 
 const elegantEase = [0.16, 1, 0.3, 1];
 
@@ -16,12 +17,12 @@ const AgencyBanner = () => {
           transition={{ duration: 1, ease: elegantEase }}
           className="flex flex-wrap items-center justify-between border-b border-zinc-300 pb-4 mb-10 sm:mb-16 gap-4"
         >
-          <span className="text-[10px] font-black uppercase tracking-[0.35em] text-zinc-400">
+          <span className="text-[10px] font-black uppercase tracking-[0.35em] text-zinc-500">
             Agency & Venture
           </span>
           <div className="flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-400">Active</span>
+            <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-500">Active</span>
           </div>
         </motion.div>
 
@@ -36,9 +37,12 @@ const AgencyBanner = () => {
             transition={{ duration: 1.2, ease: elegantEase }}
             className="lg:col-span-7"
           >
-            <img
+            <ResponsiveImage
               src="/assets/BOONEC_logo_modern.png"
               alt="BOONEC Logo"
+              sizes="(max-width: 640px) 256px, (max-width: 1024px) 320px, 384px"
+              loading="lazy"
+              decoding="async"
               className="w-64 sm:w-80 lg:w-96 object-contain mb-8 mix-blend-multiply"
             />
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-zinc-900 leading-[1.15] tracking-tight">
@@ -60,19 +64,19 @@ const AgencyBanner = () => {
 
             <div className="grid grid-cols-2 gap-x-6 gap-y-8 pt-8 border-t border-zinc-300">
               <div>
-                <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-400 mb-1">Focus</p>
+                <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-500 mb-1">Focus</p>
                 <p className="text-sm font-bold text-zinc-900 font-serif">Full-Cycle Engineering</p>
               </div>
               <div>
-                <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-400 mb-1">Standard</p>
+                <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-500 mb-1">Standard</p>
                 <p className="text-sm font-bold text-zinc-900 font-serif">Production Grade</p>
               </div>
               <div>
-                <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-400 mb-1">Capacity</p>
+                <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-500 mb-1">Capacity</p>
                 <p className="text-sm font-bold text-zinc-900 font-serif">Dedicated Teams</p>
               </div>
               <div>
-                <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-400 mb-1">Founder</p>
+                <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-500 mb-1">Founder</p>
                 <p className="text-sm font-bold text-zinc-900 font-serif">Tafsir Chowdhury</p>
               </div>
             </div>

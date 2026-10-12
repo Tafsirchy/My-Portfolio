@@ -4,31 +4,40 @@ import { Check, X } from 'lucide-react';
 
 const SuccessModal = ({ isOpen, onClose }) => {
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
+    if (!isOpen) return;
+
+    document.body.style.overflow = 'hidden';
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+
     return () => {
       document.body.style.overflow = 'unset';
+      window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isOpen]);
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
   return createPortal(
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
       <div className="absolute inset-0" onClick={onClose} />
       
-      <div className="relative w-full max-w-md bg-transparent rounded-2xl border border-zinc-300 shadow-2xl p-6 sm:p-8 flex flex-col items-center text-center space-y-4 z-10 animate-in zoom-in-95 duration-200">
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="success-modal-title"
+        className="relative w-full max-w-md bg-[#FFFFFF] rounded-2xl border border-zinc-300 shadow-2xl p-6 sm:p-8 flex flex-col items-center text-center space-y-4 z-10 animate-slide-up"
+      >
         
         {/* Success Icon */}
-        <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shadow-xs">
+        <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shadow-sm">
           <Check className="w-7 h-7 stroke-[2.5]" />
         </div>
 
         <div className="space-y-1.5">
-          <h3 className="text-xl font-bold text-zinc-950 tracking-tight">
+          <h3 id="success-modal-title" className="text-xl font-bold text-zinc-950 tracking-tight">
             Message Sent Successfully
           </h3>
           <p className="text-sm text-zinc-600 leading-relaxed max-w-xs">
@@ -38,7 +47,8 @@ const SuccessModal = ({ isOpen, onClose }) => {
 
         <button
           onClick={onClose}
-          className="w-full py-2.5 px-4 bg-zinc-900 hover:bg-zinc-800 text-white text-sm font-medium rounded-xl transition-colors shadow-xs"
+          aria-label="Close confirmation dialog"
+          className="w-full min-h-[44px] py-2.5 px-4 bg-zinc-900 hover:bg-zinc-800 text-white text-sm font-medium rounded-xl transition-colors shadow-sm"
         >
           Done
         </button>

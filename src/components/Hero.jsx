@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion
 import { ArrowUpRight, Github, Linkedin, Twitter, Mail } from 'lucide-react';
 import { SiWhatsapp } from 'react-icons/si';
 import { personalInfo } from '@/data/portfolio';
+import ResponsiveImage from './ResponsiveImage';
 
 const Hero = () => {
   const prefersReducedMotion = useReducedMotion();
@@ -26,11 +27,17 @@ const Hero = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.2 }}
         transition={{ duration: 1.5, ease: "easeOut" }}
-        className="absolute bottom-10 md:bottom-18 left-16 right-0 mx-auto w-full h-[70vh] md:h-[95vh] z-0 pointer-events-none flex justify-center origin-bottom translate-x-20 md:translate-x-48 transform-gpu will-change-transform"
+        className="absolute bottom-10 md:bottom-[4.5rem] left-0 right-0 mx-auto w-full h-[70vh] md:h-[95vh] z-0 pointer-events-none flex justify-center origin-bottom transform-gpu will-change-transform"
       >
-        <img 
-          src="/assets/About.png" 
-          alt="" 
+        <ResponsiveImage
+          src="/assets/About.png"
+          alt=""
+          aria-hidden="true"
+          width={720}
+          height={1080}
+          sizes="100vw"
+          loading="lazy"
+          decoding="async"
           className={`w-auto h-full object-contain object-bottom transition-[filter] duration-500 pointer-events-none ${isHovered ? 'grayscale-0' : 'grayscale'}`}
           onError={(e) => { e.target.src = "/assets/About.png"; }}
         />
@@ -66,7 +73,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 40, filter: 'blur(12px)' }}
               animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
               transition={{ delay: 0.3, duration: 1.4, ease: elegantEase }}
-              className="text-[80px] sm:text-[110px] md:text-[140px] lg:text-[180px] font-bold text-zinc-900 tracking-tighter leading-none"
+              className="text-[clamp(2.75rem,15vw,11rem)] font-bold text-zinc-900 tracking-tighter leading-none break-words"
             >
               Tafsirul
             </motion.h1>
@@ -76,7 +83,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 40, filter: 'blur(12px)' }}
               animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
               transition={{ delay: 0.4, duration: 1.4, ease: elegantEase }}
-              className="text-[80px] sm:text-[110px] md:text-[140px] lg:text-[180px] font-bold text-transparent tracking-tighter leading-none hidden md:block"
+              className="text-[clamp(2.75rem,15vw,11rem)] font-bold text-transparent tracking-tighter leading-none"
             >
               Islam
             </motion.h1>
@@ -91,9 +98,14 @@ const Hero = () => {
           transition={{ delay: 0.4, duration: 1.8, ease: elegantEase }}
           className="absolute bottom-0 left-0 right-0 mx-auto w-full h-[60vh] md:h-[80vh] z-20 pointer-events-none flex justify-center transform-gpu will-change-transform"
         >
-          <img 
+          <ResponsiveImage 
             src="/assets/HeroProfile.png" 
             alt="Tafsirul Islam Chowdhury" 
+            width={640}
+            height={960}
+            sizes="(max-width: 767px) 90vw, 45vw"
+            fetchPriority="high"
+            decoding="async"
             className={`w-auto h-full object-contain object-bottom contrast-[1.05] transition-[filter] duration-500 cursor-pointer pointer-events-auto ${isHovered ? 'grayscale-0' : 'grayscale'}`}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
@@ -111,7 +123,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 40, filter: 'blur(12px)' }}
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
             transition={{ delay: 0.5, duration: 1.4, ease: elegantEase }}
-            className="text-[65px] sm:text-[85px] md:text-[110px] lg:text-[140px] font-light text-zinc-600 tracking-tight leading-none mt-0 md:-mt-8"
+            className="text-[clamp(2.25rem,12vw,8.5rem)] font-light text-zinc-600 tracking-tight leading-none mt-0 md:-mt-8"
           >
             Chowdhury
           </motion.h1>
@@ -146,7 +158,7 @@ const Hero = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   href="#projects" 
-                  className="group flex items-center justify-center gap-2 px-6 py-3 border border-zinc-900 bg-zinc-900 text-[#FFFFFF] text-xs font-semibold uppercase tracking-widest transition-colors hover:bg-[#18181b]/90 hover:text-[#FFFFFF]"
+                  className="group flex items-center justify-center gap-2 px-6 py-3 min-h-[48px] border border-zinc-900 bg-zinc-900 text-[#FFFFFF] text-xs font-semibold uppercase tracking-widest transition-colors hover:bg-[#18181b]/90 hover:text-[#FFFFFF]"
                 >
                   View My Work <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
                 </motion.a>
@@ -154,7 +166,7 @@ const Hero = () => {
                   whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.95 }}
                   href="#contact" 
-                  className="px-2 py-3 bg-transparent text-zinc-900 border-b border-zinc-900 text-xs font-semibold uppercase tracking-widest hover:text-zinc-600 hover:border-zinc-600 transition-colors"
+                  className="inline-flex items-center min-h-[44px] px-2 py-3 bg-transparent text-zinc-900 border-b border-zinc-900 text-xs font-semibold uppercase tracking-widest hover:text-zinc-600 hover:border-zinc-600 transition-colors"
                 >
                   Get In Touch
                 </motion.a>
@@ -162,7 +174,7 @@ const Hero = () => {
             </div>
             
             {/* Social Icons */}
-            <div className="flex items-center gap-5 mt-2">
+            <div className="flex items-center gap-1 mt-2 -ml-2.5">
               {[
                 { icon: Github, link: "https://github.com/Tafsirchy", label: "GitHub" },
                 { icon: Linkedin, link: "https://www.linkedin.com/in/tafsirchy/", label: "LinkedIn" },
@@ -179,10 +191,10 @@ const Hero = () => {
                   href={social.link} 
                   target={social.link.startsWith('http') ? "_blank" : undefined}
                   rel={social.link.startsWith('http') ? "noopener noreferrer" : undefined}
-                  className="text-zinc-500 hover:text-zinc-900 transition-colors" 
+                  className="inline-flex items-center justify-center h-11 w-11 text-zinc-500 hover:text-zinc-900 transition-colors" 
                   aria-label={social.label}
                 >
-                  <social.icon className="w-[18px] h-[18px]" />
+                  <social.icon className="w-5 h-5" />
                 </motion.a>
               ))}
             </div>

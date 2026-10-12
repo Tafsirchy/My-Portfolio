@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import { experience } from '@/data/portfolio';
+import ResponsiveImage from './ResponsiveImage';
 
 const elegantEase = [0.16, 1, 0.3, 1];
 
@@ -38,7 +39,7 @@ const Experience = () => {
           <h2 className="text-6xl sm:text-7xl md:text-8xl font-serif tracking-tight text-zinc-900 uppercase leading-none">
             Experience
           </h2>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-zinc-400 sm:pb-2">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-zinc-500 sm:pb-2">
             Professional Track Record
           </p>
         </motion.div>
@@ -59,7 +60,7 @@ const Experience = () => {
               <span className="text-[9px] font-black uppercase tracking-[0.35em] text-zinc-500">
                 Own Venture — Founder
               </span>
-              <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-400">
+              <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-500">
                 Est. {boonec.duration}
               </span>
             </div>
@@ -67,12 +68,15 @@ const Experience = () => {
             <div className="p-5 sm:p-6 grid sm:grid-cols-12 gap-5 sm:gap-8 items-center">
               {/* BOONEC Logo */}
               <div className="sm:col-span-4 flex flex-col gap-3">
-                <img
+                <ResponsiveImage
                   src="/assets/BOONEC_logo_modern.png"
                   alt="BOONEC"
+                  sizes="(max-width: 640px) 240px, 288px"
+                  loading="lazy"
+                  decoding="async"
                   className="w-60 sm:w-72 object-contain"
                 />
-                <p className="text-xs font-semibold uppercase tracking-widest text-zinc-400 font-sans">
+                <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500 font-sans">
                   {boonec.position}
                 </p>
               </div>
@@ -119,7 +123,7 @@ const Experience = () => {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.1 }}
-          className="text-[9px] font-black uppercase tracking-[0.35em] text-zinc-400 mb-3"
+          className="text-[9px] font-black uppercase tracking-[0.35em] text-zinc-500 mb-3"
         >
           Professional Roles
         </motion.p>
@@ -199,13 +203,13 @@ const Experience = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-40px' }}
                 transition={{ duration: 1, ease: elegantEase, delay: index * 0.12 }}
-                className="bg-[#FFFFFF] p-6 sm:p-8 flex flex-col gap-4 group hover:bg-zinc-100 transition-colors duration-400"
+                className="bg-[#FFFFFF] p-6 sm:p-8 flex flex-col gap-4 group hover:bg-zinc-100 transition-colors duration-300"
               >
                 <div className="flex items-start justify-between">
                   <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-300 group-hover:text-zinc-500 transition-colors">
                     {String(index + 1).padStart(2, '0')}
                   </span>
-                  <span className="text-[9px] font-bold uppercase tracking-wider text-zinc-400 text-right">
+                  <span className="text-[9px] font-bold uppercase tracking-wider text-zinc-500 text-right">
                     {exp.duration}
                   </span>
                 </div>
@@ -247,7 +251,7 @@ const Experience = () => {
             { label: 'Core Stack', value: 'Next.js · Node · MongoDB' },
           ].map(({ label, value }) => (
             <div key={label}>
-              <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-400 mb-1">{label}</p>
+              <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-500 mb-1">{label}</p>
               <p className="text-sm font-bold text-zinc-900 font-serif">{value}</p>
             </div>
           ))}

@@ -73,7 +73,7 @@ const Education = () => {
           <h2 className="text-6xl sm:text-7xl md:text-8xl font-serif tracking-tight text-zinc-900 uppercase leading-none">
             Education
           </h2>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-zinc-400 sm:pb-2">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-zinc-500 sm:pb-2">
             Academic & Credentials
           </p>
         </motion.div>
@@ -95,7 +95,7 @@ const Education = () => {
               >
                 {/* Index */}
                 <div className="col-span-2 sm:col-span-1">
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 group-hover:text-zinc-700 transition-colors duration-500">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 group-hover:text-zinc-700 transition-colors duration-500">
                     {String(index + 1).padStart(2, '0')}
                   </span>
                 </div>
@@ -132,7 +132,7 @@ const Education = () => {
                   )}
                   <div className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-400">In Progress</span>
+                    <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-500">In Progress</span>
                   </div>
                 </div>
               </motion.div>
@@ -144,7 +144,7 @@ const Education = () => {
             variants={rowVariants}
             className="pt-8 pb-3 border-b border-zinc-300"
           >
-            <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-400">
+            <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500">
               Certifications & Awards — {certs.length} credentials
             </p>
           </motion.div>
@@ -202,7 +202,7 @@ const Education = () => {
                   </div>
 
                   {item.issuer && (
-                    <p className="text-[10px] font-medium text-zinc-400 italic pt-1">
+                    <p className="text-[10px] font-medium text-zinc-500 italic pt-1">
                       Issued by: {item.issuer}
                     </p>
                   )}
@@ -214,14 +214,14 @@ const Education = () => {
 
                   {item.hours && (
                     <div className="flex items-center gap-2 border border-zinc-300 px-3 py-1.5">
-                      <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-400">Hours</span>
+                      <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-500">Hours</span>
                       <span className="text-sm font-bold text-zinc-900 font-serif">{item.hours}</span>
                     </div>
                   )}
 
                   <div className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-zinc-400" />
-                    <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-400">Completed</span>
+                    <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-500">Completed</span>
                   </div>
                 </div>
               </motion.div>
@@ -244,7 +244,7 @@ const Education = () => {
             { label: 'Gov. Recognition', value: 'NSDA · BNQF' },
           ].map(({ label, value }) => (
             <div key={label}>
-              <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-400 mb-1">{label}</p>
+              <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-500 mb-1">{label}</p>
               <p className="text-sm font-bold text-zinc-900 font-serif">{value}</p>
             </div>
           ))}

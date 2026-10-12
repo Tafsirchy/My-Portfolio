@@ -61,6 +61,32 @@
   scrollbar-width: none;
 }
 
+/* Visible keyboard focus for all interactive elements (WCAG 2.4.7) */
+:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid #18181b;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Lightweight overlay animations (replaces missing tailwindcss-animate tokens) */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(2rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out both;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
 /* Reduce motion for users who prefer it */
 @media (prefers-reduced-motion: reduce) {
   *,

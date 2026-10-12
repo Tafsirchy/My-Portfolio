@@ -26,7 +26,7 @@ const Footer = () => {
         {/* ── Top Statement: Giant Name & Brand Mark ── */}
         <div className="border-b border-zinc-300 pb-8 sm:pb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
-            <span className="text-[9px] font-black uppercase tracking-[0.35em] text-zinc-400 block mb-3">
+            <span className="text-[9px] font-black uppercase tracking-[0.35em] text-zinc-500 block mb-3">
               Colophon & Identity
             </span>
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-serif tracking-tight text-zinc-900 uppercase leading-none">
@@ -37,7 +37,7 @@ const Footer = () => {
           <div className="flex items-center gap-3">
             <button
               onClick={scrollToTop}
-              className="group inline-flex items-center gap-2 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-900 border border-zinc-900 hover:bg-zinc-900 hover:text-[#FFFFFF] transition-colors"
+              className="group inline-flex items-center gap-2 min-h-[44px] px-4 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-900 border border-zinc-900 hover:bg-zinc-900 hover:text-[#FFFFFF] transition-colors"
             >
               <span>Return to Top</span>
               <ArrowUp className="w-3.5 h-3.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -50,7 +50,7 @@ const Footer = () => {
           
           {/* Col 1: Bio & Positioning */}
           <div className="space-y-3">
-            <p className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-400">
+            <p className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-500">
               01 // Profile
             </p>
             <p className="text-sm font-bold text-zinc-900 font-serif leading-snug">
@@ -63,7 +63,7 @@ const Footer = () => {
 
           {/* Col 2: Navigation Index */}
           <div className="space-y-3">
-            <p className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-400">
+            <p className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-500">
               02 // Index
             </p>
             <ul className="space-y-1.5">
@@ -71,9 +71,9 @@ const Footer = () => {
                 <li key={item.href}>
                   <a
                     href={item.href}
-                    className="group inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.18em] text-zinc-600 hover:text-zinc-950 transition-colors"
+                    className="group inline-flex items-center gap-1.5 min-h-[44px] text-xs font-bold uppercase tracking-[0.18em] text-zinc-600 hover:text-zinc-950 transition-colors"
                   >
-                    <span className="text-[9px] text-zinc-400 font-medium group-hover:text-zinc-900 transition-colors">
+                    <span className="text-[9px] text-zinc-500 font-medium group-hover:text-zinc-900 transition-colors">
                       {item.num}.
                     </span>
                     <span>{item.label}</span>
@@ -85,7 +85,7 @@ const Footer = () => {
 
           {/* Col 3: Ventures & Platforms */}
           <div className="space-y-3">
-            <p className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-400">
+            <p className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-500">
               03 // Networks
             </p>
             <ul className="space-y-2 text-xs font-bold uppercase tracking-[0.18em]">
@@ -94,10 +94,10 @@ const Footer = () => {
                   href="https://boonec.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-zinc-900 hover:text-zinc-600 transition-colors"
+                  className="inline-flex items-center gap-1 min-h-[44px] text-zinc-900 hover:text-zinc-600 transition-colors"
                 >
                   <span>BOONEC.com (Studio)</span>
-                  <ArrowUpRight className="w-3 h-3 text-zinc-400" />
+                  <ArrowUpRight className="w-3 h-3 text-zinc-500" />
                 </a>
               </li>
               <li>
@@ -105,10 +105,10 @@ const Footer = () => {
                   href="https://github.com/Tafsirchy"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-zinc-600 hover:text-zinc-950 transition-colors"
+                  className="inline-flex items-center gap-1 min-h-[44px] text-zinc-600 hover:text-zinc-950 transition-colors"
                 >
                   <span>GitHub</span>
-                  <ArrowUpRight className="w-3 h-3 text-zinc-400" />
+                  <ArrowUpRight className="w-3 h-3 text-zinc-500" />
                 </a>
               </li>
               <li>
@@ -116,10 +116,10 @@ const Footer = () => {
                   href="https://www.linkedin.com/in/tafsirchy/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-zinc-600 hover:text-zinc-950 transition-colors"
+                  className="inline-flex items-center gap-1 min-h-[44px] text-zinc-600 hover:text-zinc-950 transition-colors"
                 >
                   <span>LinkedIn</span>
-                  <ArrowUpRight className="w-3 h-3 text-zinc-400" />
+                  <ArrowUpRight className="w-3 h-3 text-zinc-500" />
                 </a>
               </li>
               <li>
@@ -127,10 +127,10 @@ const Footer = () => {
                   href="https://x.com/chy_tafsir"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-zinc-600 hover:text-zinc-950 transition-colors"
+                  className="inline-flex items-center gap-1 min-h-[44px] text-zinc-600 hover:text-zinc-950 transition-colors"
                 >
                   <span>Twitter / X</span>
-                  <ArrowUpRight className="w-3 h-3 text-zinc-400" />
+                  <ArrowUpRight className="w-3 h-3 text-zinc-500" />
                 </a>
               </li>
             </ul>
@@ -138,7 +138,7 @@ const Footer = () => {
 
           {/* Col 4: Location & Status */}
           <div className="space-y-3">
-            <p className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-400">
+            <p className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-500">
               04 // Coordinates
             </p>
             <p className="text-xs font-bold uppercase tracking-wider text-zinc-900 font-sans">
@@ -158,7 +158,7 @@ const Footer = () => {
         </div>
 
         {/* ── Bottom Colophon Bar ── */}
-        <div className="pt-8 border-t border-zinc-300 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400">
+        <div className="pt-8 border-t border-zinc-300 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">
           <p>
             © {currentYear} M. Tafsirul Islam Chowdhury. All rights reserved.
           </p>

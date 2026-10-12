@@ -118,7 +118,7 @@ const About = () => {
                 href={personalInfo.resume} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="px-5 py-2 border border-zinc-900 text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-zinc-900 hover:text-[#FFFFFF] transition-colors whitespace-nowrap"
+                className="inline-flex items-center min-h-[44px] px-5 py-2 border border-zinc-900 text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-zinc-900 hover:text-[#FFFFFF] transition-colors whitespace-nowrap"
               >
                 CV
               </motion.a>
@@ -126,7 +126,7 @@ const About = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 href="#contact" 
-                className="px-5 py-2 bg-zinc-900 text-[#FFFFFF] border border-zinc-900 text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-transparent hover:text-zinc-900 transition-colors whitespace-nowrap"
+                className="inline-flex items-center min-h-[44px] px-5 py-2 bg-zinc-900 text-[#FFFFFF] border border-zinc-900 text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-transparent hover:text-zinc-900 transition-colors whitespace-nowrap"
               >
                 Get In Touch
               </motion.a>
