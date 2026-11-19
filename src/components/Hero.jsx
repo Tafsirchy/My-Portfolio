@@ -48,44 +48,37 @@ export default function Hero() {
               </span>
             </motion.div>
 
-            {/* Subtitle / Role and Founder of BOONEC on separate lines */}
-            <div className="space-y-1.5 sm:space-y-2 pt-0.5">
-              <motion.p
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.1 }}
-                className="text-base sm:text-xl font-medium text-[#181A20] dark:text-[#F3F4F6]"
-              >
-                Full-Stack Web Developer
-              </motion.p>
-              
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.12 }}
-                className="flex items-center"
-              >
-                <span className="inline-flex items-center gap-1.5 font-semibold text-[#E06D53] dark:text-[#F59E0B] bg-[#E06D53]/10 dark:bg-[#F59E0B]/10 px-2.5 py-0.5 sm:py-1 rounded-md border border-[#E06D53]/20 dark:border-[#F59E0B]/20 text-xs sm:text-sm shadow-xs">
+            {/* Subtitle / Role Tagline: Stacked on mobile/sm, Inline with bullet on lg/desktop */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
+              className="flex flex-col lg:flex-row lg:items-center gap-1.5 lg:gap-2 text-base sm:text-lg font-medium text-[#181A20] dark:text-[#F3F4F6] pt-0.5"
+            >
+              <span>Full-Stack Web Developer</span>
+              <span className="hidden lg:inline text-[#5A606E]/40">•</span>
+              <div>
+                <span className="inline-flex items-center gap-1.5 font-semibold text-[#E06D53] dark:text-[#F59E0B] bg-[#E06D53]/10 dark:bg-[#F59E0B]/10 px-2.5 py-0.5 rounded-md border border-[#E06D53]/20 dark:border-[#F59E0B]/20 text-xs sm:text-sm shadow-xs">
                   <Sparkles className="w-3.5 h-3.5 text-[#E06D53] dark:text-[#F59E0B] shrink-0" />
                   Founder of BOONEC
                 </span>
-              </motion.div>
-            </div>
+              </div>
+            </motion.div>
           </div>
 
-          {/* Right Column: Avatar spreading with larger presence */}
+          {/* Right Column: Avatar (Spacious on mobile/sm, balanced on lg) */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.4 }}
             className="relative shrink-0 self-center"
           >
-            <div className="p-1 sm:p-1.5 rounded-full bg-gradient-to-tr from-[#E5E1D8] via-[#FAF9F6] to-[#E06D53]/30 dark:from-neutral-800 dark:via-neutral-700 dark:to-[#6366F1]/30 shadow-xl shadow-[#181A20]/10 dark:shadow-black/50">
-              <div className="relative w-28 h-28 sm:w-40 sm:h-40 md:w-44 md:h-44 lg:w-48 lg:h-48 rounded-full overflow-hidden border-2 sm:border-[3px] border-[#FAF9F6] dark:border-[#181B24] bg-[#FAF9F6] dark:bg-[#181B24]">
+            <div className="p-0.5 sm:p-1 rounded-full bg-gradient-to-tr from-[#E5E1D8] via-[#FAF9F6] to-[#E06D53]/30 dark:from-neutral-800 dark:via-neutral-700 dark:to-[#6366F1]/30 shadow-lg shadow-[#181A20]/5 dark:shadow-black/40">
+              <div className="relative w-28 h-28 sm:w-36 sm:h-36 lg:w-36 lg:h-36 rounded-full overflow-hidden border-2 border-[#FAF9F6] dark:border-[#181B24] bg-[#FAF9F6] dark:bg-[#181B24]">
                 <img
                   src="/assets/HeroProfile.png"
                   alt={personalInfo.name}
-                  className="w-full h-full object-cover scale-[1.35] origin-[50%_18%]"
+                  className="w-full h-full object-cover scale-[1.4] origin-[50%_15%]"
                   loading="eager"
                 />
               </div>
