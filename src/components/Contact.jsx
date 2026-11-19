@@ -1,3 +1,4 @@
+'use client';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Copy, Check, ArrowUpRight } from 'lucide-react';
@@ -7,6 +8,16 @@ import emailjs from '@emailjs/browser';
 import SuccessModal from './SuccessModal';
 
 const elegantEase = [0.16, 1, 0.3, 1];
+
+const labelClass = 'block text-[10px] font-bold uppercase tracking-[0.22em] text-zinc-500 mb-2';
+const fieldClass =
+  'w-full min-h-[44px] bg-transparent border-0 border-b border-zinc-300 px-0 py-2.5 text-base text-zinc-900 font-sans placeholder:text-zinc-400 focus:border-zinc-900 focus:outline-none focus:ring-0 rounded-none transition-colors';
+
+const socials = [
+  { label: 'GitHub', href: 'https://github.com/Tafsirchy' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/tafsirchy/' },
+  { label: 'Twitter', href: 'https://x.com/chy_tafsir' },
+];
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -55,299 +66,241 @@ const Contact = () => {
       setFormData({ name: '', email: '', subject: '', message: '' });
       setIsSuccessModalOpen(true);
     } catch {
-      setErrorMsg(
-        'Unable to transmit inquiry right now. Please dispatch directly via email to ' + personalInfo.email
-      );
+      setErrorMsg('Something went wrong. Please email me directly at ' + personalInfo.email);
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <section id="contact" className="py-12 md:py-16 bg-[#FFFFFF] border-t border-zinc-300 overflow-hidden">
+    <section id="contact" className="py-14 md:py-20 bg-[#FFFFFF] border-t border-zinc-300 overflow-hidden">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* ── Section Header ── */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 1, ease: elegantEase }}
-          className="mb-10 sm:mb-14 border-b border-zinc-300 pb-4 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4"
+          className="mb-10 sm:mb-16 border-b border-zinc-300 pb-4 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3"
         >
           <h2 className="text-6xl sm:text-7xl md:text-8xl font-serif tracking-tight text-zinc-900 uppercase leading-none">
             Contact
           </h2>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-zinc-500 sm:pb-2">
-            Direct Inquiries & Engagements
+            Say hello
           </p>
         </motion.div>
 
-        {/* ── Main Content Grid ── */}
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-          
-          {/* Left Column: Direct Dossier & Communication Ledger */}
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+
+          {/* ── Left: Statement & Direct Contact ── */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-60px' }}
             transition={{ duration: 1.1, ease: elegantEase }}
-            className="lg:col-span-5 space-y-6"
           >
-            {/* Status Strip */}
-            <div className="border border-zinc-300 bg-zinc-100/70 px-4 py-2.5 flex items-center justify-between">
-              <span className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-500">
-                Current Status
-              </span>
-              <span className="inline-flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.2em] text-emerald-700">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                Available For Work
-              </span>
+            <div className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.22em] text-zinc-500">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+              Available for work
             </div>
 
-            {/* Narrative Header */}
-            <div>
-              <h3 className="text-2xl sm:text-3xl font-serif text-zinc-900 leading-snug tracking-tight">
-                Let's architect something of enduring value.
-              </h3>
-              <p className="text-sm text-zinc-600 mt-2 font-sans leading-relaxed">
-                Open to senior engineering roles, high-stakes contracts, or strategic partnerships through BOONEC.
-              </p>
+            <h3 className="mt-5 text-3xl sm:text-4xl font-serif text-zinc-900 leading-[1.15] tracking-tight">
+              Have an idea?<br />Let's build it.
+            </h3>
+            <p className="mt-4 text-sm text-zinc-600 leading-relaxed font-sans max-w-sm">
+              Open to full-time roles, freelance projects and long-term collaborations.
+              I usually reply within a day.
+            </p>
+
+            {/* Primary channel: email */}
+            <div className="mt-10">
+              <div className="flex items-center justify-between gap-4 border-b border-zinc-300 pb-2">
+                <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-zinc-500">
+                  Email
+                </span>
+                <button
+                  type="button"
+                  onClick={handleCopyEmail}
+                  className="inline-flex items-center gap-1.5 min-h-[40px] -my-2 text-[10px] font-bold uppercase tracking-[0.18em] text-zinc-500 hover:text-zinc-900 transition-colors"
+                  aria-label="Copy email address"
+                >
+                  {copiedEmail ? (
+                    <>
+                      <Check className="w-3 h-3 text-emerald-600" />
+                      <span className="text-emerald-700">Copied</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3 h-3" />
+                      <span>Copy</span>
+                    </>
+                  )}
+                </button>
+              </div>
+              <a
+                href={`mailto:${personalInfo.email}`}
+                className="group mt-3 inline-flex items-start gap-2 text-xl sm:text-2xl font-serif text-zinc-900 hover:text-zinc-600 transition-colors break-all"
+              >
+                <span>{personalInfo.email}</span>
+                <ArrowUpRight className="w-4 h-4 mt-1 shrink-0 text-zinc-400 group-hover:text-zinc-900 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all" />
+              </a>
             </div>
 
-            {/* Channels Ledger */}
-            <div className="border border-zinc-300 divide-y divide-zinc-200">
-              
-              {/* Direct Email */}
-              <div className="p-4 sm:p-5 group hover:bg-zinc-100/50 transition-colors">
-                <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-[9px] font-bold uppercase tracking-[0.25em] text-zinc-500">
-                    01 // Direct Email
-                  </span>
-                  <button
-                    onClick={handleCopyEmail}
-                    className="inline-flex items-center gap-1 min-h-[40px] text-[10px] font-bold uppercase tracking-[0.2em] px-3 py-2 border border-zinc-300 hover:border-zinc-900 transition-colors"
+            {/* Secondary details */}
+            <dl className="mt-10 border-t border-zinc-200">
+              <div className="flex items-baseline justify-between gap-6 py-4 border-b border-zinc-200">
+                <dt className="text-[10px] font-bold uppercase tracking-[0.22em] text-zinc-500">
+                  Phone
+                </dt>
+                <dd>
+                  <a
+                    href={`https://wa.me/${personalInfo.phone.replace(/[^0-9]/g, '')}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 hover:text-emerald-700 transition-colors"
                   >
-                    {copiedEmail ? (
-                      <>
-                        <Check className="w-2.5 h-2.5 text-emerald-600" />
-                        <span className="text-emerald-700">Copied</span>
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="w-2.5 h-2.5 text-zinc-500" />
-                        <span>Copy</span>
-                      </>
-                    )}
-                  </button>
-                </div>
-                <a
-                  href={`mailto:${personalInfo.email}`}
-                  className="inline-flex items-center min-h-[44px] text-base font-serif font-bold text-zinc-900 hover:text-zinc-600 transition-colors"
-                >
-                  {personalInfo.email}
-                </a>
-                <p className="text-[11px] text-zinc-500 font-sans mt-0.5">
-                  Typical response time: &lt; 24 hours
-                </p>
+                    <SiWhatsapp className="w-3.5 h-3.5 text-emerald-600" />
+                    {personalInfo.phone}
+                  </a>
+                </dd>
               </div>
+              <div className="flex items-baseline justify-between gap-6 py-4 border-b border-zinc-200">
+                <dt className="text-[10px] font-bold uppercase tracking-[0.22em] text-zinc-500">
+                  Location
+                </dt>
+                <dd className="text-sm text-zinc-700">
+                  {personalInfo.location} · UTC+6
+                </dd>
+              </div>
+            </dl>
 
-              {/* WhatsApp / Phone */}
-              <div className="p-4 sm:p-5 group hover:bg-zinc-100/50 transition-colors">
-                <span className="text-[9px] font-bold uppercase tracking-[0.25em] text-zinc-500 block mb-1.5">
-                  02 // WhatsApp & Urgent Line
-                </span>
+            {/* Socials */}
+            <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2">
+              {socials.map((social) => (
                 <a
-                  href={`https://wa.me/${personalInfo.phone.replace(/[^0-9]/g, '')}`}
+                  key={social.label}
+                  href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 min-h-[44px] text-base font-serif font-bold text-zinc-900 hover:text-emerald-700 transition-colors"
+                  className="group inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-[0.18em] text-zinc-600 hover:text-zinc-900 transition-colors"
                 >
-                  <SiWhatsapp className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>{personalInfo.phone}</span>
-                  <ArrowUpRight className="w-3.5 h-3.5 text-zinc-500" />
+                  {social.label}
+                  <ArrowUpRight className="w-3 h-3 text-zinc-400 group-hover:text-zinc-900 transition-colors" />
                 </a>
-                <p className="text-[11px] text-zinc-500 font-sans mt-0.5">
-                  Available for technical evaluations & scheduled syncs
-                </p>
-              </div>
-
-              {/* Location */}
-              <div className="p-4 sm:p-5 group hover:bg-zinc-100/50 transition-colors">
-                <span className="text-[9px] font-bold uppercase tracking-[0.25em] text-zinc-500 block mb-1.5">
-                  03 // Location & Timezone
-                </span>
-                <p className="text-sm font-bold text-zinc-900 font-sans">
-                  {personalInfo.location} · UTC+6 (BST)
-                </p>
-                <p className="text-[11px] text-zinc-500 font-sans mt-0.5">
-                  Global remote ready · Open to international relocation
-                </p>
-              </div>
-
-            </div>
-
-            {/* Social Grid */}
-            <div>
-              <p className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-500 mb-2.5">
-                Official Channels
-              </p>
-              <div className="grid grid-cols-3 gap-2">
-                <a
-                  href="https://github.com/Tafsirchy"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-between min-h-[44px] p-2.5 border border-zinc-300 hover:border-zinc-900 hover:bg-zinc-100 transition-all text-xs font-bold uppercase tracking-wider text-zinc-900 group"
-                >
-                  <span>GitHub</span>
-                  <ArrowUpRight className="w-3 h-3 text-zinc-500 group-hover:text-zinc-900 transition-colors" />
-                </a>
-                <a
-                  href="https://www.linkedin.com/in/tafsirchy/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-between min-h-[44px] p-2.5 border border-zinc-300 hover:border-zinc-900 hover:bg-zinc-100 transition-all text-xs font-bold uppercase tracking-wider text-zinc-900 group"
-                >
-                  <span>LinkedIn</span>
-                  <ArrowUpRight className="w-3 h-3 text-zinc-500 group-hover:text-zinc-900 transition-colors" />
-                </a>
-                <a
-                  href="https://x.com/chy_tafsir"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-between min-h-[44px] p-2.5 border border-zinc-300 hover:border-zinc-900 hover:bg-zinc-100 transition-all text-xs font-bold uppercase tracking-wider text-zinc-900 group"
-                >
-                  <span>Twitter</span>
-                  <ArrowUpRight className="w-3 h-3 text-zinc-500 group-hover:text-zinc-900 transition-colors" />
-                </a>
-              </div>
+              ))}
             </div>
           </motion.div>
 
-          {/* Right Column: Direct Message Terminal */}
+          {/* ── Right: Message Form ── */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-60px' }}
             transition={{ duration: 1.1, ease: elegantEase, delay: 0.15 }}
-            className="lg:col-span-7 border border-zinc-300 bg-[#FFFFFF]"
+            className="lg:border-l lg:border-zinc-200 lg:pl-14"
           >
-            {/* Terminal Header */}
-            <div className="border-b border-zinc-300 px-6 py-3 flex items-center justify-between bg-zinc-100/70">
-              <span className="text-[9px] font-black uppercase tracking-[0.35em] text-zinc-500">
-                Direct Dispatch Terminal
-              </span>
-              <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-500">
-                Encrypted Form
-              </span>
-            </div>
+            <h3 className="text-xl sm:text-2xl font-serif text-zinc-900 leading-tight">
+              Send a message
+            </h3>
+            <p className="mt-2 text-sm text-zinc-500 font-sans">
+              A short brief is enough — I'll take it from there.
+            </p>
 
-            <div className="p-6 sm:p-8 space-y-6">
-              <div>
-                <h3 className="text-xl sm:text-2xl font-serif text-zinc-900 leading-tight">
-                  Send a Detailed Inquiry
-                </h3>
-                <p className="text-xs text-zinc-500 font-sans mt-1">
-                  Deliver your requirements directly to my personal terminal inbox.
-                </p>
-              </div>
-
-              {errorMsg && (
-                <div className="p-3 border border-red-300 bg-red-50 text-xs text-red-800 font-sans">
-                  {errorMsg}
-                </div>
-              )}
-
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div className="space-y-1">
-                    <label className="text-[9px] font-bold uppercase tracking-[0.25em] text-zinc-500 block" htmlFor="name">
-                      Sender Name *
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      required
-                      value={formData.name}
-                      onChange={handleChange}
-                      placeholder="e.g. Alex Morgan"
-                      className="w-full px-3.5 py-3 min-h-[44px] text-base bg-transparent border border-zinc-300 focus:border-zinc-900 focus:outline-none transition-colors rounded-none placeholder:text-zinc-500 font-sans"
-                    />
-                  </div>
-
-                  <div className="space-y-1">
-                    <label className="text-[9px] font-bold uppercase tracking-[0.25em] text-zinc-500 block" htmlFor="email">
-                      Return Email *
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      required
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder="alex@company.com"
-                      className="w-full px-3.5 py-3 min-h-[44px] text-base bg-transparent border border-zinc-300 focus:border-zinc-900 focus:outline-none transition-colors rounded-none placeholder:text-zinc-500 font-sans"
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-1">
-                  <label className="text-[9px] font-bold uppercase tracking-[0.25em] text-zinc-500 block" htmlFor="subject">
-                    Subject / Project Scope *
+            <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+              <div className="grid sm:grid-cols-2 gap-6">
+                <div>
+                  <label className={labelClass} htmlFor="name">
+                    Name
                   </label>
                   <input
                     type="text"
-                    id="subject"
-                    name="subject"
+                    id="name"
+                    name="name"
                     required
-                    value={formData.subject}
+                    value={formData.name}
                     onChange={handleChange}
-                    placeholder="e.g. Full-Stack Role / SaaS Platform Build"
-                    className="w-full px-3.5 py-3 min-h-[44px] text-base bg-transparent border border-zinc-300 focus:border-zinc-900 focus:outline-none transition-colors rounded-none placeholder:text-zinc-500 font-sans"
+                    placeholder="Your name"
+                    className={fieldClass}
                   />
                 </div>
-
-                <div className="space-y-1">
-                  <label className="text-[9px] font-bold uppercase tracking-[0.25em] text-zinc-500 block" htmlFor="message">
-                    Project Details & Message *
+                <div>
+                  <label className={labelClass} htmlFor="email">
+                    Email
                   </label>
-                  <textarea
-                    id="message"
-                    name="message"
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
                     required
-                    rows={5}
-                    value={formData.message}
+                    value={formData.email}
                     onChange={handleChange}
-                    placeholder="Brief overview of project goals, timeline, or position details..."
-                    className="w-full px-3.5 py-3 min-h-[44px] text-base bg-transparent border border-zinc-300 focus:border-zinc-900 focus:outline-none transition-colors rounded-none placeholder:text-zinc-500 font-sans resize-none"
+                    placeholder="you@example.com"
+                    className={fieldClass}
                   />
                 </div>
+              </div>
 
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="group relative w-full py-4 px-6 text-xs font-bold uppercase tracking-[0.2em] text-[#FFFFFF] bg-zinc-900 hover:bg-zinc-800 disabled:bg-zinc-400 transition-colors flex items-center justify-center gap-2"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                      <span>Transmitting...</span>
-                    </>
-                  ) : (
-                    <>
-                      <span>Transmit Message</span>
-                      <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                    </>
-                  )}
-                </button>
-              </form>
-            </div>
+              <div>
+                <label className={labelClass} htmlFor="subject">
+                  Subject
+                </label>
+                <input
+                  type="text"
+                  id="subject"
+                  name="subject"
+                  required
+                  value={formData.subject}
+                  onChange={handleChange}
+                  placeholder="Role, project or collaboration"
+                  className={fieldClass}
+                />
+              </div>
+
+              <div>
+                <label className={labelClass} htmlFor="message">
+                  Message
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  required
+                  rows={4}
+                  value={formData.message}
+                  onChange={handleChange}
+                  placeholder="Tell me a little about what you have in mind..."
+                  className={`${fieldClass} resize-none`}
+                />
+              </div>
+
+              {errorMsg && (
+                <p className="border-l-2 border-red-400 pl-3 text-xs text-red-700 font-sans leading-relaxed">
+                  {errorMsg}
+                </p>
+              )}
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="group inline-flex w-full sm:w-auto items-center justify-center gap-2 min-h-[48px] px-8 py-3 text-xs font-bold uppercase tracking-[0.2em] text-[#FFFFFF] bg-zinc-900 hover:bg-zinc-800 disabled:bg-zinc-400 transition-colors"
+              >
+                {isSubmitting ? (
+                  <>
+                    <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    <span>Sending...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Send message</span>
+                    <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  </>
+                )}
+              </button>
+            </form>
           </motion.div>
 
         </div>
-
       </div>
 
       <SuccessModal

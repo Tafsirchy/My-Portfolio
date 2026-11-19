@@ -9,15 +9,9 @@ import AgencyBanner from '@/components/AgencyBanner';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 
-const Home = () => {
+export default function HomePage() {
   return (
-    <div className="min-h-screen bg-[#FFFFFF] text-zinc-900 font-sans selection:bg-zinc-900 selection:text-[#FFFFFF]">
-      <a
-        href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[300] focus:px-4 focus:py-3 focus:bg-zinc-900 focus:text-[#FFFFFF] focus:text-sm focus:font-bold focus:uppercase focus:tracking-widest"
-      >
-        Skip to content
-      </a>
+    <div className="min-h-screen bg-[#FFFFFF] text-zinc-900 font-sans">
       <Navbar />
       <main id="main-content">
         <Hero />
@@ -32,6 +26,4 @@ const Home = () => {
       <Footer />
     </div>
   );
-};
-
-export default Home;
+}

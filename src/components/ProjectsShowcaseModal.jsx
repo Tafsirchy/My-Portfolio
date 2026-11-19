@@ -1,3 +1,4 @@
+'use client';
 import { useEffect, useState, useRef } from 'react';
 import { X, Github, ArrowUpRight } from 'lucide-react';
 import ResponsiveImage from './ResponsiveImage';
@@ -245,6 +246,15 @@ export default function ProjectsShowcaseModal({ isOpen, onClose, project }) {
                 >
                   <Github className="w-4 h-4" />
                   Source Code
+                </a>
+              )}
+              {project.slug && (
+                <a
+                  href={`/projects/${project.slug}`}
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-zinc-100 text-zinc-900 text-xs font-bold uppercase tracking-widest hover:bg-zinc-200 transition-colors"
+                >
+                  Dedicated Page
+                  <ArrowUpRight className="w-4 h-4" />
                 </a>
               )}
             </div>

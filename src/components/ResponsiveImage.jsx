@@ -1,3 +1,4 @@
+'use client';
 import manifest from '@/data/imageManifest.json';
 
 /**

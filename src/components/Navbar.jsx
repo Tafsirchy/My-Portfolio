@@ -1,3 +1,4 @@
+'use client';
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FileDown, Menu, X } from 'lucide-react';
@@ -87,17 +88,22 @@ const Navbar = () => {
   }, [isMenuOpen]);
 
   const handleNavClick = (e, href) => {
-    e.preventDefault();
     setIsNavVisible(true);
     setIsMenuOpen(false);
-    const target = document.querySelector(href);
-    if (target) {
-      const topOffset = 70;
-      const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - topOffset;
-      window.scrollTo({
-        top: targetPosition,
-        behavior: 'smooth',
-      });
+    if (href.startsWith('#')) {
+      const target = document.querySelector(href);
+      if (target) {
+        e.preventDefault();
+        const topOffset = 70;
+        const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - topOffset;
+        window.scrollTo({
+          top: targetPosition,
+          behavior: 'smooth',
+        });
+      } else {
+        // If element is not on current page, redirect to home with hash
+        window.location.href = '/' + href;
+      }
     }
   };
 

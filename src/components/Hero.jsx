@@ -1,3 +1,4 @@
+'use client';
 import { useState } from 'react';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import { ArrowUpRight, Github, Linkedin, Twitter, Mail } from 'lucide-react';
@@ -45,7 +46,7 @@ const Hero = () => {
       </motion.div>
 
       {/* Main Container aligned with Navbar */}
-      <div className="relative z-10 w-full h-full flex flex-col justify-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 w-full h-full flex flex-col justify-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[calc(90vh-8rem)] md:min-h-[calc(90vh-9rem)]">
         
         {/* Profession Label */}
         <motion.div 
@@ -96,7 +97,7 @@ const Hero = () => {
           initial={{ opacity: 0, scale: 0.9, filter: 'blur(15px)' }}
           animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
           transition={{ delay: 0.4, duration: 1.8, ease: elegantEase }}
-          className="absolute bottom-0 left-0 right-0 mx-auto w-full h-[60vh] md:h-[80vh] z-20 pointer-events-none flex justify-center transform-gpu will-change-transform"
+          className="absolute bottom-0 left-0 right-0 mx-auto w-full h-[60vh] md:h-[80vh] max-h-full z-20 pointer-events-none flex justify-center transform-gpu will-change-transform"
         >
           <ResponsiveImage 
             src="/assets/HeroProfile.png" 
@@ -106,7 +107,7 @@ const Hero = () => {
             sizes="(max-width: 767px) 90vw, 45vw"
             fetchPriority="high"
             decoding="async"
-            className={`w-auto h-full object-contain object-bottom contrast-[1.05] transition-[filter] duration-500 cursor-pointer pointer-events-auto ${isHovered ? 'grayscale-0' : 'grayscale'}`}
+            className={`w-auto h-full max-w-none object-contain object-bottom contrast-[1.05] transition-[filter] duration-500 cursor-pointer pointer-events-auto ${isHovered ? 'grayscale-0' : 'grayscale'}`}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             style={{ maskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)' }}

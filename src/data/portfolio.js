@@ -158,6 +158,7 @@ export const experience = [
 export const projects = [
   {
     id: 9,
+    slug: "smart24-corporate-ecommerce",
     title: "Smart24 Corporate E-Commerce",
     description: "A comprehensive B2B and B2C corporate e-commerce platform built for scale, performance, and seamless user experience. Features retail and bulk operations, quotation requests (RFQ), tiered memberships, dynamic flash sales, Stripe checkout, and advanced administrative dashboards.",
     images: [
@@ -173,6 +174,7 @@ export const projects = [
   },
   {
     id: 7,
+    slug: "bristiii-art-gallery",
     title: "Bristiii",
     description: "A UI masterpiece and premium full-stack art gallery platform built with Next.js 16. It features a minimalist museum-grade aesthetic with immersive GSAP animations, interactive generative art components like 'The Breathing Canopy', and a secure e-commerce flow for art acquisition.",
     images: [
@@ -188,6 +190,7 @@ export const projects = [
   },
   {
     id: 1,
+    slug: "shwapner-thikana-ltd",
     title: "Shwapner Thikana LTD",
     description: "A premium, full-stack real estate development platform designed to streamline property discovery. Features include an interactive geospatial Master Plan, premium property browsing, and a multi-layered dashboard system for Customers, Agents, and Administrators.",
     images: [
@@ -203,6 +206,7 @@ export const projects = [
   },
   {
     id: 6,
+    slug: "smart-youth-ict",
     title: "Smart Youth ICT",
     description: "A premium, full-stack youth empowerment and e-commerce platform built with Next.js 14 and Express. Features dynamic learning experiences, interactive mapping, secure multi-step checkout, and comprehensive administrative tools.",
     images: [
@@ -219,6 +223,7 @@ export const projects = [
   },
   {
     id: 8,
+    slug: "bakery-and-co",
     title: "Bakery & Co.",
     description: "A premium bakery e-commerce platform offering a museum-grade shopping experience. Features interactive product browsing, persistent cart management, secure Stripe checkout, delivery mapping, and sophisticated role-based dashboards.",
     images: [
@@ -234,6 +239,7 @@ export const projects = [
   },
   {
     id: 2,
+    slug: "motrubi-ecommerce",
     title: "MotruBi",
     description: "A modern, full-stack e-commerce application built with Next.js 16, featuring a comprehensive motorcycle shopping experience, cart management, checkout system, and user dashboards.",
     images: [
@@ -249,6 +255,7 @@ export const projects = [
   },
   {
     id: 3,
+    slug: "habit-tracker",
     title: "Habit Tracker",
     description: "A full-stack MERN application that helps users build and maintain daily habits effectively. Users can create, update, delete, and mark habits as completed with detailed history, visual statistics, and reminders through a clean and responsive interface.",
     images: [
@@ -264,6 +271,7 @@ export const projects = [
   },
   {
     id: 4,
+    slug: "vitalflow-emergency-blood",
     title: "VitalFlow",
     description: "An efficient emergency blood search platform allowing users to find donors based on blood group and district/Upazila. Features include blood requests, real-time notifications, role-based access for Admins and Volunteers, and secure payment integration via Stripe.",
     images: [
@@ -279,6 +287,7 @@ export const projects = [
   },
   {
     id: 5,
+    slug: "greennest-plant-care",
     title: "GreenNest",
     description: "A modern, responsive web application focused on plant discovery and care. Users can explore indoor plants, view detailed plant information, book expert consultations, and manage their profiles through secure authentication with Firebase.",
     images: [
@@ -292,4 +301,13 @@ export const projects = [
     featured: true,
   },
 ];
+
+export function getAllProjects() {
+  return projects;
+}
+
+export function getProjectBySlug(slug) {
+  return projects.find((p) => p.slug === slug);
+}
+
 
