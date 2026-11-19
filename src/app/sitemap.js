@@ -1,6 +1,6 @@
 import { getAllProjects } from '@/data/portfolio';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://tafsirchy.com';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://tafsirchy.vercel.app';
 
 export default async function sitemap() {
   const projects = getAllProjects();

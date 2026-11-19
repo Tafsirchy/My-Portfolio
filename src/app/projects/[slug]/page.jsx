@@ -76,9 +76,9 @@ export default async function ProjectDetailPage({ params }) {
     author: {
       '@type': 'Person',
       name: 'Tafsir Chowdhury',
-      url: 'https://tafsirchy.com',
+      url: 'https://tafsirchy.vercel.app',
     },
-    url: project.liveUrl || `https://tafsirchy.com/projects/${project.slug}`,
+    url: project.liveUrl || `https://tafsirchy.vercel.app/projects/${project.slug}`,
     keywords: project.technologies.join(', '),
   };
 

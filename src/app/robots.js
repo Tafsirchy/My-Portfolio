@@ -1,4 +1,4 @@
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://tafsirchy.com';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://tafsirchy.vercel.app';
 
 export default function robots() {
   return {

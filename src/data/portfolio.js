@@ -168,7 +168,7 @@ export const experience = [
     company: "BOONEC",
     position: "Founder & CEO",
     duration: "Present",
-    url: "https://tafsirchy.com",
+    url: "https://tafsirchy.vercel.app",
     logo: "/assets/BOONEC_logo_modern.png",
     description: "BOONEC builds modern websites, powerful web apps, scalable SaaS platforms, and smart digital solutions for startups and businesses. Focused on clean design, fast performance, secure systems, and innovative tech.",
     achievements: [

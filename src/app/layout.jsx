@@ -15,7 +15,7 @@ const dancingScript = Dancing_Script({
   display: 'swap',
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://tafsirchy.com';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://tafsirchy.vercel.app';
 
 export const metadata = {
   metadataBase: new URL(siteUrl),
