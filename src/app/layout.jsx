@@ -80,8 +80,15 @@ export const metadata = {
     },
   },
   icons: {
-    icon: '/vite.svg',
-    shortcut: '/vite.svg',
+    icon: [
+      { url: '/assets/Logo.png', type: 'image/png' },
+      { url: '/icon.png', type: 'image/png' },
+    ],
+    shortcut: '/assets/Logo.png',
+    apple: [
+      { url: '/assets/Logo.png', type: 'image/png' },
+      { url: '/apple-icon.png', type: 'image/png' },
+    ],
   },
 };
 

@@ -17,10 +17,14 @@ export default function HomePage() {
         <Skills />
 
         {/* Contact Section Concept */}
-        <section id="contact" className="pt-6 pb-28 sm:pb-32 text-center flex flex-col items-center justify-center space-y-3">
-          <span className="inline-flex items-center px-3 py-1 rounded-md bg-[#181A20] dark:bg-white text-[#FAF9F6] dark:text-[#181A20] text-xs font-semibold shadow-xs">
-            Contact
-          </span>
+        <section id="contact" className="pt-6 pb-28 sm:pb-32 text-center flex flex-col items-center justify-center space-y-4">
+          <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl overflow-hidden shadow-md border border-black/10 dark:border-white/15 bg-black hover:scale-105 transition-transform duration-200 shrink-0">
+            <img
+              src="/assets/logo-trimmed.png"
+              alt="Tafsir Chowdhury Logo"
+              className="w-full h-full object-cover"
+            />
+          </div>
           <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-[#181A20] dark:text-[#F3F4F6]">
             Get in Touch
           </h2>
