@@ -53,7 +53,7 @@ export const metadata = {
     siteName: 'Tafsir Chowdhury Portfolio',
     images: [
       {
-        url: '/assets/About.png',
+        url: '/assets/HeroProfile.png',
         width: 1200,
         height: 630,
         alt: 'Tafsir Chowdhury — Full-Stack Engineer',
@@ -66,7 +66,7 @@ export const metadata = {
     description:
       'Building performant web applications, scalable SaaS architectures, and thoughtful digital products with React, Next.js, and Node.js.',
     creator: '@chy_tafsir',
-    images: ['/assets/About.png'],
+    images: ['/assets/HeroProfile.png'],
   },
   robots: {
     index: true,
@@ -120,17 +120,24 @@ export default function RootLayout({ children }) {
   };
 
   return (
-    <html lang="en" className={`${inter.variable} ${dancingScript.variable} scroll-smooth`}>
+    <html lang="en" data-scroll-behavior="smooth" className={`${inter.variable} ${dancingScript.variable} scroll-smooth`}>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="font-sans bg-[#FFFFFF] text-zinc-900 selection:bg-zinc-900 selection:text-[#FFFFFF] min-h-screen">
+      <body className="font-sans bg-[#FAF9F6] dark:bg-[#0F1117] text-[#181A20] dark:text-[#F3F4F6] selection:bg-[#4F46E5] selection:text-white min-h-screen relative overflow-x-hidden transition-colors duration-200">
+        {/* Soft Ambient Warmth Atmosphere */}
+        <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
+          <div className="absolute -top-40 -left-40 w-[32rem] h-[32rem] bg-gradient-to-br from-[#E06D53]/08 dark:from-[#F59E0B]/08 to-[#FAF9F6]/0 rounded-full blur-3xl" />
+          <div className="absolute top-1/4 -right-40 w-[30rem] h-[30rem] bg-gradient-to-br from-[#4F46E5]/08 dark:from-[#6366F1]/08 to-[#FAF9F6]/0 rounded-full blur-3xl" />
+          <div className="absolute bottom-10 left-1/4 w-[28rem] h-[28rem] bg-gradient-to-br from-[#E06D53]/06 via-[#4F46E5]/05 to-[#FAF9F6]/0 rounded-full blur-3xl" />
+        </div>
+
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[300] focus:px-4 focus:py-3 focus:bg-zinc-900 focus:text-[#FFFFFF] focus:text-sm focus:font-bold focus:uppercase focus:tracking-widest"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[300] focus:px-4 focus:py-3 focus:bg-[#4F46E5] focus:text-white focus:text-sm focus:font-bold focus:uppercase focus:tracking-widest rounded-lg shadow-lg"
         >
           Skip to content
         </a>

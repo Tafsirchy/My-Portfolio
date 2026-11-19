@@ -1,235 +1,110 @@
 'use client';
-import { useState } from 'react';
-import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
-import { ArrowUpRight, Github, Linkedin, Twitter, Mail } from 'lucide-react';
-import { SiWhatsapp } from 'react-icons/si';
+import { motion } from 'framer-motion';
+import { Sparkles } from 'lucide-react';
 import { personalInfo } from '@/data/portfolio';
-import ResponsiveImage from './ResponsiveImage';
 
-const Hero = () => {
-  const prefersReducedMotion = useReducedMotion();
-  const { scrollY } = useScroll();
-  const [isHovered, setIsHovered] = useState(false);
-  
-  // Parallax effects
-  const bgY = useTransform(scrollY, [0, 1000], [0, prefersReducedMotion ? 0 : 50]);
-  const fgY = useTransform(scrollY, [0, 1000], [0, prefersReducedMotion ? 0 : -20]);
-  const yText = useTransform(scrollY, [0, 1000], [0, 30]);
-
-  // Elegant easing function
-  const elegantEase = [0.16, 1, 0.3, 1];
-
+export default function Hero() {
   return (
-    <section id="home" className="relative w-full min-h-[90vh] bg-transparent text-zinc-900 overflow-hidden font-sans pt-12 md:pt-16 pb-20">
-      
-      {/* Background oversized portrait with GPU acceleration */}
-      <motion.div 
-        style={{ y: bgY }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.2 }}
-        transition={{ duration: 1.5, ease: "easeOut" }}
-        className="absolute bottom-10 md:bottom-[4.5rem] left-0 right-0 mx-auto w-full h-[70vh] md:h-[95vh] z-0 pointer-events-none flex justify-center origin-bottom transform-gpu will-change-transform"
-      >
-        <ResponsiveImage
-          src="/assets/About.png"
-          alt=""
-          aria-hidden="true"
-          width={720}
-          height={1080}
-          sizes="100vw"
-          loading="lazy"
-          decoding="async"
-          className={`w-auto h-full object-contain object-bottom transition-[filter] duration-500 pointer-events-none ${isHovered ? 'grayscale-0' : 'grayscale'}`}
-          onError={(e) => { e.target.src = "/assets/About.png"; }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#FFFFFF] via-transparent to-transparent"></div>
-      </motion.div>
-
-      {/* Main Container aligned with Navbar */}
-      <div className="relative z-10 w-full h-full flex flex-col justify-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[calc(90vh-8rem)] md:min-h-[calc(90vh-9rem)]">
+    <section id="home" className="pt-1 sm:pt-4 pb-2">
+      <div className="space-y-4 sm:space-y-5">
         
-        {/* Profession Label */}
-        <motion.div 
-          initial={{ opacity: 0, x: -30, filter: 'blur(5px)' }}
-          animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
-          transition={{ delay: 0.2, duration: 1.2, ease: elegantEase }}
-          className="flex items-center gap-4 mb-4 z-30"
-        >
-          <motion.div 
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ delay: 0.5, duration: 0.8, ease: elegantEase }}
-            className="w-8 h-[1px] bg-zinc-400 origin-left"
-          ></motion.div>
-          <span className="text-[10px] sm:text-xs uppercase tracking-[0.25em] text-zinc-500 font-medium font-sans">Web Developer</span>
-        </motion.div>
-
-        {/* Giant Typography Layer 1: Tafsirul Islam (Behind Portrait, z-10) */}
-        <motion.div 
-          style={{ y: yText }} 
-          className="relative z-10 flex flex-col w-full transform-gpu will-change-transform"
-        >
-          <div className="flex flex-col md:flex-row justify-center items-start md:items-center gap-6 md:gap-16 lg:gap-24 w-full relative">
-            <motion.h1 
-              initial={{ opacity: 0, y: 40, filter: 'blur(12px)' }}
-              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              transition={{ delay: 0.3, duration: 1.4, ease: elegantEase }}
-              className="text-[clamp(2.75rem,15vw,11rem)] font-bold text-zinc-900 tracking-tighter leading-none break-words"
-            >
-              Tafsirul
-            </motion.h1>
-            
-            <motion.h1 
-              style={{ WebkitTextStroke: '2px #18181b' }}
-              initial={{ opacity: 0, y: 40, filter: 'blur(12px)' }}
-              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              transition={{ delay: 0.4, duration: 1.4, ease: elegantEase }}
-              className="text-[clamp(2.75rem,15vw,11rem)] font-bold text-transparent tracking-tighter leading-none"
-            >
-              Islam
-            </motion.h1>
-          </div>
-        </motion.div>
-
-        {/* Foreground Portrait with GPU acceleration (z-20) */}
-        <motion.div 
-          style={{ y: fgY }}
-          initial={{ opacity: 0, scale: 0.9, filter: 'blur(15px)' }}
-          animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-          transition={{ delay: 0.4, duration: 1.8, ease: elegantEase }}
-          className="absolute bottom-0 left-0 right-0 mx-auto w-full h-[60vh] md:h-[80vh] max-h-full z-20 pointer-events-none flex justify-center transform-gpu will-change-transform"
-        >
-          <ResponsiveImage 
-            src="/assets/HeroProfile.png" 
-            alt="Tafsirul Islam Chowdhury" 
-            width={640}
-            height={960}
-            sizes="(max-width: 767px) 90vw, 45vw"
-            fetchPriority="high"
-            decoding="async"
-            className={`w-auto h-full max-w-none object-contain object-bottom contrast-[1.05] transition-[filter] duration-500 cursor-pointer pointer-events-auto ${isHovered ? 'grayscale-0' : 'grayscale'}`}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            style={{ maskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)' }}
-            onError={(e) => { e.target.src = "/assets/About.png"; }}
-          />
-        </motion.div>
-
-        {/* Giant Typography Layer 2: Chowdhury (In Front of Portrait, z-30) */}
-        <motion.div 
-          style={{ y: yText }} 
-          className="relative z-30 flex flex-col w-full transform-gpu will-change-transform pointer-events-none"
-        >
-          <motion.h1 
-            initial={{ opacity: 0, y: 40, filter: 'blur(12px)' }}
-            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-            transition={{ delay: 0.5, duration: 1.4, ease: elegantEase }}
-            className="text-[clamp(2.25rem,12vw,8.5rem)] font-light text-zinc-600 tracking-tight leading-none mt-0 md:-mt-8"
-          >
-            Chowdhury
-          </motion.h1>
-        </motion.div>
-
-        {/* Bottom Content Row: Intro (Left) & CTA (Right) */}
-        <div className="w-full flex flex-col md:flex-row justify-between md:items-end gap-8 mt-12 sm:mt-16 z-30 pointer-events-auto relative">
+        {/* Top Row: Greeting & Role on Left, Circular Avatar on Right (Side-by-Side on all screens) */}
+        <div className="flex items-center justify-between gap-6 sm:gap-10">
           
-          {/* Intro & Socials (Left) */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
-            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-            transition={{ delay: 0.7, duration: 1.2, ease: elegantEase }}
-            className="flex flex-col gap-8 w-full max-w-sm"
-          >
-            <div className="flex items-stretch gap-4">
-              <motion.div 
-                initial={{ scaleY: 0 }}
-                animate={{ scaleY: 1 }}
-                transition={{ delay: 1, duration: 0.8, ease: elegantEase }}
-                className="w-[1px] bg-zinc-400 origin-top"
-              ></motion.div>
-              <p className="text-sm text-zinc-600 leading-relaxed font-sans tracking-tight">
-                Turning ideas into <br/>scalable web experiences.
-              </p>
-            </div>
+          {/* Left Column: Greeting, Badges, & Subtitle */}
+          <div className="flex-1 min-w-0 space-y-3 sm:space-y-3.5">
+            
+            {/* Status Badge in Soft Stone with Emerald pulse */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="inline-flex items-center gap-2 px-2.5 sm:px-3 py-1 rounded-full bg-[#F1EFEA] dark:bg-[#181B24] border border-[rgba(24,26,32,0.07)] dark:border-white/10 text-[#181A20] dark:text-[#F3F4F6] text-xs font-semibold shadow-xs"
+            >
+              <span className="relative flex h-2 w-2 shrink-0">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+              </span>
+              <span className="text-[#5A606E] dark:text-[#9CA3AF] truncate text-[11px] sm:text-xs">
+                Available for new opportunities
+              </span>
+            </motion.div>
 
-            {/* Mobile CTA (Hidden on Desktop) */}
-            <div className="flex flex-col gap-6 md:hidden">
-              <div className="flex flex-wrap items-center gap-6">
-                <motion.a 
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  href="#projects" 
-                  className="group flex items-center justify-center gap-2 px-6 py-3 min-h-[48px] border border-zinc-900 bg-zinc-900 text-[#FFFFFF] text-xs font-semibold uppercase tracking-widest transition-colors hover:bg-[#18181b]/90 hover:text-[#FFFFFF]"
-                >
-                  View My Work <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
-                </motion.a>
-                <motion.a 
-                  whileHover={{ y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  href="#contact" 
-                  className="inline-flex items-center min-h-[44px] px-2 py-3 bg-transparent text-zinc-900 border-b border-zinc-900 text-xs font-semibold uppercase tracking-widest hover:text-zinc-600 hover:border-zinc-600 transition-colors"
-                >
-                  Get In Touch
-                </motion.a>
+            {/* Heading with Electric Indigo Accent */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.05 }}
+              className="flex items-center gap-2 sm:gap-3 flex-wrap"
+            >
+              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#181A20] dark:text-[#F3F4F6] leading-tight">
+                Hi, I&apos;m{' '}
+                <span className="text-[#4F46E5] dark:text-[#6366F1] hover:text-[#4338CA] transition-colors">
+                  Tafsir
+                </span>
+              </h1>
+              <span className="text-2xl sm:text-4xl lg:text-5xl inline-block origin-[70%_70%] hover:animate-wiggle cursor-default">
+                👋
+              </span>
+            </motion.div>
+
+            {/* Subtitle / Role and Founder of BOONEC on separate lines */}
+            <div className="space-y-1.5 sm:space-y-2 pt-0.5">
+              <motion.p
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.1 }}
+                className="text-base sm:text-xl font-medium text-[#181A20] dark:text-[#F3F4F6]"
+              >
+                Full-Stack Web Developer
+              </motion.p>
+              
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.12 }}
+                className="flex items-center"
+              >
+                <span className="inline-flex items-center gap-1.5 font-semibold text-[#E06D53] dark:text-[#F59E0B] bg-[#E06D53]/10 dark:bg-[#F59E0B]/10 px-2.5 py-0.5 sm:py-1 rounded-md border border-[#E06D53]/20 dark:border-[#F59E0B]/20 text-xs sm:text-sm shadow-xs">
+                  <Sparkles className="w-3.5 h-3.5 text-[#E06D53] dark:text-[#F59E0B] shrink-0" />
+                  Founder of BOONEC
+                </span>
+              </motion.div>
+            </div>
+          </div>
+
+          {/* Right Column: Avatar spreading with larger presence */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4 }}
+            className="relative shrink-0 self-center"
+          >
+            <div className="p-1 sm:p-1.5 rounded-full bg-gradient-to-tr from-[#E5E1D8] via-[#FAF9F6] to-[#E06D53]/30 dark:from-neutral-800 dark:via-neutral-700 dark:to-[#6366F1]/30 shadow-xl shadow-[#181A20]/10 dark:shadow-black/50">
+              <div className="relative w-28 h-28 sm:w-40 sm:h-40 md:w-44 md:h-44 lg:w-48 lg:h-48 rounded-full overflow-hidden border-2 sm:border-[3px] border-[#FAF9F6] dark:border-[#181B24] bg-[#FAF9F6] dark:bg-[#181B24]">
+                <img
+                  src="/assets/HeroProfile.png"
+                  alt={personalInfo.name}
+                  className="w-full h-full object-cover scale-[1.35] origin-[50%_18%]"
+                  loading="eager"
+                />
               </div>
             </div>
-            
-            {/* Social Icons */}
-            <div className="flex items-center gap-1 mt-2 -ml-2.5">
-              {[
-                { icon: Github, link: "https://github.com/Tafsirchy", label: "GitHub" },
-                { icon: Linkedin, link: "https://www.linkedin.com/in/tafsirchy/", label: "LinkedIn" },
-                { icon: Twitter, link: "https://x.com/chy_tafsir", label: "Twitter" },
-                { icon: SiWhatsapp, link: `https://wa.me/${personalInfo.phone.replace(/[^0-9]/g, '')}`, label: "WhatsApp" },
-                { icon: Mail, link: `mailto:${personalInfo.email}`, label: "Mail" }
-              ].map((social, index) => (
-                <motion.a 
-                  key={index}
-                  initial={{ opacity: 0, scale: 0.5, y: 10 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  transition={{ delay: 0.9 + index * 0.1, duration: 0.5, ease: elegantEase }}
-                  whileHover={{ y: -3, color: '#18181b' }}
-                  href={social.link} 
-                  target={social.link.startsWith('http') ? "_blank" : undefined}
-                  rel={social.link.startsWith('http') ? "noopener noreferrer" : undefined}
-                  className="inline-flex items-center justify-center h-11 w-11 text-zinc-500 hover:text-zinc-900 transition-colors" 
-                  aria-label={social.label}
-                >
-                  <social.icon className="w-5 h-5" />
-                </motion.a>
-              ))}
-            </div>
           </motion.div>
 
-          {/* Desktop CTA Buttons (Right) */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
-            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-            transition={{ delay: 0.8, duration: 1.2, ease: elegantEase }}
-            className="hidden md:flex items-center gap-6"
-          >
-            <motion.a 
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              href="#projects" 
-              className="group flex items-center justify-center gap-2 px-6 py-3 border border-zinc-900 bg-zinc-900 text-[#FFFFFF] text-xs font-semibold uppercase tracking-widest transition-colors hover:bg-[#18181b]/90 hover:text-[#FFFFFF]"
-            >
-              View My Work <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
-            </motion.a>
-            <motion.a 
-              whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.95 }}
-              href="#contact" 
-              className="px-2 py-3 bg-transparent text-zinc-900 border-b border-zinc-900 text-xs font-semibold uppercase tracking-widest hover:text-zinc-600 hover:border-zinc-600 transition-colors"
-            >
-              Get In Touch
-            </motion.a>
-          </motion.div>
         </div>
+
+        {/* Bio text in Cool Graphite */}
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.15 }}
+          className="text-sm sm:text-base text-[#5A606E] dark:text-[#9CA3AF] leading-relaxed max-w-2xl pt-1"
+        >
+          Passionate about building scalable web applications, thoughtful digital products, and high-performance user experiences with modern full-stack architectures.
+        </motion.p>
 
       </div>
     </section>
   );
-};
-
-export default Hero;
+}

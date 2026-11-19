@@ -1,259 +1,85 @@
 'use client';
 import { motion } from 'framer-motion';
+import { GraduationCap, Award, BookOpen, Trophy, ExternalLink } from 'lucide-react';
 import { education } from '@/data/portfolio';
 
-const elegantEase = [0.16, 1, 0.3, 1];
+const eduIcons = [GraduationCap, Award, Trophy, BookOpen];
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.18, delayChildren: 0.1 },
-  },
-};
-
-const rowVariants = {
-  hidden: { opacity: 0, y: 40, filter: 'blur(6px)' },
-  visible: {
-    opacity: 1,
-    y: 0,
-    filter: 'blur(0px)',
-    transition: { duration: 1.1, ease: elegantEase },
-  },
-};
-
-// Determine entry type and metadata
-const getEntryMeta = (item) => {
-  const d = item.degree.toLowerCase();
-  if (d.includes('bachelor')) {
-    return {
-      label: 'Degree',
-      courses: ['Data Structures & Algorithms', 'Software Engineering', 'Database Systems', 'OOP', 'Computer Networks'],
-    };
-  }
-  if (d.includes('complete web') || d.includes('mern')) {
-    return {
-      label: 'Certification',
-      courses: ['React & Next.js', 'Node.js & Express', 'MongoDB & Firebase', 'Cloud Deployment', 'REST APIs'],
-    };
-  }
-  if (d.includes('national skills') || d.includes('python')) {
-    return {
-      label: 'Gov. Certificate',
-      courses: ['Python Web Apps', 'BNQF Level 4', '360 Hours', 'Government Recognized', 'NSDA Bangladesh'],
-    };
-  }
-  if (d.includes('appreciation') || d.includes('life')) {
-    return {
-      label: 'Certificate',
-      courses: ['Life Transformation', 'Personal Growth', 'Batch #1', 'SABiT International'],
-    };
-  }
-  return { label: 'Credential', courses: [] };
-};
-
-const Education = () => {
-  if (!education || education.length === 0) return null;
-
-  // Split: 1 degree + certifications
-  const degree = education.filter((e) => e.degree.toLowerCase().includes('bachelor'));
-  const certs = education.filter((e) => !e.degree.toLowerCase().includes('bachelor'));
-
+export default function Education() {
   return (
-    <section id="education" className="py-12 md:py-16 bg-[#FFFFFF] border-t border-zinc-300 overflow-hidden">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-
-        {/* ── Section Header ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 1, ease: elegantEase }}
-          className="mb-8 border-b border-zinc-300 pb-4 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4"
-        >
-          <h2 className="text-6xl sm:text-7xl md:text-8xl font-serif tracking-tight text-zinc-900 uppercase leading-none">
-            Education
-          </h2>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-zinc-500 sm:pb-2">
-            Academic & Credentials
-          </p>
-        </motion.div>
-
-        {/* ── Degree Row (full width, featured) ── */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-60px' }}
-        >
-          {degree.map((item, index) => {
-            const meta = getEntryMeta(item);
-            return (
-              <motion.div
-                key={item.id}
-                variants={rowVariants}
-                className="group grid grid-cols-12 gap-4 sm:gap-8 py-6 sm:py-8 items-start border-b border-zinc-300 hover:bg-zinc-100/60 transition-colors duration-500 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8"
-              >
-                {/* Index */}
-                <div className="col-span-2 sm:col-span-1">
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 group-hover:text-zinc-700 transition-colors duration-500">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-                </div>
-
-                {/* Main */}
-                <div className="col-span-10 sm:col-span-7 space-y-4">
-                  <div>
-                    <span className="inline-block text-[9px] font-bold uppercase tracking-[0.25em] text-zinc-500 border border-zinc-300 px-2.5 py-1 mb-3">
-                      {meta.label}
-                    </span>
-                    <h3 className="text-xl sm:text-2xl font-serif text-zinc-900 leading-snug tracking-tight">
-                      {item.degree}
-                    </h3>
-                    <p className="text-sm font-semibold text-zinc-600 mt-1 font-sans">{item.institution}</p>
-                  </div>
-                  <p className="text-sm text-zinc-500 leading-relaxed font-sans max-w-xl">{item.description}</p>
-                  <div className="flex flex-wrap gap-2 pt-1">
-                    {meta.courses.map((c) => (
-                      <span key={c} className="text-[10px] font-medium uppercase tracking-wider text-zinc-600 bg-zinc-200/70 px-2.5 py-1">
-                        {c}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Right Meta */}
-                <div className="col-span-12 sm:col-span-4 flex sm:flex-col sm:items-end gap-4 sm:gap-3 pt-2 sm:pt-0">
-                  <span className="text-xs font-bold uppercase tracking-[0.15em] text-zinc-900 font-sans">{item.duration}</span>
-                  {item.gpa && (
-                    <div className="flex items-center gap-2 border border-zinc-900 px-3 py-1.5">
-                      <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-500">GPA</span>
-                      <span className="text-sm font-bold text-zinc-900 font-serif">{item.gpa}</span>
-                    </div>
-                  )}
-                  <div className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-500">In Progress</span>
-                  </div>
-                </div>
-              </motion.div>
-            );
-          })}
-
-          {/* ── Certifications sub-header ── */}
-          <motion.div
-            variants={rowVariants}
-            className="pt-8 pb-3 border-b border-zinc-300"
-          >
-            <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500">
-              Certifications & Awards — {certs.length} credentials
-            </p>
-          </motion.div>
-
-          {/* ── Certification Rows ── */}
-          {certs.map((item, index) => {
-            const meta = getEntryMeta(item);
-            const isGov = item.level || item.hours;
-            const isAppreciation = item.issuer;
-
-            return (
-              <motion.div
-                key={item.id}
-                variants={rowVariants}
-                className="group grid grid-cols-12 gap-4 sm:gap-8 py-6 sm:py-8 items-start border-b border-zinc-200 hover:bg-zinc-100/60 transition-colors duration-500 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8"
-              >
-                {/* Index */}
-                <div className="col-span-2 sm:col-span-1">
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-300 group-hover:text-zinc-500 transition-colors duration-500">
-                    {String(degree.length + index + 1).padStart(2, '0')}
-                  </span>
-                </div>
-
-                {/* Main */}
-                <div className="col-span-10 sm:col-span-8 space-y-3">
-                  <div className="flex flex-wrap items-center gap-2 mb-1">
-                    <span className="inline-block text-[9px] font-bold uppercase tracking-[0.25em] text-zinc-500 border border-zinc-300 px-2.5 py-1">
-                      {meta.label}
-                    </span>
-                    {isGov && (
-                      <span className="inline-block text-[9px] font-bold uppercase tracking-[0.2em] text-emerald-700 border border-emerald-300 bg-emerald-50 px-2.5 py-1">
-                        🏛 Government Recognized
-                      </span>
-                    )}
-                    {isAppreciation && (
-                      <span className="inline-block text-[9px] font-bold uppercase tracking-[0.2em] text-amber-700 border border-amber-300 bg-amber-50 px-2.5 py-1">
-                        ★ Personal Development
-                      </span>
-                    )}
-                  </div>
-
-                  <h3 className="text-lg sm:text-xl font-serif text-zinc-900 leading-snug tracking-tight">
-                    {item.degree}
-                  </h3>
-                  <p className="text-sm font-semibold text-zinc-600 font-sans">{item.institution}</p>
-                  <p className="text-sm text-zinc-500 leading-relaxed font-sans max-w-xl">{item.description}</p>
-
-                  {/* Extra meta fields */}
-                  <div className="flex flex-wrap gap-2 pt-1">
-                    {meta.courses.map((c) => (
-                      <span key={c} className="text-[10px] font-medium uppercase tracking-wider text-zinc-600 bg-zinc-200/70 px-2.5 py-1">
-                        {c}
-                      </span>
-                    ))}
-                  </div>
-
-                  {item.issuer && (
-                    <p className="text-[10px] font-medium text-zinc-500 italic pt-1">
-                      Issued by: {item.issuer}
-                    </p>
-                  )}
-                </div>
-
-                {/* Right Meta */}
-                <div className="col-span-12 sm:col-span-3 flex sm:flex-col sm:items-end gap-3 pt-1 sm:pt-0">
-                  <span className="text-xs font-bold uppercase tracking-[0.15em] text-zinc-900 font-sans">{item.duration}</span>
-
-                  {item.hours && (
-                    <div className="flex items-center gap-2 border border-zinc-300 px-3 py-1.5">
-                      <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-500">Hours</span>
-                      <span className="text-sm font-bold text-zinc-900 font-serif">{item.hours}</span>
-                    </div>
-                  )}
-
-                  <div className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-zinc-400" />
-                    <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-500">Completed</span>
-                  </div>
-                </div>
-              </motion.div>
-            );
-          })}
-        </motion.div>
-
-        {/* ── Bottom Credibility Bar ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
+    <section id="education" className="space-y-5">
+      <div className="flex items-center gap-2">
+        <div className="w-2.5 h-2.5 rounded-full bg-[#E06D53] dark:bg-[#F59E0B]" />
+        <motion.h2
+          initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 1, ease: elegantEase, delay: 0.3 }}
-          className="mt-8 pt-6 border-t border-zinc-300 grid grid-cols-2 sm:grid-cols-4 gap-6"
+          transition={{ duration: 0.3 }}
+          className="text-2xl font-bold tracking-tight text-[#181A20] dark:text-[#F3F4F6]"
         >
-          {[
-            { label: 'University', value: 'IUBAT' },
-            { label: 'Current GPA', value: '3.5 / 4.0' },
-            { label: 'Certifications', value: `${certs.length} Earned` },
-            { label: 'Gov. Recognition', value: 'NSDA · BNQF' },
-          ].map(({ label, value }) => (
-            <div key={label}>
-              <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-500 mb-1">{label}</p>
-              <p className="text-sm font-bold text-zinc-900 font-serif">{value}</p>
-            </div>
-          ))}
-        </motion.div>
+          Education &amp; Certifications
+        </motion.h2>
+      </div>
 
+      <div className="space-y-4">
+        {education.map((edu, idx) => {
+          const FallbackIcon = eduIcons[idx % eduIcons.length];
+
+          return (
+            <motion.div
+              key={edu.id || idx}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.3, delay: idx * 0.05 }}
+              className="p-4 sm:p-5 rounded-2xl bg-[#F1EFEA] dark:bg-[#181B24] border border-[rgba(24,26,32,0.07)] dark:border-white/10 hover:border-[#E06D53]/30 dark:hover:border-[#F59E0B]/30 hover:bg-[#E8E5DD] dark:hover:bg-[#222632] shadow-xs transition-all duration-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 group"
+            >
+              {/* Left: Institution Logo & Info */}
+              <div className="flex items-start sm:items-center gap-4 min-w-0 flex-1">
+                <a
+                  href={edu.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-12 h-12 rounded-full bg-white dark:bg-[#0F1117] border border-[rgba(24,26,32,0.07)] dark:border-white/10 flex items-center justify-center shrink-0 shadow-xs group-hover:scale-105 transition-transform overflow-hidden p-1.5"
+                  aria-label={`${edu.institution} website`}
+                >
+                  {edu.logo ? (
+                    <img
+                      src={edu.logo}
+                      alt={edu.institution}
+                      className="w-full h-full object-contain"
+                    />
+                  ) : (
+                    <FallbackIcon className="w-5 h-5 text-[#E06D53] dark:text-[#F59E0B]" />
+                  )}
+                </a>
+
+                <div className="space-y-0.5 min-w-0">
+                  <div className="flex items-center gap-1.5 flex-wrap">
+                    <a
+                      href={edu.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-base font-bold text-[#181A20] dark:text-[#F3F4F6] leading-snug hover:text-[#E06D53] dark:hover:text-[#F59E0B] transition-colors inline-flex items-center gap-1.5"
+                    >
+                      <span>{edu.institution}</span>
+                      <ExternalLink className="w-3.5 h-3.5 text-[#5A606E] dark:text-[#9CA3AF] opacity-60 group-hover:opacity-100 group-hover:text-[#E06D53] dark:group-hover:text-[#F59E0B] transition-all" />
+                    </a>
+                  </div>
+                  <p className="text-sm text-[#5A606E] dark:text-[#9CA3AF] truncate sm:whitespace-normal">
+                    {edu.degree}
+                  </p>
+                </div>
+              </div>
+
+              {/* Right: Duration Badge */}
+              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-[#FAF9F6] dark:bg-[#0F1117] text-[#5A606E] dark:text-[#9CA3AF] border border-[rgba(24,26,32,0.07)] dark:border-white/10 shrink-0 self-start sm:self-auto tabular-nums">
+                {edu.duration}
+              </span>
+            </motion.div>
+          );
+        })}
       </div>
     </section>
   );
-};
-
-export default Education;
+}

@@ -1,266 +1,90 @@
 'use client';
 import { motion } from 'framer-motion';
-import { ArrowUpRight } from 'lucide-react';
+import { Briefcase, Building2, Code2, Rocket, ExternalLink } from 'lucide-react';
 import { experience } from '@/data/portfolio';
-import ResponsiveImage from './ResponsiveImage';
 
-const elegantEase = [0.16, 1, 0.3, 1];
+const companyIcons = {
+  'BOONEC': Rocket,
+  'Smart Youth ICT': Building2,
+  'Shwapner Thikana LTD': Building2,
+  'University Project': Code2,
+};
 
-const Experience = () => {
-  if (!experience || experience.length === 0) return null;
-
-  // Separate BOONEC (own venture) from professional roles
-  const boonec = experience.find((e) => e.company === 'BOONEC');
-  const professional = experience
-    .filter((e) => e.company !== 'BOONEC')
-    .sort((a, b) => {
-      if (a.duration.toLowerCase().includes('present')) return -1;
-      if (b.duration.toLowerCase().includes('present')) return 1;
-      return b.id - a.id;
-    });
-
-  const currentJob = professional[0];
-  const pastJobs = professional.slice(1);
-
+export default function Experience() {
   return (
-    <section
-      id="experience"
-      className="py-12 md:py-16 bg-[#FFFFFF] border-t border-zinc-300 overflow-hidden"
-    >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-
-        {/* ── Section Header ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
+    <section id="experience" className="space-y-5">
+      <div className="flex items-center gap-2">
+        <div className="w-2.5 h-2.5 rounded-full bg-[#4F46E5] dark:bg-[#6366F1]" />
+        <motion.h2
+          initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 1, ease: elegantEase }}
-          className="mb-8 border-b border-zinc-300 pb-4 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4"
-        >
-          <h2 className="text-6xl sm:text-7xl md:text-8xl font-serif tracking-tight text-zinc-900 uppercase leading-none">
-            Experience
-          </h2>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-zinc-500 sm:pb-2">
-            Professional Track Record
-          </p>
-        </motion.div>
-
-        {/* ════════════════════════════════════════════
-            BOONEC — OWN VENTURE (separate, distinct)
-        ════════════════════════════════════════════ */}
-        {boonec && (
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 1.1, ease: elegantEase }}
-            className="mb-8 border border-zinc-300 group hover:border-zinc-500 transition-colors duration-500"
-          >
-            {/* Venture label strip */}
-            <div className="border-b border-zinc-300 px-6 sm:px-8 py-2 flex items-center justify-between bg-zinc-100">
-              <span className="text-[9px] font-black uppercase tracking-[0.35em] text-zinc-500">
-                Own Venture — Founder
-              </span>
-              <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-500">
-                Est. {boonec.duration}
-              </span>
-            </div>
-
-            <div className="p-5 sm:p-6 grid sm:grid-cols-12 gap-5 sm:gap-8 items-center">
-              {/* BOONEC Logo */}
-              <div className="sm:col-span-4 flex flex-col gap-3">
-                <ResponsiveImage
-                  src="/assets/BOONEC_logo_modern.png"
-                  alt="BOONEC"
-                  sizes="(max-width: 640px) 240px, 288px"
-                  loading="lazy"
-                  decoding="async"
-                  className="w-60 sm:w-72 object-contain"
-                />
-                <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500 font-sans">
-                  {boonec.position}
-                </p>
-              </div>
-
-              {/* Divider */}
-              <div className="hidden sm:block sm:col-span-1 h-full">
-                <div className="w-px h-full bg-zinc-200 mx-auto" />
-              </div>
-              <div className="sm:hidden border-t border-zinc-200" />
-
-              {/* Right: description + achievements */}
-              <div className="sm:col-span-7 space-y-4">
-                <p className="text-sm text-zinc-600 leading-relaxed font-sans">
-                  {boonec.description}
-                </p>
-                {boonec.achievements && (
-                  <div className="space-y-2 pt-2">
-                    {boonec.achievements.map((item, i) => (
-                      <div key={i} className="flex items-start gap-3">
-                        <span className="mt-[7px] w-1 h-1 rounded-full bg-zinc-400 shrink-0" />
-                        <p className="text-xs text-zinc-500 leading-relaxed font-sans">{item}</p>
-                      </div>
-                    ))}
-                  </div>
-                )}
-                <div className="pt-2">
-                  <a
-                    href="https://boonec.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-[0.25em] text-zinc-900 border-b border-zinc-400 pb-0.5 hover:border-zinc-900 transition-colors duration-300"
-                  >
-                    boonec.com <ArrowUpRight className="w-3 h-3" />
-                  </a>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        )}
-
-        {/* ── Professional Roles label ── */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.1 }}
-          className="text-[9px] font-black uppercase tracking-[0.35em] text-zinc-500 mb-3"
+          transition={{ duration: 0.3 }}
+          className="text-2xl font-bold tracking-tight text-[#181A20] dark:text-[#F3F4F6]"
         >
-          Professional Roles
-        </motion.p>
+          Work Experience
+        </motion.h2>
+      </div>
 
-        {/* ════════════════════════════════════════════
-            CURRENT JOB — inverted dark featured card
-        ════════════════════════════════════════════ */}
-        {currentJob && (
-          <motion.div
-            initial={{ opacity: 0, y: 40, filter: 'blur(8px)' }}
-            whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-            viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 1.2, ease: elegantEase }}
-            className="relative bg-zinc-900 text-[#FFFFFF] overflow-hidden mb-6 group"
-          >
-            {/* Decorative ghost letter */}
-            <span
-              className="pointer-events-none absolute -right-4 -bottom-8 text-[10rem] sm:text-[14rem] font-serif font-bold text-white/[0.04] leading-none select-none"
-              aria-hidden="true"
+      <div className="space-y-4">
+        {experience.map((exp, idx) => {
+          const Icon = companyIcons[exp.company] || Briefcase;
+
+          return (
+            <motion.div
+              key={exp.id || idx}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.3, delay: idx * 0.05 }}
+              className="p-4 sm:p-5 rounded-2xl bg-[#F1EFEA] dark:bg-[#181B24] border border-[rgba(24,26,32,0.07)] dark:border-white/10 hover:border-[#4F46E5]/30 dark:hover:border-[#6366F1]/30 hover:bg-[#E8E5DD] dark:hover:bg-[#222632] shadow-xs transition-all duration-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 group"
             >
-              {currentJob.company.charAt(0)}
-            </span>
+              {/* Left: Logo & Company Info */}
+              <div className="flex items-start sm:items-center gap-4 min-w-0 flex-1">
+                <a
+                  href={exp.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-12 h-12 rounded-xl bg-white dark:bg-[#0F1117] border border-[rgba(24,26,32,0.07)] dark:border-white/10 flex items-center justify-center shrink-0 shadow-xs group-hover:scale-105 transition-transform overflow-hidden p-2"
+                  aria-label={`${exp.company} website`}
+                >
+                  {exp.logo ? (
+                    <img
+                      src={exp.logo}
+                      alt={exp.company}
+                      className="w-full h-full object-contain"
+                    />
+                  ) : (
+                    <Icon className="w-5 h-5 text-[#181A20] dark:text-[#F3F4F6]" />
+                  )}
+                </a>
 
-            <div className="relative z-10 p-6 sm:p-8 grid sm:grid-cols-12 gap-6 sm:gap-8 items-start">
-              <div className="sm:col-span-8 space-y-5">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="inline-flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.3em] text-emerald-400 border border-emerald-500/40 bg-emerald-500/10 px-3 py-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    Current Role
-                  </span>
-                </div>
-
-                <div>
-                  <h3 className="text-3xl sm:text-4xl font-serif text-[#FFFFFF] leading-tight tracking-tight">
-                    {currentJob.position}
-                  </h3>
-                  <p className="text-sm font-semibold text-white/50 mt-2 font-sans uppercase tracking-widest">
-                    {currentJob.company}
-                  </p>
-                </div>
-
-                <p className="text-sm text-white/60 leading-relaxed font-sans max-w-lg">
-                  {currentJob.description}
-                </p>
-
-                {currentJob.achievements && (
-                  <div className="space-y-2.5 pt-2 border-t border-white/10">
-                    {currentJob.achievements.map((item, i) => (
-                      <div key={i} className="flex items-start gap-3">
-                        <span className="mt-[7px] w-1 h-1 rounded-full bg-white/30 shrink-0" />
-                        <p className="text-sm text-white/70 leading-relaxed font-sans">{item}</p>
-                      </div>
-                    ))}
+                <div className="space-y-0.5 min-w-0">
+                  <div className="flex items-center gap-1.5 flex-wrap">
+                    <a
+                      href={exp.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-base font-bold text-[#181A20] dark:text-[#F3F4F6] leading-snug hover:text-[#4F46E5] dark:hover:text-[#6366F1] transition-colors inline-flex items-center gap-1.5"
+                    >
+                      <span>{exp.company}</span>
+                      <ExternalLink className="w-3.5 h-3.5 text-[#5A606E] dark:text-[#9CA3AF] opacity-60 group-hover:opacity-100 group-hover:text-[#4F46E5] dark:group-hover:text-[#6366F1] transition-all" />
+                    </a>
                   </div>
-                )}
-              </div>
-
-              <div className="sm:col-span-4 flex sm:flex-col sm:items-end gap-6 sm:gap-4">
-                <div className="sm:text-right">
-                  <p className="text-[9px] font-bold uppercase tracking-[0.25em] text-white/30 mb-1">Duration</p>
-                  <p className="text-xs font-bold text-[#FFFFFF] font-sans leading-snug">{currentJob.duration}</p>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        )}
-
-        {/* ════════════════════════════════════════════
-            PAST JOBS — compact grid
-        ════════════════════════════════════════════ */}
-        {pastJobs.length > 0 && (
-          <div className={`grid gap-px bg-zinc-300 ${pastJobs.length === 1 ? 'grid-cols-1' : 'sm:grid-cols-2'}`}>
-            {pastJobs.map((exp, index) => (
-              <motion.div
-                key={exp.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 1, ease: elegantEase, delay: index * 0.12 }}
-                className="bg-[#FFFFFF] p-6 sm:p-8 flex flex-col gap-4 group hover:bg-zinc-100 transition-colors duration-300"
-              >
-                <div className="flex items-start justify-between">
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-300 group-hover:text-zinc-500 transition-colors">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-                  <span className="text-[9px] font-bold uppercase tracking-wider text-zinc-500 text-right">
-                    {exp.duration}
-                  </span>
-                </div>
-
-                <div className="flex-1">
-                  <h4 className="text-base sm:text-lg font-serif text-zinc-900 leading-snug tracking-tight mb-1">
+                  <p className="text-sm text-[#5A606E] dark:text-[#9CA3AF] truncate sm:whitespace-normal">
                     {exp.position}
-                  </h4>
-                  <p className="text-xs font-bold uppercase tracking-wider text-zinc-500 font-sans">
-                    {exp.company}
                   </p>
                 </div>
+              </div>
 
-                <p className="text-xs text-zinc-500 leading-relaxed font-sans">{exp.description}</p>
-
-                {exp.achievements?.[0] && (
-                  <div className="pt-3 border-t border-zinc-200 flex items-start gap-2">
-                    <span className="mt-[6px] w-1 h-1 rounded-full bg-zinc-400 shrink-0" />
-                    <p className="text-[11px] text-zinc-500 leading-relaxed font-sans">{exp.achievements[0]}</p>
-                  </div>
-                )}
-              </motion.div>
-            ))}
-          </div>
-        )}
-
-        {/* ── Stats Bar ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1, ease: elegantEase, delay: 0.3 }}
-          className="mt-8 pt-6 border-t border-zinc-300 grid grid-cols-2 sm:grid-cols-4 gap-6"
-        >
-          {[
-            { label: 'Total Roles', value: `${professional.length} Positions` },
-            { label: 'Currently At', value: 'Smart Youth ICT' },
-            { label: 'Own Venture', value: 'BOONEC' },
-            { label: 'Core Stack', value: 'Next.js · Node · MongoDB' },
-          ].map(({ label, value }) => (
-            <div key={label}>
-              <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-500 mb-1">{label}</p>
-              <p className="text-sm font-bold text-zinc-900 font-serif">{value}</p>
-            </div>
-          ))}
-        </motion.div>
-
+              {/* Right: Duration Badge in Warm Alabaster */}
+              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-[#FAF9F6] dark:bg-[#0F1117] text-[#5A606E] dark:text-[#9CA3AF] border border-[rgba(24,26,32,0.07)] dark:border-white/10 shrink-0 self-start sm:self-auto tabular-nums">
+                {exp.duration}
+              </span>
+            </motion.div>
+          );
+        })}
       </div>
     </section>
   );
-};
-
-export default Experience;
+}
